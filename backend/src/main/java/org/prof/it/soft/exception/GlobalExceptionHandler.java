@@ -3,6 +3,7 @@ package org.prof.it.soft.exception;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -40,6 +41,19 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Map<String, Collection<String>>> handleNotFoundException(final NotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(getErrorsMap(Collections.singleton(ex.getMessage())));
+    }
+
+
+    /**
+     * This method handles authentication exceptions thrown by the application.
+     * It returns a bad request response with the error message.
+     *
+     * @param ex the exception thrown by the application
+     * @return a ResponseEntity with the error message and a bad request status
+     */
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Map<String, Collection<String>>> handleAuthenticationException(final AuthenticationException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getErrorsMap(Collections.singleton(ex.getMessage())));
     }
 
     /**

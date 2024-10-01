@@ -36,3 +36,9 @@ server:
 logging:
   level:
     org.prof.it.soft: DEBUG
+
+token:
+  signing:
+    key: SOPOWERFULKEYFORTESTINGAPPLICATIONJOBIFY1234567890JOBIFY
+  expiration:
+    time: 6000000 # 100 minutes

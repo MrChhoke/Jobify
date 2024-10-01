@@ -9,3 +9,5 @@ databaseChangeLog:
       file: db/changelog/changeset/004-create-table-technology-stacks.yaml
   - include:
       file: db/changelog/changeset/005-insert-testing-data.yaml
+  - include:
+        file: db/changelog/changeset/006-create-user-tables.yaml

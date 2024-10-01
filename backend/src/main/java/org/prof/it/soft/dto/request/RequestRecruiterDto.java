@@ -6,11 +6,13 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public final class RequestRecruiterDto {

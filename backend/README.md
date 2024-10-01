@@ -23,6 +23,8 @@ The application provides the following REST API endpoints:
 
 | Method | Endpoint                  | Description                                    | Example field in request body                                                                                   |
 |--------|---------------------------|------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| POST   | `/api/v1/auth/login       | Get jwt token for user                         | `username: admin`,<br/> `password: admin`                                                                       |
+| POST   | `api/v1/auth/register`    | Register a new user                            | `username: admin`,<br/> `password: admin`                                                                       |
 | GET    | `/api/v1/recruiter/{id}`  | Return details of a recruiter by ID            |                                                                                                                 |
 | POST   | `/api/v1/recruiter`       | Create a new recruiter                         | `firstName: Vladyslav`,<br/> `lastName: Bondar`,<br/> `company: ProfItSoft`                                     |
 | PUT    | `/api/v1/recruiter/{id}`  | Update a recruiter by ID                       | `company: ProfItSoft`                                                                                           |
