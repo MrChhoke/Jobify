@@ -6,14 +6,16 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class RequestRecruiterDto {
+public final class RecruiterRequestDto {
 
     /**
      * The name of the company the recruiter works for.
@@ -27,7 +29,7 @@ public final class RequestRecruiterDto {
     @JsonUnwrapped
     @NotNull(groups = {Save.class})
     @Valid
-    private RequestPersonDto person;
+    private PersonRequestDto person;
 
     /**
      * This method checks if the recruiter DTO is empty.

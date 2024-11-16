@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 })
 @NoArgsConstructor
 @AllArgsConstructor
-public final class ResponsePersonDto {
+public final class PersonResponseDto {
 
     /**
      * The person's id.

@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public final class RequestVacancyDto {
+public final class VacancyRequestDto {
 
     /**
      * The position of the vacancy.

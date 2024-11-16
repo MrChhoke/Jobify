@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-candidate-application-table
+      author: Vladyslav Bondar
+      changes:
+        - createSequence:
+            sequenceName: candidate_application_seq_id
+            startValue: 1
+            incrementBy: 1
+        - createTable:
+            tableName: candidate_applications
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  defaultValueSequenceNext: candidate_application_seq_id
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: candidate_application_pk
+                    nullable: false
+              - column:
+                  name: vacancy_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: candidate_application_vacancy_fk
+                    references: vacancies(id)
+              - column:
+                  name: person_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: candidate_application_person_fk
+                    references: people(id)
+              - column:
+                  name: created_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: person_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: users_person_fk
+                    references: people(id)

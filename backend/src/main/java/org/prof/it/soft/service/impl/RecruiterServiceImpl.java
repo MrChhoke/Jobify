@@ -2,8 +2,8 @@ package org.prof.it.soft.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.prof.it.soft.dto.request.RequestRecruiterDto;
-import org.prof.it.soft.dto.response.ResponseRecruiterDto;
+import org.prof.it.soft.dto.request.RecruiterRequestDto;
+import org.prof.it.soft.dto.response.RecruiterResponseDto;
 import org.prof.it.soft.entity.Recruiter;
 import org.prof.it.soft.exception.NotFoundException;
 import org.prof.it.soft.repo.RecruiterRepository;
@@ -34,10 +34,10 @@ public class RecruiterServiceImpl implements RecruiterService {
      * @param recruiterDto the DTO of the recruiter to save
      * @return the DTO of the saved recruiter
      */
-    public ResponseRecruiterDto saveRecruiter(RequestRecruiterDto recruiterDto) {
+    public RecruiterResponseDto saveRecruiter(RecruiterRequestDto recruiterDto) {
         Recruiter recruiter = modelMapper.map(recruiterDto, Recruiter.class);
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(recruiter);
-        return modelMapper.map(savedRecruiter, ResponseRecruiterDto.class);
+        return modelMapper.map(savedRecruiter, RecruiterResponseDto.class);
     }
 
     /**
@@ -48,7 +48,7 @@ public class RecruiterServiceImpl implements RecruiterService {
      * @throws NotFoundException if the recruiter with the given id is not found
      */
     @Override
-    public void updateRecruiter(Long recruiterId, RequestRecruiterDto recruiterDto) {
+    public void updateRecruiter(Long recruiterId, RecruiterRequestDto recruiterDto) {
         Recruiter recruiterFromDto = modelMapper.map(recruiterDto, Recruiter.class);
         Recruiter recruiter = recruiterRepository.findById(recruiterId).orElseThrow(
                 () -> new NotFoundException(String.format("Recruiter with id %d not found", recruiterId))
@@ -80,9 +80,9 @@ public class RecruiterServiceImpl implements RecruiterService {
      * @throws NotFoundException if the recruiter with the given id is not found
      */
     @Override
-    public ResponseRecruiterDto getResponseRecruiterDtoById(Long recruiterId) {
+    public RecruiterResponseDto getResponseRecruiterDtoById(Long recruiterId) {
         return recruiterRepository.findById(recruiterId)
-                .map(recruiter -> modelMapper.map(recruiter, ResponseRecruiterDto.class))
+                .map(recruiter -> modelMapper.map(recruiter, RecruiterResponseDto.class))
                 .orElseThrow(() -> new NotFoundException(String.format("Recruiter with id %d not found", recruiterId)));
     }
 

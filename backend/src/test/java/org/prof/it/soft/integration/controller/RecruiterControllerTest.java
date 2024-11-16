@@ -3,26 +3,20 @@ package org.prof.it.soft.integration.controller;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.prof.it.soft.integration.annotation.IT;
 import org.prof.it.soft.integration.container.ControllerPostgresqlContainer;
 import org.prof.it.soft.repo.RecruiterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.junit.jupiter.Container;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @IT
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 class RecruiterControllerTest {
 
     @ClassRule

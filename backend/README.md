@@ -21,18 +21,24 @@ vacancies. Leveraging a PostgreSQL database, it offers REST API endpoints for ef
 
 The application provides the following REST API endpoints:
 
-| Method | Endpoint                  | Description                                    | Example field in request body                                                                                   |
-|--------|---------------------------|------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| GET    | `/api/v1/recruiter/{id}`  | Return details of a recruiter by ID            |                                                                                                                 |
-| POST   | `/api/v1/recruiter`       | Create a new recruiter                         | `firstName: Vladyslav`,<br/> `lastName: Bondar`,<br/> `company: ProfItSoft`                                     |
-| PUT    | `/api/v1/recruiter/{id}`  | Update a recruiter by ID                       | `company: ProfItSoft`                                                                                           |
-| DELETE | `/api/v1/recruiter/{id}`  | Delete a recruiter by ID                       |                                                                                                                 |
-| GET    | `/api/v1/vacancy/{id}`    | Return details of a vacancy by ID              |                                                                                                                 |
-| POST   | `/api/v1/vacancy`         | Create a new vacancy                           | `position: Java Developer`,<br/> `salary: 3000`,<br/> `technologyStack: [Java, Spring]`, <br/> `recruiterId: 1` |
-| PUT    | `/api/v1/vacancy/{id}`    | Update a vacancy by ID                         | `salary: 3500`                                                                                                  |
-| DELETE | `/api/v1/vacancy/{id}`    | Delete a vacancy by ID                         |                                                                                                                 |
-| POST   | `/api/v1/vacancy/_list`   | Return a list of vacancies by a filter         | `technologyStack: [Java, Spring]`                                                                               |
-| POST   | `/api/v1/vacancy/_report` | Generate Excel report of vacancies by a filter | `technologyStack: [Java, Spring]`, </br> `position: Java Developer`, </br> `salary: 3000`                       |
+| Method | Endpoint                                   | Description                                    | Example field in request body                                                                                   |
+|--------|--------------------------------------------|------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| POST   | `/api/v1/auth/login                        | Get jwt token for user                         | `username: admin`,<br/> `password: admin`                                                                       |
+| POST   | `api/v1/auth/register`                     | Register a new user                            | `username: admin`,<br/> `password: admin`                                                                       |
+| GET    | `/api/v1/recruiter/{id}`                   | Return details of a recruiter by ID            |                                                                                                                 |
+| POST   | `/api/v1/recruiter`                        | Create a new recruiter                         | `firstName: Vladyslav`,<br/> `lastName: Bondar`,<br/> `company: ProfItSoft`                                     |
+| PUT    | `/api/v1/recruiter/{id}`                   | Update a recruiter by ID                       | `company: ProfItSoft`                                                                                           |
+| DELETE | `/api/v1/recruiter/{id}`                   | Delete a recruiter by ID                       |                                                                                                                 |
+| GET    | `/api/v1/recruiter/{id}/applications`      | Applications for a recruiter by ID             |                                                                                                                 |
+| GET    | `/api/v1/vacancy/{id}`                     | Return details of a vacancy by ID              |                                                                                                                 |
+| POST   | `/api/v1/vacancy`                          | Create a new vacancy                           | `position: Java Developer`,<br/> `salary: 3000`,<br/> `technologyStack: [Java, Spring]`, <br/> `recruiterId: 1` |
+| PUT    | `/api/v1/vacancy/{id}`                     | Update a vacancy by ID                         | `salary: 3500`                                                                                                  |
+| DELETE | `/api/v1/vacancy/{id}`                     | Delete a vacancy by ID                         |                                                                                                                 |
+| POST   | `/api/v1/vacancy/_list`                    | Return a list of vacancies by a filter         | `technologyStack: [Java, Spring]`                                                                               |
+| POST   | `/api/v1/vacancy/_report`                  | Generate Excel report of vacancies by a filter | `technologyStack: [Java, Spring]`, </br> `position: Java Developer`, </br> `salary: 3000`                       |
+| POST   | `/api/v1/vacancy/{id}/apply`               | Apply for a vacancy by ID (must be auth)       |                                                                                                                 |
+| GET    | `/api/v1/vacancy/{id}/applications         | Get all applications for a vacancy by ID       |                                                                                                                 |
+| GET    | `/api/v1/vacancy/person/{id}/applications` | Get all applications for a person by ID        |                                                                                                                 |
 
 ## Testing
 

@@ -1,7 +1,7 @@
 services:
   client-backend:
     container_name: spring-application
-    image: client:0.0.6
+    image: client:0.1.1
     build:
       context: backend
       dockerfile: ./Dockerfile
