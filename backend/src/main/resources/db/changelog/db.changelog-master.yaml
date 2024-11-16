@@ -10,4 +10,6 @@ databaseChangeLog:
   - include:
       file: db/changelog/changeset/005-insert-testing-data.yaml
   - include:
-        file: db/changelog/changeset/006-create-user-tables.yaml
+      file: db/changelog/changeset/006-create-user-tables.yaml
+  - include:
+      file: db/changelog/changeset/007-create-candidate-application-table.yaml

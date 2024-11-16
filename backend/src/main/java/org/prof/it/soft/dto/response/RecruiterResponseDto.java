@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 })
 @NoArgsConstructor
 @AllArgsConstructor
-public final class ResponseRecruiterDto {
+public final class RecruiterResponseDto {
 
     /**
      * The recruiter's id.
@@ -38,11 +38,11 @@ public final class ResponseRecruiterDto {
      * The person associated with the recruiter.
      * It will be serialized as a part of this object. The created_at and updated_at fields will be ignored.
      *
-     * @see org.prof.it.soft.dto.response.ResponsePersonDto
+     * @see PersonResponseDto
      */
     @JsonUnwrapped
     @JsonIgnoreProperties({"created_at", "updated_at"})
-    private ResponsePersonDto person;
+    private PersonResponseDto person;
 
     /**
      * The date and time when the recruiter was created.

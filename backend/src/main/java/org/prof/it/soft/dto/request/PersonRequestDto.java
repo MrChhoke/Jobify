@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class RequestPersonDto {
+public final class PersonRequestDto {
 
     /**
      * The first name of the person.

@@ -4,7 +4,7 @@ import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MappingContext;
-import org.prof.it.soft.dto.request.RequestVacancyDto;
+import org.prof.it.soft.dto.request.VacancyRequestDto;
 import org.prof.it.soft.entity.Recruiter;
 import org.prof.it.soft.entity.Vacancy;
 import org.springframework.context.annotation.Bean;
@@ -47,7 +47,7 @@ public class MapperConfig {
      * @return List of Converter objects
      */
     public List<Converter<?,?>> converters () {
-        return List.of(new Converter<RequestVacancyDto, Vacancy>() {
+        return List.of(new Converter<VacancyRequestDto, Vacancy>() {
             /**
              * Converts a RequestVacancyDto object to a Vacancy object.
              * Sets the recruiter id from the source to the destination.
@@ -57,8 +57,8 @@ public class MapperConfig {
              * @return Vacancy object
              */
             @Override
-            public Vacancy convert(MappingContext<RequestVacancyDto, Vacancy> context) {
-                RequestVacancyDto source = context.getSource();
+            public Vacancy convert(MappingContext<VacancyRequestDto, Vacancy> context) {
+                VacancyRequestDto source = context.getSource();
                 Vacancy destination = context.getDestination();
                 if (destination == null) {
                     destination = new Vacancy();

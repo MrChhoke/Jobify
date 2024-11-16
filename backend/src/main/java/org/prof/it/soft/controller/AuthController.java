@@ -1,9 +1,9 @@
 package org.prof.it.soft.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.prof.it.soft.dto.security.request.RequestLoginDto;
-import org.prof.it.soft.dto.security.request.RequestRegistrationDto;
-import org.prof.it.soft.dto.security.response.ResponseJwtTokenDto;
+import org.prof.it.soft.dto.security.request.LoginRequestDto;
+import org.prof.it.soft.dto.security.request.RegistrationRequestDto;
+import org.prof.it.soft.dto.security.response.JwtTokenResponseDto;
 import org.prof.it.soft.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,12 +18,12 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseJwtTokenDto login(@RequestBody RequestLoginDto requestLoginDto) {
-        return userService.login(requestLoginDto);
+    public JwtTokenResponseDto login(@RequestBody LoginRequestDto loginRequestDto) {
+        return userService.login(loginRequestDto);
     }
 
     @PostMapping("/register")
-    public ResponseJwtTokenDto register(@RequestBody RequestRegistrationDto requestLoginDto) {
+    public JwtTokenResponseDto register(@RequestBody RegistrationRequestDto requestLoginDto) {
         return userService.register(requestLoginDto);
     }
 

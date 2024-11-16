@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseJwtTokenDto {
+public class JwtTokenResponseDto {
 
     @JsonProperty(value = "token")
     private String token;

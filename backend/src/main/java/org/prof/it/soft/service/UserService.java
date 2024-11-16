@@ -1,8 +1,8 @@
 package org.prof.it.soft.service;
 
-import org.prof.it.soft.dto.security.request.RequestLoginDto;
-import org.prof.it.soft.dto.security.request.RequestRegistrationDto;
-import org.prof.it.soft.dto.security.response.ResponseJwtTokenDto;
+import org.prof.it.soft.dto.security.request.LoginRequestDto;
+import org.prof.it.soft.dto.security.request.RegistrationRequestDto;
+import org.prof.it.soft.dto.security.response.JwtTokenResponseDto;
 import org.prof.it.soft.entity.security.Permission;
 import org.prof.it.soft.entity.security.User;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -18,12 +18,12 @@ public interface UserService extends UserDetailsService {
     /**
      * Allows to get JWT token for user by request
      *
-     * @param requestLoginDto - request with user credentials
+     * @param loginRequestDto - request with user credentials
      * @return response body with JWT token
      * @throws UsernameNotFoundException if the user is not found
      * @throws BadCredentialsException   if the password is incorrect
      */
-    ResponseJwtTokenDto login(RequestLoginDto requestLoginDto);
+    JwtTokenResponseDto login(LoginRequestDto loginRequestDto);
 
     /**
      * Allows to get JWT token for user by request
@@ -32,7 +32,7 @@ public interface UserService extends UserDetailsService {
      * @return response body with JWT token
      * @throws BadCredentialsException if user with such username already exists
      */
-    ResponseJwtTokenDto register(RequestRegistrationDto RegistrationDto);
+    JwtTokenResponseDto register(RegistrationRequestDto RegistrationDto);
 
     /**
      * Saves a new user.

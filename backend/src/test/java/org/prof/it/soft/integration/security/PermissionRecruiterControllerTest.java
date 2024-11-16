@@ -2,9 +2,11 @@ package org.prof.it.soft.integration.security;
 
 import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
-import org.prof.it.soft.dto.request.RequestPersonDto;
-import org.prof.it.soft.dto.request.RequestRecruiterDto;
-import org.prof.it.soft.dto.response.ResponseRecruiterDto;
+import org.prof.it.soft.dto.request.PersonRequestDto;
+import org.prof.it.soft.dto.request.RecruiterRequestDto;
+import org.prof.it.soft.dto.response.RecruiterResponseDto;
+import org.prof.it.soft.entity.Person;
+import org.prof.it.soft.entity.Recruiter;
 import org.prof.it.soft.entity.Vacancy;
 import org.prof.it.soft.entity.security.Permission;
 import org.prof.it.soft.entity.security.User;
@@ -12,6 +14,7 @@ import org.prof.it.soft.integration.annotation.IT;
 import org.prof.it.soft.integration.container.ControllerPostgresqlContainer;
 import org.prof.it.soft.repo.RecruiterRepository;
 import org.prof.it.soft.repo.UserRepository;
+import org.prof.it.soft.repo.VacancyRepository;
 import org.prof.it.soft.service.JwtService;
 import org.prof.it.soft.service.RecruiterService;
 import org.prof.it.soft.service.UserService;
@@ -20,6 +23,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -50,6 +54,9 @@ class PermissionRecruiterControllerTest {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    private VacancyRepository vacancyRepository;
+
     void setUp() {
         recruiterRepository.deleteAll();
         userRepository.deleteAll();
@@ -74,9 +81,9 @@ class PermissionRecruiterControllerTest {
 
     @Test
     void shouldReturnForbiddenStatus_whenUserWasNotAuthenticated_AndWantEditRecruiter() throws Exception {
-        ResponseRecruiterDto responseRecruiterDto = recruiterService.saveRecruiter(RequestRecruiterDto.builder()
+        RecruiterResponseDto recruiterResponseDto = recruiterService.saveRecruiter(RecruiterRequestDto.builder()
                 .companyName("Google")
-                .person(RequestPersonDto.builder()
+                .person(PersonRequestDto.builder()
                         .firstName("John")
                         .lastName("Doe")
                         .build())
@@ -91,7 +98,7 @@ class PermissionRecruiterControllerTest {
                 }
                 """;
 
-        mockMvc.perform(put("/api/v1/recruiter/%d".formatted(responseRecruiterDto.getId()))
+        mockMvc.perform(put("/api/v1/recruiter/%d".formatted(recruiterResponseDto.getId()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isForbidden());
@@ -99,15 +106,15 @@ class PermissionRecruiterControllerTest {
 
     @Test
     void shouldReturnForbiddenStatus_whenUserWasNotAuthenticated_AndWantDeleteRecruiter() throws Exception {
-        ResponseRecruiterDto responseRecruiterDto = recruiterService.saveRecruiter(RequestRecruiterDto.builder()
+        RecruiterResponseDto recruiterResponseDto = recruiterService.saveRecruiter(RecruiterRequestDto.builder()
                 .companyName("Google")
-                .person(RequestPersonDto.builder()
+                .person(PersonRequestDto.builder()
                         .firstName("John")
                         .lastName("Doe")
                         .build())
                 .build());
 
-        Long recruiterId = responseRecruiterDto.getId();
+        Long recruiterId = recruiterResponseDto.getId();
 
         mockMvc.perform(delete("/api/v1/recruiter/%d".formatted(recruiterId)))
                 .andExpect(status().isForbidden());
@@ -209,6 +216,41 @@ class PermissionRecruiterControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(request)
                 .header("Authorization", "Bearer %s".formatted(jwtToken)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void testApplyForVacancy_whenUserDoenstAuth() throws Exception {
+        // Given
+        Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
+                Recruiter.builder()
+                        .companyName("Google")
+                        .person(Person.builder()
+                                .firstName("Anna")
+                                .lastName("Petrov")
+                                .build())
+                        .build()
+        );
+
+        Vacancy savedVacancy = vacancyRepository.saveAndFlush(
+                Vacancy.builder()
+                        .position("Java Developer")
+                        .salary(1000.0f)
+                        .technologyStack(List.of("Java", "Spring"))
+                        .recruiter(savedRecruiter)
+                        .build()
+        );
+
+
+        String requestBody = """
+                {
+                }
+                """;
+
+        // When and then
+        mockMvc.perform(post("/api/v1/vacancy/{id}/apply", savedVacancy.getId())
+                        .contentType("application/json")
+                        .content(requestBody))
                 .andExpect(status().isForbidden());
     }
 }

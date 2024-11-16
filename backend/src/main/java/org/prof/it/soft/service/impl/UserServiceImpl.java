@@ -2,9 +2,9 @@ package org.prof.it.soft.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.hibernate.proxy.HibernateProxy;
-import org.prof.it.soft.dto.security.request.RequestLoginDto;
-import org.prof.it.soft.dto.security.request.RequestRegistrationDto;
-import org.prof.it.soft.dto.security.response.ResponseJwtTokenDto;
+import org.prof.it.soft.dto.security.request.LoginRequestDto;
+import org.prof.it.soft.dto.security.request.RegistrationRequestDto;
+import org.prof.it.soft.dto.security.response.JwtTokenResponseDto;
 import org.prof.it.soft.entity.security.Permission;
 import org.prof.it.soft.entity.security.User;
 import org.prof.it.soft.repo.UserRepository;
@@ -28,10 +28,10 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public ResponseJwtTokenDto login(RequestLoginDto requestLoginDto) {
-        User user = loadUserByUsername(requestLoginDto.getUsername());
+    public JwtTokenResponseDto login(LoginRequestDto loginRequestDto) {
+        User user = loadUserByUsername(loginRequestDto.getUsername());
 
-        if (!passwordEncoder.matches(requestLoginDto.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("Invalid password");
         }
 
@@ -39,16 +39,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseJwtTokenDto register(RequestRegistrationDto requestRegistrationDto) {
-        Optional<User> maybeUser = userRepository.findByUsername(requestRegistrationDto.getUsername());
+    public JwtTokenResponseDto register(RegistrationRequestDto registrationRequestDto) {
+        Optional<User> maybeUser = userRepository.findByUsername(registrationRequestDto.getUsername());
 
         if (maybeUser.isPresent()) {
             throw new BadCredentialsException("User with such username already exists");
         }
 
         User user = User.builder()
-                .username(requestRegistrationDto.getUsername())
-                .password(requestRegistrationDto.getPassword())
+                .username(registrationRequestDto.getUsername())
+                .password(registrationRequestDto.getPassword())
                 .accountNonExpired(true)
                 .accountNonLocked(true)
                 .credentialsNonExpired(true)

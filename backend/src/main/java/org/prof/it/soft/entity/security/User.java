@@ -2,6 +2,7 @@ package org.prof.it.soft.entity.security;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.prof.it.soft.entity.Person;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -23,6 +24,10 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
     @Column(name = "id", columnDefinition = "bigint", nullable = false)
     private Long id;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "person_id")
+    private Person person;
 
     @Column(name = "username", columnDefinition = "varchar", nullable = false, length = 255)
     private String username;

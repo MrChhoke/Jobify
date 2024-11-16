@@ -1,7 +1,7 @@
 package org.prof.it.soft.service;
 
-import org.prof.it.soft.dto.request.RequestRecruiterDto;
-import org.prof.it.soft.dto.response.ResponseRecruiterDto;
+import org.prof.it.soft.dto.request.RecruiterRequestDto;
+import org.prof.it.soft.dto.response.RecruiterResponseDto;
 import org.prof.it.soft.entity.Recruiter;
 
 import java.util.Set;
@@ -10,8 +10,8 @@ import java.util.Set;
  * Service for working with recruiters
  *
  * @see org.prof.it.soft.entity.Recruiter
- * @see org.prof.it.soft.dto.request.RequestRecruiterDto
- * @see org.prof.it.soft.dto.response.ResponseRecruiterDto
+ * @see RecruiterRequestDto
+ * @see RecruiterResponseDto
  */
 public interface RecruiterService {
 
@@ -19,18 +19,18 @@ public interface RecruiterService {
      * Saves a new recruiter.
      *
      * @param recruiterDto the DTO of the recruiter to save
-     * @return the {@link ResponseRecruiterDto} of the saved recruiter
+     * @return the {@link RecruiterResponseDto} of the saved recruiter
      */
-    ResponseRecruiterDto saveRecruiter(RequestRecruiterDto recruiterDto);
+    RecruiterResponseDto saveRecruiter(RecruiterRequestDto recruiterDto);
 
     /**
      * Updates an existing recruiter.
      *
      * @param recruiterId  the id of the recruiter to update
-     * @param recruiterDto the {@link ResponseRecruiterDto} of the recruiter with the updated data
+     * @param recruiterDto the {@link RecruiterResponseDto} of the recruiter with the updated data
      * @throws org.prof.it.soft.exception.NotFoundException if the recruiter with the given id is not found
      */
-    void updateRecruiter(Long recruiterId, RequestRecruiterDto recruiterDto);
+    void updateRecruiter(Long recruiterId, RecruiterRequestDto recruiterDto);
 
     /**
      * Deletes a recruiter by id.
@@ -47,7 +47,7 @@ public interface RecruiterService {
      * @return the DTO of the recruiter with the given id
      * @throws org.prof.it.soft.exception.NotFoundException if the recruiter with the given id is not found
      */
-    ResponseRecruiterDto getResponseRecruiterDtoById(Long recruiterId);
+    RecruiterResponseDto getResponseRecruiterDtoById(Long recruiterId);
 
     /**
      * Gets a recruiter by id.

@@ -1,9 +1,8 @@
 package org.prof.it.soft.service;
 
 import org.prof.it.soft.dto.filter.VacancyFilterDto;
-import org.prof.it.soft.dto.request.RequestVacancyDto;
-import org.prof.it.soft.dto.response.ResponseVacancyDto;
-import org.prof.it.soft.entity.Vacancy;
+import org.prof.it.soft.dto.request.VacancyRequestDto;
+import org.prof.it.soft.dto.response.VacancyResponseDto;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 
@@ -11,8 +10,8 @@ import org.springframework.data.domain.Page;
  * Service for working with vacancies
  *
  * @see org.prof.it.soft.entity.Vacancy
- * @see org.prof.it.soft.dto.request.RequestVacancyDto
- * @see org.prof.it.soft.dto.response.ResponseVacancyDto
+ * @see VacancyRequestDto
+ * @see VacancyResponseDto
  * @see org.prof.it.soft.dto.filter.VacancyFilterDto
  */
 public interface VacancyService {
@@ -23,7 +22,7 @@ public interface VacancyService {
      * @param vacancyDto the DTO of the vacancy to save
      * @return the DTO of the saved vacancy
      */
-    ResponseVacancyDto saveVacancy(RequestVacancyDto vacancyDto);
+    VacancyResponseDto saveVacancy(VacancyRequestDto vacancyDto);
 
     /**
      * Updates an existing vacancy.
@@ -32,7 +31,7 @@ public interface VacancyService {
      * @param vacancyDto the DTO of the vacancy with the updated data
      * @throws org.prof.it.soft.exception.NotFoundException if the vacancy with the given id is not found
      */
-    void updateVacancy(Long vacancyId, RequestVacancyDto vacancyDto);
+    void updateVacancy(Long vacancyId, VacancyRequestDto vacancyDto);
 
     /**
      * Deletes a vacancy by id.
@@ -49,23 +48,7 @@ public interface VacancyService {
      * @return the DTO of the vacancy with the given id
      * @throws org.prof.it.soft.exception.NotFoundException if the vacancy with the given id is not found
      */
-    ResponseVacancyDto getResponseVacancyDtoById(Long vacancyId);
-
-    /**
-     * Gets a vacancy by id.
-     *
-     * @param id the id of the vacancy to get
-     * @return the vacancy with the given id
-     * @throws org.prof.it.soft.exception.NotFoundException if the vacancy with the given id is not found
-     */
-    Vacancy getVacancyById(Long id);
-
-    /**
-     * Gets the ids of all vacancies.
-     *
-     * @return a set of the ids of all vacancies
-     */
-    Page<ResponseVacancyDto> getFilteredVacancies(VacancyFilterDto vacancyFilterDto);
+    VacancyResponseDto getResponseVacancyDtoById(Long vacancyId);
 
     /**
      * Generates a report in Excel format based on the specified filter.
@@ -74,5 +57,7 @@ public interface VacancyService {
      * @return the report in Excel format
      */
     Resource generateReportExcel(VacancyFilterDto vacancyFilterDto);
+
+    Page<VacancyResponseDto> getFilteredVacancies(VacancyFilterDto vacancyFilterDto);
 
 }

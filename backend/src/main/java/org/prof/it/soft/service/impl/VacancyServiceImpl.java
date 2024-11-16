@@ -8,8 +8,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
 import org.prof.it.soft.dto.filter.VacancyFilterDto;
-import org.prof.it.soft.dto.request.RequestVacancyDto;
-import org.prof.it.soft.dto.response.ResponseVacancyDto;
+import org.prof.it.soft.dto.request.VacancyRequestDto;
+import org.prof.it.soft.dto.response.VacancyResponseDto;
 import org.prof.it.soft.entity.Recruiter;
 import org.prof.it.soft.entity.Vacancy;
 import org.prof.it.soft.exception.NotFoundException;
@@ -57,7 +57,7 @@ public class VacancyServiceImpl implements VacancyService {
      * @throws NotFoundException if the recruiter with the given id is not found
      */
     @Override
-    public ResponseVacancyDto saveVacancy(RequestVacancyDto vacancyDto) {
+    public VacancyResponseDto saveVacancy(VacancyRequestDto vacancyDto) {
         Vacancy vacancyFromDto = modelMapper.map(vacancyDto, Vacancy.class);
         Recruiter recruiterById = recruiterService.getRecruiterById(vacancyDto.getRecruiterId());
         recruiterById.addVacancy(vacancyFromDto);
@@ -65,7 +65,7 @@ public class VacancyServiceImpl implements VacancyService {
         Vacancy savedVacancy = vacancyRepository.saveAndFlush(vacancyFromDto);
         log.info("Vacancy[id={}, position={}, recruiterId={}] saved successfully",
                 savedVacancy.getId(), savedVacancy.getPosition(), savedVacancy.getRecruiter().getId());
-        return modelMapper.map(savedVacancy, ResponseVacancyDto.class);
+        return modelMapper.map(savedVacancy, VacancyResponseDto.class);
     }
 
     /**
@@ -76,7 +76,7 @@ public class VacancyServiceImpl implements VacancyService {
      * @throws NotFoundException if the vacancy with the given id is not found
      */
     @Override
-    public void updateVacancy(Long vacancyId, RequestVacancyDto vacancyDto) {
+    public void updateVacancy(Long vacancyId, VacancyRequestDto vacancyDto) {
         Vacancy vacancyFromDto = modelMapper.map(vacancyDto, Vacancy.class);
         Vacancy vacancy = getVacancyById(vacancyId);
 
@@ -108,30 +108,17 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     /**
-     * Gets a vacancy by id as a DTO {@link ResponseVacancyDto}.
+     * Gets a vacancy by id as a DTO {@link VacancyResponseDto}.
      *
      * @param vacancyId the id of the vacancy to get
      * @return the DTO of the vacancy with the given id
      * @throws NotFoundException if the vacancy with the given id is not found
      */
     @Override
-    public ResponseVacancyDto getResponseVacancyDtoById(Long vacancyId) {
+    public VacancyResponseDto getResponseVacancyDtoById(Long vacancyId) {
         return vacancyRepository.findById(vacancyId)
-                .map(vacancy -> modelMapper.map(vacancy, ResponseVacancyDto.class))
+                .map(vacancy -> modelMapper.map(vacancy, VacancyResponseDto.class))
                 .orElseThrow(() -> new NotFoundException(String.format("Vacancy with id %d not found", vacancyId)));
-    }
-
-    /**
-     * Gets a vacancy by id.
-     *
-     * @param id the id of the vacancy to get
-     * @return the vacancy with the given id
-     * @throws NotFoundException if the vacancy with the given id is not found
-     */
-    @Override
-    public Vacancy getVacancyById(Long id) {
-        return vacancyRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format("Vacancy with id %d not found", id)));
     }
 
     /**
@@ -144,14 +131,14 @@ public class VacancyServiceImpl implements VacancyService {
      * @return a page of all vacancies
      * @see org.prof.it.soft.dto.filter.VacancyFilterDto
      * @see org.springframework.data.domain.Page
-     * @see org.prof.it.soft.dto.response.ResponseVacancyDto
+     * @see VacancyResponseDto
      */
     @Override
-    public Page<ResponseVacancyDto> getFilteredVacancies(VacancyFilterDto vacancyFilterDto) {
+    public Page<VacancyResponseDto> getFilteredVacancies(VacancyFilterDto vacancyFilterDto) {
         return vacancyRepository.findAll(VacancySpecification.of(vacancyFilterDto),
                         PageRequest.of(vacancyFilterDto.getPage(), vacancyFilterDto.getSize(),
                                 Sort.by(Sort.Direction.ASC, "id")))
-                .map(vacancy -> modelMapper.map(vacancy, ResponseVacancyDto.class));
+                .map(vacancy -> modelMapper.map(vacancy, VacancyResponseDto.class));
     }
 
     /**
@@ -223,5 +210,18 @@ public class VacancyServiceImpl implements VacancyService {
             workbook.write(outputStream);
             return new ByteArrayResource(outputStream.toByteArray());
         }
+    }
+
+
+    /**
+     * Gets a vacancy by id.
+     *
+     * @param id the id of the vacancy to get
+     * @return the vacancy with the given id
+     * @throws NotFoundException if the vacancy with the given id is not found
+     */
+    public Vacancy getVacancyById(Long id) {
+        return vacancyRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Vacancy with id %d not found", id)));
     }
 }

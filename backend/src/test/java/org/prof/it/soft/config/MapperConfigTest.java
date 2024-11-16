@@ -2,7 +2,7 @@ package org.prof.it.soft.config;
 
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
-import org.prof.it.soft.dto.request.RequestVacancyDto;
+import org.prof.it.soft.dto.request.VacancyRequestDto;
 import org.prof.it.soft.entity.Vacancy;
 
 import java.util.List;
@@ -17,14 +17,14 @@ class MapperConfigTest {
     void mapRequestVacancyDtoToVacancy() {
         ModelMapper modelMapper = mapperConfig.getModelMapper();
 
-        RequestVacancyDto requestVacancyDto = new RequestVacancyDto(
+        VacancyRequestDto vacancyRequestDto = new VacancyRequestDto(
                 "Java Developer",
                 1000F,
                 List.of("Java", "Spring", "Hibernate"),
                 100L
         );
 
-        Vacancy vacancy = modelMapper.map(requestVacancyDto, Vacancy.class);
+        Vacancy vacancy = modelMapper.map(vacancyRequestDto, Vacancy.class);
 
         assertThat(vacancy.getId()).isNull();
         assertThat(vacancy.getPosition()).isEqualTo("Java Developer");

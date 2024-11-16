@@ -27,10 +27,18 @@ public enum Permission implements GrantedAuthority {
     DELETE_VACANCY,
 
     /**
+     * The permissions to apply vacancy.
+     */
+    APPLY_VACANCY,
+
+    /**
      * The permission to create a recruiter.
      */
     CREATE_RECRUITER,
 
+    /**
+     * The permission to view a recruiter.
+     */
     VIEW_RECRUITER,
 
     /**
@@ -44,7 +52,8 @@ public enum Permission implements GrantedAuthority {
     DELETE_RECRUITER;
 
     public static final Set<Permission> USER_PERMISSIONS = Set.of(
-            VIEW_VACANCY
+            VIEW_VACANCY,
+            APPLY_VACANCY
     );
 
     public static final Set<Permission> RECRUITER_PERMISSIONS = Set.of(
@@ -62,7 +71,8 @@ public enum Permission implements GrantedAuthority {
             CREATE_RECRUITER,
             VIEW_RECRUITER,
             EDIT_RECRUITER,
-            DELETE_RECRUITER
+            DELETE_RECRUITER,
+            APPLY_VACANCY
     );
 
     @Override

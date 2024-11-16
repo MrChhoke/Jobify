@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
         "failed_uploaded"
 })
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public final class ResponseUploadingResultDto {
+public final class UploadingResultResponseDto {
 
     /**
      * The number of successfully uploaded files.

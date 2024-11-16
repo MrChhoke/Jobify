@@ -2,18 +2,21 @@ package org.prof.it.soft.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.prof.it.soft.dto.filter.VacancyFilterDto;
-import org.prof.it.soft.dto.request.RequestVacancyDto;
-import org.prof.it.soft.dto.response.ResponseUploadingResultDto;
-import org.prof.it.soft.dto.response.ResponseVacancyDto;
+import org.prof.it.soft.dto.request.VacancyRequestDto;
+import org.prof.it.soft.dto.response.CandidateApplicationResponseDto;
+import org.prof.it.soft.dto.response.CreatingCandidateApplicationResponseDto;
+import org.prof.it.soft.dto.response.VacancyResponseDto;
+import org.prof.it.soft.entity.security.User;
+import org.prof.it.soft.service.CandidateApplicationService;
 import org.prof.it.soft.service.VacancyService;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -27,6 +30,7 @@ public class VacancyController {
      * Service for handling operations related to vacancies.
      */
     protected final VacancyService vacancyService;
+    protected final CandidateApplicationService candidateApplicationService;
 
     /**
      * Get a vacancy by id.
@@ -35,7 +39,7 @@ public class VacancyController {
      * @return The vacancy with the given id.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseVacancyDto> getVacancyById(@PathVariable Long id) {
+    public ResponseEntity<VacancyResponseDto> getVacancyById(@PathVariable Long id) {
         return ResponseEntity.ok(vacancyService.getResponseVacancyDtoById(id));
     }
 
@@ -46,7 +50,7 @@ public class VacancyController {
      * @return The saved vacancy.
      */
     @PostMapping
-    public ResponseEntity<ResponseVacancyDto> saveVacancy(@Validated(RequestVacancyDto.Save.class) @RequestBody RequestVacancyDto responseVacancyDto) {
+    public ResponseEntity<VacancyResponseDto> saveVacancy(@Validated(VacancyRequestDto.Save.class) @RequestBody VacancyRequestDto responseVacancyDto) {
         return ResponseEntity.ok(vacancyService.saveVacancy(responseVacancyDto));
     }
 
@@ -58,7 +62,7 @@ public class VacancyController {
      * @return A message indicating that the vacancy was updated successfully.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateVacancy(@Validated(RequestVacancyDto.Update.class) @RequestBody RequestVacancyDto responseVacancyDto,
+    public ResponseEntity<String> updateVacancy(@Validated(VacancyRequestDto.Update.class) @RequestBody VacancyRequestDto responseVacancyDto,
                                                 @PathVariable("id") Long id) {
         vacancyService.updateVacancy(id, responseVacancyDto);
         return ResponseEntity.ok("Vacancy updated successfully");
@@ -83,8 +87,53 @@ public class VacancyController {
      * @return The vacancies that match the filter criteria.
      */
     @PostMapping(value = "_list", consumes = "application/json")
-    public ResponseEntity<Page<ResponseVacancyDto>> getFilteredVacancies(@Validated(VacancyFilterDto.JsonResponse.class) @RequestBody VacancyFilterDto vacancyFilterDto) {
+    public ResponseEntity<Page<VacancyResponseDto>> getFilteredVacancies(@Validated(VacancyFilterDto.JsonResponse.class) @RequestBody VacancyFilterDto vacancyFilterDto) {
         return ResponseEntity.ok(vacancyService.getFilteredVacancies(vacancyFilterDto));
+    }
+
+    /**
+     * Apply for a vacancy.
+     *
+     * @param id The id of the vacancy to apply for.
+     * @param user The user who is applying for the vacancy.
+     * @return A message indicating that the application was created successfully.
+     */
+    @PostMapping(value = "/{id}/apply")
+    public ResponseEntity<CreatingCandidateApplicationResponseDto> applyForVacancy(@PathVariable Long id,
+                                                                                   @AuthenticationPrincipal User user) {
+        CreatingCandidateApplicationResponseDto creatingCandidateApplicationResponseDto =
+                candidateApplicationService.createCandidateApplication(id, user);
+        return ResponseEntity.ok(creatingCandidateApplicationResponseDto);
+    }
+
+    /**
+     * Get the applications for a vacancy.
+     *
+     * @param vacancyId The id of the vacancy.
+     * @param pageNum The page number.
+     * @return The applications for the vacancy.
+     */
+    @GetMapping("/{id}/applications")
+    public ResponseEntity<Page<CandidateApplicationResponseDto>> getVacancyApplications(@PathVariable(name = "id") Long vacancyId,
+                                                                                         @RequestParam Long pageNum) {
+        Page<CandidateApplicationResponseDto> candidateApplicationResponseDto =
+                candidateApplicationService.getCandidateApplicationsByVacancyId(vacancyId, pageNum);
+        return ResponseEntity.ok(candidateApplicationResponseDto);
+    }
+
+    /**
+     * Get the applications for a person.
+     *
+     * @param personId The id of the person.
+     * @param pageNum The page number.
+     * @return The applications for the person.
+     */
+    @GetMapping("/person/{id}/applications")
+    public ResponseEntity<Page<CandidateApplicationResponseDto>> getPersonApplications(@PathVariable(name = "id") Long personId,
+                                                                                         @RequestParam Long pageNum) {
+        Page<CandidateApplicationResponseDto> candidateApplicationResponseDto =
+                candidateApplicationService.getCandidateApplicationsByPersonId(personId, pageNum);
+        return ResponseEntity.ok(candidateApplicationResponseDto);
     }
 
     /**

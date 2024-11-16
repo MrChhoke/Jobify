@@ -2,14 +2,12 @@ package org.prof.it.soft.service.impl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.prof.it.soft.dto.security.response.ResponseJwtTokenDto;
+import org.prof.it.soft.dto.security.response.JwtTokenResponseDto;
 import org.prof.it.soft.entity.security.User;
 import org.prof.it.soft.service.JwtService;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,10 +60,10 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public ResponseJwtTokenDto generateTokenResponse(UserDetails userDetails) {
+    public JwtTokenResponseDto generateTokenResponse(UserDetails userDetails) {
         String token = generateToken(userDetails);
 
-        return ResponseJwtTokenDto.builder()
+        return JwtTokenResponseDto.builder()
                 .token(token)
                 .expirationDate(extractExpiration(token)
                         .toInstant()

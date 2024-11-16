@@ -25,7 +25,7 @@ import java.util.List;
 })
 @NoArgsConstructor
 @AllArgsConstructor
-public final class ResponseVacancyDto {
+public final class VacancyResponseDto {
 
     /**
      * The vacancy's id.
@@ -67,8 +67,8 @@ public final class ResponseVacancyDto {
     /**
      * The recruiter associated with the vacancy.
      *
-     * @see org.prof.it.soft.dto.response.ResponseRecruiterDto
+     * @see RecruiterResponseDto
      */
     @JsonProperty("recruiter")
-    private ResponseRecruiterDto recruiter;
+    private RecruiterResponseDto recruiter;
 }
