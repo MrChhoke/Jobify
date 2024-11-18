@@ -49,18 +49,32 @@ public enum Permission implements GrantedAuthority {
     /**
      * The permission to delete a recruiter.
      */
-    DELETE_RECRUITER;
+    DELETE_RECRUITER,
+
+    /**
+     * The permission to update own profile.
+     */
+    UPDATE_OWN_PROFILE,
+
+    /**
+     * The permission to get own profile.
+     */
+    GET_OWN_PROFILE;
 
     public static final Set<Permission> USER_PERMISSIONS = Set.of(
             VIEW_VACANCY,
-            APPLY_VACANCY
+            APPLY_VACANCY,
+            GET_OWN_PROFILE,
+            UPDATE_OWN_PROFILE
     );
 
     public static final Set<Permission> RECRUITER_PERMISSIONS = Set.of(
             CREATE_VACANCY,
             VIEW_VACANCY,
             EDIT_VACANCY,
-            DELETE_VACANCY
+            DELETE_VACANCY,
+            GET_OWN_PROFILE,
+            UPDATE_OWN_PROFILE
     );
 
     public static final Set<Permission> ADMIN_PERMISSIONS = Set.of(
@@ -72,7 +86,9 @@ public enum Permission implements GrantedAuthority {
             VIEW_RECRUITER,
             EDIT_RECRUITER,
             DELETE_RECRUITER,
-            APPLY_VACANCY
+            APPLY_VACANCY,
+            GET_OWN_PROFILE,
+            UPDATE_OWN_PROFILE
     );
 
     @Override
