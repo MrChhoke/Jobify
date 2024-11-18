@@ -59,6 +59,8 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/v1/recruiter/{id}").hasAnyAuthority(Permission.EDIT_RECRUITER.toString())
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/recruiter/{id}").hasAnyAuthority(Permission.DELETE_RECRUITER.toString())
                         .requestMatchers(HttpMethod.POST, "/api/v1/vacancy/{id}/apply").hasAnyAuthority(Permission.APPLY_VACANCY.toString())
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/profile/update").hasAnyAuthority(Permission.UPDATE_OWN_PROFILE.toString())
+                        .requestMatchers(HttpMethod.GET, "/api/v1/profile").hasAnyAuthority(Permission.GET_OWN_PROFILE.toString())
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
