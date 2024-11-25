@@ -5,10 +5,12 @@ import org.modelmapper.ModelMapper;
 import org.prof.it.soft.dto.response.CandidateApplicationResponseDto;
 import org.prof.it.soft.dto.response.CreatingCandidateApplicationResponseDto;
 import org.prof.it.soft.entity.CandidateApplication;
+import org.prof.it.soft.entity.Person;
 import org.prof.it.soft.entity.Vacancy;
 import org.prof.it.soft.entity.security.User;
 import org.prof.it.soft.exception.NotFoundException;
 import org.prof.it.soft.repo.CandidateApplicationRepository;
+import org.prof.it.soft.repo.PersonRepository;
 import org.prof.it.soft.repo.VacancyRepository;
 import org.prof.it.soft.service.CandidateApplicationService;
 import org.springframework.data.domain.Page;
@@ -20,12 +22,16 @@ import org.springframework.stereotype.Service;
 public class CandidateApplicationServiceImpl implements CandidateApplicationService {
 
     protected final VacancyRepository vacancyRepository;
+    protected final PersonRepository personRepository;
     protected final CandidateApplicationRepository candidateApplicationRepository;
     protected final ModelMapper modelMapper;
 
     @Override
     public CreatingCandidateApplicationResponseDto createCandidateApplication(Long vacancyId, User user) {
-        if (candidateApplicationRepository.existsByPersonIdAndVacancyId(user.getPerson().getId(), vacancyId)) {
+        Person person = personRepository.findById(user.getId())
+                .orElseThrow(() -> new NotFoundException("Person with id " + user.getId() + " not found"));
+
+        if (candidateApplicationRepository.existsByPersonIdAndVacancyId(person.getId(), vacancyId)) {
             return CreatingCandidateApplicationResponseDto.builder()
                     .message("Application has been already created")
                     .build();
@@ -35,13 +41,13 @@ public class CandidateApplicationServiceImpl implements CandidateApplicationServ
 
         CandidateApplication application = new CandidateApplication();
         application.setVacancy(vacancy);
-        application.setPerson(user.getPerson());
+        application.setPerson(person);
 
         CandidateApplication savedApplication = candidateApplicationRepository.saveAndFlush(application);
 
         return CreatingCandidateApplicationResponseDto.builder()
                 .candidateApplicationId(savedApplication.getId())
-                .candidateId(user.getPerson().getId())
+                .candidateId(user.getId())
                 .vacancyId(vacancyId)
                 .message("Application created successfully")
                 .build();

@@ -1,0 +1,103 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1732556591152-7
+      author: vladb
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: recruiters
+            constraintName: recruiter_person_fk
+  - changeSet:
+      id: 1732556591152-10
+      author: vladb
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: users
+            constraintName: users_person_fk
+  - changeSet:
+      id: 1732556591152-1
+      author: vladb
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: created_at
+                  type: timestamp
+              - column:
+                  name: updated_at
+                  type: timestamp
+            tableName: users
+  - changeSet:
+      id: 1732556591152-2
+      author: vladb
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnName: created_at
+            tableName: users
+  - changeSet:
+      id: 1732556591152-4
+      author: vladb
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnName: updated_at
+            tableName: users
+  - changeSet:
+      id: 1732556591152-5
+      author: vladb
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: id
+            baseTableName: people
+            constraintName: FK_PEOPLE_ON_ID
+            referencedColumnNames: id
+            referencedTableName: users
+  - changeSet:
+      id: 1732556591152-6
+      author: vladb
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: id
+            baseTableName: recruiters
+            constraintName: FK_RECRUITERS_ON_ID
+            referencedColumnNames: id
+            referencedTableName: people
+  - changeSet:
+      id: 1732556591152-15
+      author: vladb
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropColumn:
+            columnName: created_at
+            tableName: people
+        - dropColumn:
+            columnName: updated_at
+            tableName: people
+  - changeSet:
+      id: 1732556591152-16
+      author: vladb
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropColumn:
+            columnName: created_at
+            tableName: recruiters
+        - dropColumn:
+            columnName: person_id
+            tableName: recruiters
+        - dropColumn:
+            columnName: updated_at
+            tableName: recruiters
+  - changeSet:
+      id: 1732556591152-18
+      author: vladb
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropColumn:
+            columnName: person_id
+            tableName: users
+

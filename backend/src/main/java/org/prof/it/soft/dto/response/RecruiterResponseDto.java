@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "recruiter_id",
+        "recruiter_user_id",
         "company_name",
         "person",
         "created_at",
@@ -25,7 +25,7 @@ public final class RecruiterResponseDto {
     /**
      * The recruiter's id.
      */
-    @JsonProperty("recruiter_id")
+    @JsonProperty("recruiter_user_id")
     private Long id;
 
     /**
@@ -41,7 +41,6 @@ public final class RecruiterResponseDto {
      * @see PersonResponseDto
      */
     @JsonUnwrapped
-    @JsonIgnoreProperties({"created_at", "updated_at"})
     private PersonResponseDto person;
 
     /**

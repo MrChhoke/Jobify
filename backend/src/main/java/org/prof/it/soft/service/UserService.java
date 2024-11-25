@@ -1,8 +1,11 @@
 package org.prof.it.soft.service;
 
+import org.prof.it.soft.dto.response.ProfileResponseDto;
 import org.prof.it.soft.dto.security.request.LoginRequestDto;
+import org.prof.it.soft.dto.security.request.RegistrationRecruiterRequestDto;
 import org.prof.it.soft.dto.security.request.RegistrationRequestDto;
 import org.prof.it.soft.dto.security.response.JwtTokenResponseDto;
+import org.prof.it.soft.entity.Recruiter;
 import org.prof.it.soft.entity.security.Permission;
 import org.prof.it.soft.entity.security.User;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -33,6 +36,15 @@ public interface UserService extends UserDetailsService {
      * @throws BadCredentialsException if user with such username already exists
      */
     JwtTokenResponseDto register(RegistrationRequestDto RegistrationDto);
+
+    /**
+     * Allows to get JWT token for recruiter by request
+     *
+     * @param RegistrationDto - request with recruiter credentials
+     * @return response body with JWT token
+     * @throws BadCredentialsException if user with such username already exists
+     */
+    ProfileResponseDto registerRecruiter(RegistrationRecruiterRequestDto RegistrationDto);
 
     /**
      * Saves a new user.

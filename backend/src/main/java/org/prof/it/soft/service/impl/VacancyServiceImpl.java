@@ -13,8 +13,9 @@ import org.prof.it.soft.dto.response.VacancyResponseDto;
 import org.prof.it.soft.entity.Recruiter;
 import org.prof.it.soft.entity.Vacancy;
 import org.prof.it.soft.exception.NotFoundException;
+import org.prof.it.soft.repo.RecruiterRepository;
 import org.prof.it.soft.repo.VacancyRepository;
-import org.prof.it.soft.service.RecruiterService;
+import org.prof.it.soft.service.UserService;
 import org.prof.it.soft.service.VacancyService;
 import org.prof.it.soft.spec.VacancySpecification;
 import org.springframework.core.io.ByteArrayResource;
@@ -39,10 +40,7 @@ public class VacancyServiceImpl implements VacancyService {
      */
     protected final VacancyRepository vacancyRepository;
 
-    /**
-     * The service for the Recruiter entity.
-     */
-    protected final RecruiterService recruiterService;
+    protected final RecruiterRepository recruiterRepository;
 
     /**
      * The mapper for converting between DTOs and entities.
@@ -59,7 +57,8 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public VacancyResponseDto saveVacancy(VacancyRequestDto vacancyDto) {
         Vacancy vacancyFromDto = modelMapper.map(vacancyDto, Vacancy.class);
-        Recruiter recruiterById = recruiterService.getRecruiterById(vacancyDto.getRecruiterId());
+        Recruiter recruiterById = recruiterRepository.getRecruiterById(vacancyDto.getRecruiterUserId())
+                .orElseThrow(() -> new NotFoundException(String.format("Recruiter with id %d not found", vacancyDto.getRecruiterUserId())));
         recruiterById.addVacancy(vacancyFromDto);
 
         Vacancy savedVacancy = vacancyRepository.saveAndFlush(vacancyFromDto);
@@ -83,7 +82,8 @@ public class VacancyServiceImpl implements VacancyService {
         vacancy.setPosition(vacancyFromDto.getPosition());
         vacancy.setSalary(vacancyFromDto.getSalary());
         vacancy.setTechnologyStack(vacancyFromDto.getTechnologyStack());
-        vacancy.setRecruiter(recruiterService.getRecruiterById(vacancyDto.getRecruiterId()));
+        vacancy.setRecruiter(recruiterRepository.getRecruiterById(vacancyDto.getRecruiterUserId())
+                .orElseThrow(() -> new NotFoundException(String.format("Recruiter with id %d not found", vacancyDto.getRecruiterUserId()))));
 
         vacancyRepository.saveAndFlush(vacancy);
         log.info("Vacancy[id={}, position={}, recruiterId={}] updated successfully",
@@ -204,8 +204,8 @@ public class VacancyServiceImpl implements VacancyService {
                 row.createCell(cellNum++).setCellValue(vacancy.getRecruiter().getCompanyName());
                 row.createCell(cellNum++).setCellValue(vacancy.getCreatedAt().toString());
                 row.createCell(cellNum++).setCellValue(vacancy.getRecruiter().getId());
-                row.createCell(cellNum++).setCellValue(vacancy.getRecruiter().getPerson().getFirstName());
-                row.createCell(cellNum).setCellValue(vacancy.getRecruiter().getPerson().getLastName());
+                row.createCell(cellNum++).setCellValue(vacancy.getRecruiter().getFirstName());
+                row.createCell(cellNum).setCellValue(vacancy.getRecruiter().getLastName());
             }
             workbook.write(outputStream);
             return new ByteArrayResource(outputStream.toByteArray());

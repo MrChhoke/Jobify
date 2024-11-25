@@ -2,6 +2,7 @@ package org.prof.it.soft.service;
 
 import org.prof.it.soft.dto.response.CandidateApplicationResponseDto;
 import org.prof.it.soft.dto.response.CreatingCandidateApplicationResponseDto;
+import org.prof.it.soft.entity.Person;
 import org.prof.it.soft.entity.security.User;
 import org.springframework.data.domain.Page;
 
