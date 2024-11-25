@@ -67,11 +67,11 @@ public class VacancyControllerApplicationWithAuthTest {
         // Given
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("recruiter")
+                        .password("recruiter")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -84,7 +84,7 @@ public class VacancyControllerApplicationWithAuthTest {
                         .build()
         );
 
-        User user = User.builder()
+        User user = Person.builder()
                 .username("test")
                 .password("test")
                 .accountNonExpired(true)
@@ -92,12 +92,9 @@ public class VacancyControllerApplicationWithAuthTest {
                 .credentialsNonExpired(true)
                 .enabled(true)
                 .permissions(Set.of(Permission.APPLY_VACANCY))
-                .build();
-
-        user.setPerson(Person.builder()
                 .firstName("John")
                 .lastName("Doe")
-                .build());
+                .build();
 
         User savedUser = userService.save(user);
 
@@ -116,7 +113,7 @@ public class VacancyControllerApplicationWithAuthTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("Application created successfully"))
                 .andExpect(jsonPath("$.candidate_application_id").isNumber())
-                .andExpect(jsonPath("$.candidate_id").value(savedUser.getPerson().getId()))
+                .andExpect(jsonPath("$.candidate_id").value(savedUser.getId()))
                 .andExpect(jsonPath("$.vacancy_id").value(savedVacancy.getId()));
     }
 
@@ -126,11 +123,11 @@ public class VacancyControllerApplicationWithAuthTest {
         // Given
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("recruiter")
+                        .password("recruiter")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -143,7 +140,7 @@ public class VacancyControllerApplicationWithAuthTest {
                         .build()
         );
 
-        User user = User.builder()
+        User user = Person.builder()
                 .username("test")
                 .password("test")
                 .accountNonExpired(true)
@@ -151,12 +148,9 @@ public class VacancyControllerApplicationWithAuthTest {
                 .credentialsNonExpired(true)
                 .enabled(true)
                 .permissions(Set.of(Permission.APPLY_VACANCY))
-                .build();
-
-        user.setPerson(Person.builder()
                 .firstName("John")
                 .lastName("Doe")
-                .build());
+                .build();
 
         User savedUser = userService.save(user);
 
@@ -174,9 +168,8 @@ public class VacancyControllerApplicationWithAuthTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("Application created successfully"))
                 .andExpect(jsonPath("$.candidate_application_id").isNumber())
-                .andExpect(jsonPath("$.candidate_id").value(savedUser.getPerson().getId()))
+                .andExpect(jsonPath("$.candidate_id").value(savedUser.getId()))
                 .andExpect(jsonPath("$.vacancy_id").value(savedVacancy.getId()));
-
 
 
         // When and then
@@ -195,7 +188,7 @@ public class VacancyControllerApplicationWithAuthTest {
     @Order(3)
     public void testApplyForVacancy_whenVacancyDoesNotExist() throws Exception {
         // Given
-        User user = User.builder()
+        User user = Person.builder()
                 .username("test")
                 .password("test")
                 .accountNonExpired(true)
@@ -203,12 +196,9 @@ public class VacancyControllerApplicationWithAuthTest {
                 .credentialsNonExpired(true)
                 .enabled(true)
                 .permissions(Set.of(Permission.APPLY_VACANCY))
-                .build();
-
-        user.setPerson(Person.builder()
                 .firstName("John")
                 .lastName("Doe")
-                .build());
+                .build();
 
         User savedUser = userService.save(user);
 

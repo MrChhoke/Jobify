@@ -68,7 +68,7 @@ public class MapperConfig {
                 destination.setSalary(source.getSalary());
                 destination.setTechnologyStack(source.getTechnologyStack() == null ? new ArrayList<>() : source.getTechnologyStack());
                 destination.setRecruiter(new Recruiter());
-                destination.getRecruiter().setId(source.getRecruiterId());
+                destination.getRecruiter().setId(source.getRecruiterUserId());
                 return destination;
             }
         });

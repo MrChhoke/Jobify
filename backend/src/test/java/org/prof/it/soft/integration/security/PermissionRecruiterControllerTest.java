@@ -3,9 +3,9 @@ package org.prof.it.soft.integration.security;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
 import org.prof.it.soft.dto.request.PersonRequestDto;
-import org.prof.it.soft.dto.request.RecruiterRequestDto;
+import org.prof.it.soft.dto.response.ProfileResponseDto;
+import org.prof.it.soft.dto.security.request.RegistrationRecruiterRequestDto;
 import org.prof.it.soft.dto.response.RecruiterResponseDto;
-import org.prof.it.soft.entity.Person;
 import org.prof.it.soft.entity.Recruiter;
 import org.prof.it.soft.entity.Vacancy;
 import org.prof.it.soft.entity.security.Permission;
@@ -16,7 +16,6 @@ import org.prof.it.soft.repo.RecruiterRepository;
 import org.prof.it.soft.repo.UserRepository;
 import org.prof.it.soft.repo.VacancyRepository;
 import org.prof.it.soft.service.JwtService;
-import org.prof.it.soft.service.RecruiterService;
 import org.prof.it.soft.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -42,8 +41,7 @@ class PermissionRecruiterControllerTest {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private RecruiterService recruiterService;
+
 
     @Autowired
     private RecruiterRepository recruiterRepository;
@@ -73,15 +71,17 @@ class PermissionRecruiterControllerTest {
                 """;
 
 
-        mockMvc.perform(post("/api/v1/recruiter")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(request))
+        mockMvc.perform(post("/api/v1/recruiter/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(request))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     void shouldReturnForbiddenStatus_whenUserWasNotAuthenticated_AndWantEditRecruiter() throws Exception {
-        RecruiterResponseDto recruiterResponseDto = recruiterService.saveRecruiter(RecruiterRequestDto.builder()
+        ProfileResponseDto recruiterResponseDto = userService.registerRecruiter(RegistrationRecruiterRequestDto.builder()
+                .username("jonh_doe")
+                .password("password")
                 .companyName("Google")
                 .person(PersonRequestDto.builder()
                         .firstName("John")
@@ -98,7 +98,7 @@ class PermissionRecruiterControllerTest {
                 }
                 """;
 
-        mockMvc.perform(put("/api/v1/recruiter/%d".formatted(recruiterResponseDto.getId()))
+        mockMvc.perform(put("/api/v1/recruiter/%d".formatted(recruiterResponseDto.getUserId()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isForbidden());
@@ -106,7 +106,9 @@ class PermissionRecruiterControllerTest {
 
     @Test
     void shouldReturnForbiddenStatus_whenUserWasNotAuthenticated_AndWantDeleteRecruiter() throws Exception {
-        RecruiterResponseDto recruiterResponseDto = recruiterService.saveRecruiter(RecruiterRequestDto.builder()
+        ProfileResponseDto recruiterResponseDto = userService.registerRecruiter(RegistrationRecruiterRequestDto.builder()
+                .username("jonh_doe")
+                .password("password")
                 .companyName("Google")
                 .person(PersonRequestDto.builder()
                         .firstName("John")
@@ -114,7 +116,7 @@ class PermissionRecruiterControllerTest {
                         .build())
                 .build());
 
-        Long recruiterId = recruiterResponseDto.getId();
+        Long recruiterId = recruiterResponseDto.getUserId();
 
         mockMvc.perform(delete("/api/v1/recruiter/%d".formatted(recruiterId)))
                 .andExpect(status().isForbidden());
@@ -139,6 +141,8 @@ class PermissionRecruiterControllerTest {
 
         String request = """
                 {
+                      "username": "john",
+                      "password": "password",
                       "first_name": "John",
                       "last_name": "Doe",
                       "company_name": "Google"
@@ -146,10 +150,10 @@ class PermissionRecruiterControllerTest {
                 """;
 
         // When
-        mockMvc.perform(post("/api/v1/recruiter")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(request)
-                .header("Authorization", "Bearer %s".formatted(jwtToken)))
+        mockMvc.perform(post("/api/v1/recruiter/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(request)
+                        .header("Authorization", "Bearer %s".formatted(jwtToken)))
                 .andExpect(status().isOk());
     }
 
@@ -172,6 +176,8 @@ class PermissionRecruiterControllerTest {
 
         String request = """
                 {
+                      "username: "john_doe",
+                      "password": "password",
                       "first_name": "John",
                       "last_name": "Doe",
                       "company_name": "Google"
@@ -179,10 +185,10 @@ class PermissionRecruiterControllerTest {
                 """;
 
         // When
-        mockMvc.perform(post("/api/v1/recruiter")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(request)
-                .header("Authorization", "Bearer %s".formatted(jwtToken)))
+        mockMvc.perform(post("/api/v1/recruiter/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(request)
+                        .header("Authorization", "Bearer %s".formatted(jwtToken)))
                 .andExpect(status().isForbidden());
     }
 
@@ -205,6 +211,8 @@ class PermissionRecruiterControllerTest {
 
         String request = """
                 {
+                      "username: "john_doe",
+                      "password": "password",
                       "first_name": "John",
                       "last_name": "Doe",
                       "company_name": "Google"
@@ -212,10 +220,10 @@ class PermissionRecruiterControllerTest {
                 """;
 
         // When
-        mockMvc.perform(post("/api/v1/recruiter")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(request)
-                .header("Authorization", "Bearer %s".formatted(jwtToken)))
+        mockMvc.perform(post("/api/v1/recruiter/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(request)
+                        .header("Authorization", "Bearer %s".formatted(jwtToken)))
                 .andExpect(status().isForbidden());
     }
 
@@ -224,11 +232,13 @@ class PermissionRecruiterControllerTest {
         // Given
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("john")
+                        .password("password")
+                        .username("recruiter")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 

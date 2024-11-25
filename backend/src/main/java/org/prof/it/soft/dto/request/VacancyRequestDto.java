@@ -38,11 +38,11 @@ public final class VacancyRequestDto {
     private List<String> technologyStack;
 
     /**
-     * The id of the recruiter associated with the vacancy.
+     * The recruiter id of the vacancy, who created it.
      */
     @JsonProperty(value = "recruiter_id")
     @NotNull(groups = {Save.class, Update.class}, message = "Recruiter id is required")
-    private Long recruiterId;
+    private Long recruiterUserId;
 
     public interface Save {
     }

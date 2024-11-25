@@ -2,6 +2,7 @@ package org.prof.it.soft.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
@@ -14,20 +15,11 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Recruiter {
-
-    /**
-     * The primary key of the Recruiter entity.
-     */
-    @Id
-    @EqualsAndHashCode.Include
-    @SequenceGenerator(name = "recruiter_id_seq", sequenceName = "recruiters_seq_id", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recruiter_id_seq")
-    @Column(name = "id", columnDefinition = "bigint", nullable = false)
-    protected Long id;
+@DiscriminatorValue("RECRUITER")
+public class Recruiter extends Person {
 
     /**
      * The name of the company the recruiter works for.
@@ -42,37 +34,6 @@ public class Recruiter {
     @Builder.Default
     @ToString.Exclude
     protected Set<Vacancy> vacancies = new HashSet<>();
-
-    /**
-     * The person associated with the recruiter.
-     */
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "person_id")
-    @ToString.Exclude
-    protected Person person;
-
-    /**
-     * The timestamp when the recruiter entity was created.
-     */
-    @Column(name = "created_at", columnDefinition = "timestamp", nullable = false)
-    protected LocalDateTime createdAt;
-
-    /**
-     * The timestamp when the recruiter entity was last updated.
-     */
-    @Column(name = "updated_at", columnDefinition = "timestamp", nullable = false)
-    protected LocalDateTime updatedAt;
-
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = this.createdAt;
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
 
     /**
      * This method adds a vacancy to the recruiter's vacancies.

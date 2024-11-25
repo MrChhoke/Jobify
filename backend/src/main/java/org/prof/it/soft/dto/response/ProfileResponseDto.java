@@ -1,7 +1,6 @@
 package org.prof.it.soft.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.AllArgsConstructor;
@@ -17,6 +16,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ProfileResponseDto {
 
+    @JsonProperty(value = "user_id")
+    private Long userId;
+
     @JsonProperty(value = "username")
     private String username;
 
@@ -24,7 +26,6 @@ public class ProfileResponseDto {
     private String role;
 
     @JsonUnwrapped
-    @JsonIgnoreProperties({"id", "created_at", "updated_at"})
     private PersonResponseDto personResponseDto;
 
     @JsonProperty("created_at")

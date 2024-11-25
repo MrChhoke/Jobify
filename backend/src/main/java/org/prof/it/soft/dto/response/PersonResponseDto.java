@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,13 +21,8 @@ import java.time.LocalDateTime;
 })
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public final class PersonResponseDto {
-
-    /**
-     * The person's id.
-     */
-    @JsonProperty(value = "person_id")
-    private Long id;
 
     /**
      * The person's first name.
@@ -40,15 +36,4 @@ public final class PersonResponseDto {
     @JsonProperty(value = "last_name")
     private String lastName;
 
-    /**
-     * The date and time when the person was created.
-     */
-    @JsonProperty("created_at")
-    private LocalDateTime createdAt;
-
-    /**
-     * The date and time when the person was updated.
-     */
-    @JsonProperty("updated_at")
-    private LocalDateTime updatedAt;
 }

@@ -48,6 +48,9 @@ public class SpringSecurityConfig {
                     return corsConfiguration;
                 }))
                 .authorizeHttpRequests(request -> request
+                        /** Allow access only in dev mode */
+                        .requestMatchers("/api/v1/developers/**").authenticated()
+                        /** Allow access to production */
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/vacancy/{id}").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/vacancy/_list").permitAll()
@@ -55,9 +58,9 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/v1/vacancy/{id}").hasAnyAuthority(Permission.EDIT_VACANCY.toString())
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/vacancy/{id}").hasAnyAuthority(Permission.DELETE_VACANCY.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/recruiter/{id}").hasAnyAuthority(Permission.VIEW_RECRUITER.toString())
-                        .requestMatchers(HttpMethod.POST, "/api/v1/recruiter").hasAnyAuthority(Permission.CREATE_RECRUITER.toString())
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/recruiter/{id}").hasAnyAuthority(Permission.EDIT_RECRUITER.toString())
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/recruiter/{id}").hasAnyAuthority(Permission.DELETE_RECRUITER.toString())
+                        .requestMatchers(HttpMethod.POST, "/api/v1/recruiter/register").hasAnyAuthority(Permission.CREATE_RECRUITER.toString())
+                        //.requestMatchers(HttpMethod.PUT, "/api/v1/recruiter/{id}").hasAnyAuthority(Permission.EDIT_RECRUITER.toString())
+                        //.requestMatchers(HttpMethod.DELETE, "/api/v1/recruiter/{id}").hasAnyAuthority(Permission.DELETE_RECRUITER.toString())
                         .requestMatchers(HttpMethod.POST, "/api/v1/vacancy/{id}/apply").hasAnyAuthority(Permission.APPLY_VACANCY.toString())
                         .requestMatchers(HttpMethod.PUT, "/api/v1/profile/update").hasAnyAuthority(Permission.UPDATE_OWN_PROFILE.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/profile").hasAnyAuthority(Permission.GET_OWN_PROFILE.toString())

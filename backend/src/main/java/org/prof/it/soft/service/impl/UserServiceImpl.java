@@ -2,13 +2,18 @@ package org.prof.it.soft.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.hibernate.proxy.HibernateProxy;
+import org.prof.it.soft.dto.response.ProfileResponseDto;
 import org.prof.it.soft.dto.security.request.LoginRequestDto;
+import org.prof.it.soft.dto.security.request.RegistrationRecruiterRequestDto;
 import org.prof.it.soft.dto.security.request.RegistrationRequestDto;
 import org.prof.it.soft.dto.security.response.JwtTokenResponseDto;
+import org.prof.it.soft.entity.Person;
+import org.prof.it.soft.entity.Recruiter;
 import org.prof.it.soft.entity.security.Permission;
 import org.prof.it.soft.entity.security.User;
 import org.prof.it.soft.repo.UserRepository;
 import org.prof.it.soft.service.JwtService;
+import org.prof.it.soft.service.ProfileService;
 import org.prof.it.soft.service.UserService;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,6 +29,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final ProfileService profileService;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
 
@@ -46,7 +52,7 @@ public class UserServiceImpl implements UserService {
             throw new BadCredentialsException("User with such username already exists");
         }
 
-        User user = User.builder()
+        User user = Person.builder()
                 .username(registrationRequestDto.getUsername())
                 .password(registrationRequestDto.getPassword())
                 .accountNonExpired(true)
@@ -54,11 +60,38 @@ public class UserServiceImpl implements UserService {
                 .credentialsNonExpired(true)
                 .enabled(true)
                 .permissions(Permission.USER_PERMISSIONS)
+                .firstName(registrationRequestDto.getFirstName())
+                .lastName(registrationRequestDto.getLastName())
                 .build();
 
         save(user);
 
         return jwtService.generateTokenResponse(user);
+    }
+
+    public ProfileResponseDto registerRecruiter(RegistrationRecruiterRequestDto registrationRequestDto) {
+        Optional<User> maybeUser = userRepository.findByUsername(registrationRequestDto.getUsername());
+
+        if (maybeUser.isPresent()) {
+            throw new BadCredentialsException("User with such username already exists");
+        }
+
+        User user = Recruiter.builder()
+                .username(registrationRequestDto.getUsername())
+                .password(registrationRequestDto.getPassword())
+                .accountNonExpired(true)
+                .accountNonLocked(true)
+                .credentialsNonExpired(true)
+                .enabled(true)
+                .permissions(Permission.RECRUITER_PERMISSIONS)
+                .firstName(registrationRequestDto.getPerson().getFirstName())
+                .lastName(registrationRequestDto.getPerson().getLastName())
+                .companyName(registrationRequestDto.getCompanyName())
+                .build();
+
+        save(user);
+
+        return profileService.getProfile(user.getUsername());
     }
 
     @Override
@@ -120,7 +153,7 @@ public class UserServiceImpl implements UserService {
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> maybeUser = userRepository.findByUsername(username);
 
-        if (!StringUtils.hasText(username) ||  maybeUser.isEmpty()) {
+        if (!StringUtils.hasText(username) || maybeUser.isEmpty()) {
             throw new UsernameNotFoundException("User not found");
         }
 
