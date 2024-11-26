@@ -18,14 +18,16 @@ public final class PersonRequestDto {
      * The first name of the person.
      */
     @JsonProperty(value = "first_name")
-    @NotNull(groups = {Save.class, Update.class})
-    @NotBlank(groups = {Save.class, Update.class})
+    @NotNull(groups = {Save.class, Update.class}, message = "First name is required")
+    @NotBlank(groups = {Save.class, Update.class}, message = "First name is required")
     private String firstName;
 
     /**
      * The last name of the person.
      */
     @JsonProperty(value = "last_name")
+    @NotNull(groups = {Save.class, Update.class}, message = "Last name is required")
+    @NotBlank(groups = {Save.class, Update.class}, message = "Last name is required")
     private String lastName;
 
     /**

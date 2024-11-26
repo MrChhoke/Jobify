@@ -33,7 +33,7 @@ public class ProfileServiceImpl implements ProfileService {
         person.setPermissions(new HashSet<>(currentUser.getPermissions()));
         person.setFirstName(mappedPersonFromDto.getFirstName());
         person.setLastName(mappedPersonFromDto.getLastName());
-        userRepository.saveAndFlush(currentUser);
+        personRepository.saveAndFlush(person);
     }
 
     @Override
