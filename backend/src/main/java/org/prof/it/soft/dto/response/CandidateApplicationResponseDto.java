@@ -22,7 +22,7 @@ public class CandidateApplicationResponseDto {
     VacancyResponseDto vacancy;
 
     @JsonProperty("candidate")
-    @JsonIncludeProperties({"person_id", "firstName", "lastName"})
+    @JsonIncludeProperties({"first_name", "last_name"})
     PersonResponseDto candidate;
 
 }
