@@ -4,15 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.prof.it.soft.dto.response.CandidateApplicationResponseDto;
 import org.prof.it.soft.dto.response.ProfileResponseDto;
 import org.prof.it.soft.dto.security.request.RegistrationRecruiterRequestDto;
+import org.prof.it.soft.entity.security.User;
 import org.prof.it.soft.service.CandidateApplicationService;
 import org.prof.it.soft.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1/recruiter")
 @RequiredArgsConstructor
 public class RecruiterController {
@@ -22,6 +23,7 @@ public class RecruiterController {
 
     /**
      * Register a recruiter.
+     *
      * @param recruiterRequestDto The request dto for the recruiter.
      */
     @PostMapping("/register")
@@ -31,14 +33,15 @@ public class RecruiterController {
 
     /**
      * Get all applications which were sent to the recruiter.
-     * @param userId The id of the recruiter.
+     *
+     * @param user    - authenticated recruiter.
      * @param pageNum The page number for pagination.
      */
-    @GetMapping("/{id}/applications")
-    public ResponseEntity<Page<CandidateApplicationResponseDto>> getRecruiterVacancies(@PathVariable(name = "id") Long userId,
-                                                        @RequestParam Long pageNum) {
+    @GetMapping("/applications")
+    public ResponseEntity<Page<CandidateApplicationResponseDto>> getRecruiterApplications(@AuthenticationPrincipal User user,
+                                                                                          @RequestParam(defaultValue = "1") Long pageNum) {
         Page<CandidateApplicationResponseDto> candidateApplicationResponseDto =
-                candidateApplicationService.getCandidateApplicationsByRecruiterId(userId, pageNum);
+                candidateApplicationService.getCandidateApplicationsByRecruiterId(user.getId(), pageNum - 1);
         return ResponseEntity.ok(candidateApplicationResponseDto);
     }
 }
