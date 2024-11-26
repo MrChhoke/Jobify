@@ -65,4 +65,5 @@ public interface VacancyService {
 
     Page<VacancyResponseDto> getFilteredVacancies(VacancyFilterDto vacancyFilterDto, User user);
 
+    Page<VacancyResponseDto> getVacanciesByRecruiterId(Long recruiterId, Long pageNum);
 }

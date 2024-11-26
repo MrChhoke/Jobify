@@ -254,4 +254,10 @@ public class VacancyServiceImpl implements VacancyService {
         return vacancyRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Vacancy with id %d not found", id)));
     }
+
+    @Override
+    public Page<VacancyResponseDto> getVacanciesByRecruiterId(Long recruiterId, Long pageNum) {
+        return vacancyRepository.findAllByRecruiterId(recruiterId, PageRequest.of(pageNum.intValue(), 10))
+                .map(vacancy -> modelMapper.map(vacancy, VacancyResponseDto.class));
+    }
 }

@@ -30,4 +30,7 @@ public interface VacancyRepository extends JpaRepository<Vacancy, Long>, JpaSpec
             "FROM CandidateApplication ca " +
             "WHERE ca.vacancy.id = :vacancyId AND ca.person.id = :candidateId")
     boolean isVacancyIsAppliedByCandidate(Long vacancyId, Long candidateId);
+
+    @Query("SELECT v FROM Vacancy v WHERE v.recruiter.id = :recruiterId")
+    Page<Vacancy> findAllByRecruiterId(Long recruiterId, Pageable pageable);
 }
