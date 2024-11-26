@@ -1,0 +1,31 @@
+.add-vacancy-button {
+    font-family: var(--primary-font), sans-serif;
+    font-size: 1.4rem;
+    color: var(--white-color);
+    background-color: var(--button-green-color);
+    border-radius: 35px;
+    border: none;
+    height: 66px;
+    width: 220px;
+    margin-right: 60px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.add-vacancy-button:hover {
+    background-color: var(--button-hover-green-color) !important;
+}
+
+.vacancies-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.vacancy-item {
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background-color: var(--background-color);
+}

@@ -1,0 +1,11 @@
+/* User Dropdown Menu */
+.MuiMenu-paper {
+    width: 200px !important;
+    font-family: var(--primary-font), sans-serif !important;
+    font-size: 1.9rem !important;
+    color: var(--primary-dark-green-color) !important;
+    background-color: var(--page-background-color) !important;
+    margin-top: 10px !important;
+    border-radius: 23px !important;
+    transform-origin: top right !important; /* Adjust the origin to move the menu to the left */
+}
