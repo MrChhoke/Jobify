@@ -39,8 +39,9 @@ public class VacancyController {
      * @return The vacancy with the given id.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<VacancyResponseDto> getVacancyById(@PathVariable Long id) {
-        return ResponseEntity.ok(vacancyService.getResponseVacancyDtoById(id));
+    public ResponseEntity<VacancyResponseDto> getVacancyById(@PathVariable Long id,
+                                                             @AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(vacancyService.getResponseVacancyDtoById(id, user));
     }
 
     /**
@@ -87,14 +88,15 @@ public class VacancyController {
      * @return The vacancies that match the filter criteria.
      */
     @PostMapping(value = "_list", consumes = "application/json")
-    public ResponseEntity<Page<VacancyResponseDto>> getFilteredVacancies(@Validated(VacancyFilterDto.JsonResponse.class) @RequestBody VacancyFilterDto vacancyFilterDto) {
-        return ResponseEntity.ok(vacancyService.getFilteredVacancies(vacancyFilterDto));
+    public ResponseEntity<Page<VacancyResponseDto>> getFilteredVacancies(@Validated(VacancyFilterDto.JsonResponse.class) @RequestBody VacancyFilterDto vacancyFilterDto,
+                                                                         @AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(vacancyService.getFilteredVacancies(vacancyFilterDto, user));
     }
 
     /**
      * Apply for a vacancy.
      *
-     * @param id The id of the vacancy to apply for.
+     * @param id   The id of the vacancy to apply for.
      * @param user The user who is applying for the vacancy.
      * @return A message indicating that the application was created successfully.
      */
@@ -110,14 +112,14 @@ public class VacancyController {
      * Get the applications for a vacancy.
      *
      * @param vacancyId The id of the vacancy.
-     * @param pageNum The page number.
+     * @param pageNum   The page number.
      * @return The applications for the vacancy.
      */
     @GetMapping("/{id}/applications")
     public ResponseEntity<Page<CandidateApplicationResponseDto>> getVacancyApplications(@PathVariable(name = "id") Long vacancyId,
-                                                                                         @RequestParam Long pageNum) {
+                                                                                        @RequestParam(defaultValue = "1") Long pageNum) {
         Page<CandidateApplicationResponseDto> candidateApplicationResponseDto =
-                candidateApplicationService.getCandidateApplicationsByVacancyId(vacancyId, pageNum);
+                candidateApplicationService.getCandidateApplicationsByVacancyId(vacancyId, pageNum - 1);
         return ResponseEntity.ok(candidateApplicationResponseDto);
     }
 
@@ -125,12 +127,12 @@ public class VacancyController {
      * Get the applications for a person.
      *
      * @param personId The id of the person.
-     * @param pageNum The page number.
+     * @param pageNum  The page number.
      * @return The applications for the person.
      */
     @GetMapping("/person/{id}/applications")
     public ResponseEntity<Page<CandidateApplicationResponseDto>> getPersonApplications(@PathVariable(name = "id") Long personId,
-                                                                                         @RequestParam Long pageNum) {
+                                                                                       @RequestParam Long pageNum) {
         Page<CandidateApplicationResponseDto> candidateApplicationResponseDto =
                 candidateApplicationService.getCandidateApplicationsByPersonId(personId, pageNum);
         return ResponseEntity.ok(candidateApplicationResponseDto);
