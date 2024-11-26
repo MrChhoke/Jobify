@@ -12,10 +12,10 @@ import org.prof.it.soft.dto.request.VacancyRequestDto;
 import org.prof.it.soft.dto.response.VacancyResponseDto;
 import org.prof.it.soft.entity.Recruiter;
 import org.prof.it.soft.entity.Vacancy;
+import org.prof.it.soft.entity.security.User;
 import org.prof.it.soft.exception.NotFoundException;
 import org.prof.it.soft.repo.RecruiterRepository;
 import org.prof.it.soft.repo.VacancyRepository;
-import org.prof.it.soft.service.UserService;
 import org.prof.it.soft.service.VacancyService;
 import org.prof.it.soft.spec.VacancySpecification;
 import org.springframework.core.io.ByteArrayResource;
@@ -28,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -115,10 +117,23 @@ public class VacancyServiceImpl implements VacancyService {
      * @throws NotFoundException if the vacancy with the given id is not found
      */
     @Override
-    public VacancyResponseDto getResponseVacancyDtoById(Long vacancyId) {
-        return vacancyRepository.findById(vacancyId)
+    public VacancyResponseDto getResponseVacancyDtoById(Long vacancyId, User user) {
+        VacancyResponseDto vacancyResponseDto = vacancyRepository.findById(vacancyId)
                 .map(vacancy -> modelMapper.map(vacancy, VacancyResponseDto.class))
                 .orElseThrow(() -> new NotFoundException(String.format("Vacancy with id %d not found", vacancyId)));
+
+        if(Objects.nonNull(user)) {
+            boolean vacancyIsAppliedByCandidate =
+                    vacancyRepository.isVacancyIsAppliedByCandidate(vacancyId, user.getId());
+            vacancyResponseDto.setIsAppliedByCurrentUser(vacancyIsAppliedByCandidate);
+        }
+
+        return vacancyResponseDto;
+    }
+
+    @Override
+    public VacancyResponseDto getResponseVacancyDtoById(Long vacancyId) {
+        return getResponseVacancyDtoById(vacancyId, null);
     }
 
     /**
@@ -128,17 +143,32 @@ public class VacancyServiceImpl implements VacancyService {
      *                         page number is required,
      *                         page size is required,
      *                         the other fields are optional
+     * @param user the user who requested the vacancies
      * @return a page of all vacancies
      * @see org.prof.it.soft.dto.filter.VacancyFilterDto
      * @see org.springframework.data.domain.Page
      * @see VacancyResponseDto
      */
     @Override
-    public Page<VacancyResponseDto> getFilteredVacancies(VacancyFilterDto vacancyFilterDto) {
-        return vacancyRepository.findAll(VacancySpecification.of(vacancyFilterDto),
+    public Page<VacancyResponseDto> getFilteredVacancies(VacancyFilterDto vacancyFilterDto, User user) {
+        Page<VacancyResponseDto> vacancies = vacancyRepository.findAll(VacancySpecification.of(vacancyFilterDto),
                         PageRequest.of(vacancyFilterDto.getPage(), vacancyFilterDto.getSize(),
                                 Sort.by(Sort.Direction.ASC, "id")))
                 .map(vacancy -> modelMapper.map(vacancy, VacancyResponseDto.class));
+
+        if(Objects.nonNull(user)) {
+            Set<Long> ids = vacancyRepository.findAllVacancyIdAppliedByCandidate(user.getId());
+
+            vacancies.forEach(vacancy ->
+                    vacancy.setIsAppliedByCurrentUser(ids.contains(vacancy.getId())));
+        }
+
+        return vacancies;
+    }
+
+    @Override
+    public Page<VacancyResponseDto> getFilteredVacancies(VacancyFilterDto vacancyFilterDto) {
+        return getFilteredVacancies(vacancyFilterDto, null);
     }
 
     /**

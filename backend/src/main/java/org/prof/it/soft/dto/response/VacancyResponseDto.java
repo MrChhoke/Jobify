@@ -71,4 +71,12 @@ public final class VacancyResponseDto {
      */
     @JsonProperty("recruiter")
     private RecruiterResponseDto recruiter;
+
+    /**
+     * Indicates whether the current user has applied for the vacancy.
+     */
+    @JsonProperty("is_applied_by_current_user")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean isAppliedByCurrentUser;
+
 }
