@@ -5,7 +5,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.prof.it.soft.entity.Person;
 import org.prof.it.soft.entity.Recruiter;
 import org.prof.it.soft.entity.Vacancy;
 import org.prof.it.soft.integration.annotation.IT;
@@ -56,11 +55,11 @@ class VacancyControllerTest {
     void saveVacancy_shouldReturnOk_whenIdIsCorrect() throws Exception {
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -150,11 +149,11 @@ class VacancyControllerTest {
     void saveVacancy_shouldReturnOk_whenSalaryIsNull() throws Exception {
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -184,11 +183,11 @@ class VacancyControllerTest {
     void saveVacancy_shouldReturnOk_whenTechnologyStackIsEmpty() throws Exception {
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -215,11 +214,11 @@ class VacancyControllerTest {
     void saveVacancy_shouldReturnOk_whenTechnologyStackIsNull() throws Exception {
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -245,11 +244,11 @@ class VacancyControllerTest {
     void saveVacancy_shouldReturnBadRequest_whenPositionIsEmpty() throws Exception {
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -275,11 +274,11 @@ class VacancyControllerTest {
     void saveVacancy_shouldReturnBadRequest_whenSalaryIsNegative() throws Exception {
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -305,11 +304,11 @@ class VacancyControllerTest {
     void saveVacancy_shouldReturnBad_whenSalaryIsZero() throws Exception {
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -336,11 +335,11 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -364,9 +363,8 @@ class VacancyControllerTest {
                 .andExpect(jsonPath("$.technology_stack", hasSize(2)))
                 .andExpect(jsonPath("$.technology_stack", hasItem("Java")))
                 .andExpect(jsonPath("$.technology_stack", hasItem("Spring")))
-                .andExpect(jsonPath("$.recruiter.recruiter_id").value(savedRecruiter.getId()))
+                .andExpect(jsonPath("$.recruiter.recruiter_user_id").value(savedRecruiter.getId()))
                 .andExpect(jsonPath("$.recruiter.company_name").value("Google"))
-                .andExpect(jsonPath("$.recruiter.person_id").value(savedRecruiter.getPerson().getId()))
                 .andExpect(jsonPath("$.recruiter.first_name").value("Anna"))
                 .andExpect(jsonPath("$.recruiter.last_name").value("Petrov"));
     }
@@ -385,11 +383,11 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -452,11 +450,11 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -493,11 +491,11 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -533,11 +531,11 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -580,11 +578,11 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -621,11 +619,11 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -663,11 +661,11 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -728,11 +726,11 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -779,11 +777,11 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -829,9 +827,8 @@ class VacancyControllerTest {
                 .andExpect(jsonPath("$.content[0].technology_stack", hasSize(2)))
                 .andExpect(jsonPath("$.content[0].technology_stack", hasItem("Java")))
                 .andExpect(jsonPath("$.content[0].technology_stack", hasItem("Spring")))
-                .andExpect(jsonPath("$.content[0].recruiter.recruiter_id").value(savedRecruiter.getId()))
+                .andExpect(jsonPath("$.content[0].recruiter.recruiter_user_id").value(savedRecruiter.getId()))
                 .andExpect(jsonPath("$.content[0].recruiter.company_name").value("Google"))
-                .andExpect(jsonPath("$.content[0].recruiter.person_id").value(savedRecruiter.getPerson().getId()))
                 .andExpect(jsonPath("$.content[0].recruiter.first_name").value("Anna"))
                 .andExpect(jsonPath("$.content[0].recruiter.last_name").value("Petrov"))
                 .andExpect(jsonPath("$.content[1].vacancy_id").value(savedVacancy2.getId()))
@@ -841,9 +838,8 @@ class VacancyControllerTest {
                 .andExpect(jsonPath("$.content[1].technology_stack", hasSize(2)))
                 .andExpect(jsonPath("$.content[1].technology_stack", hasItem("Python")))
                 .andExpect(jsonPath("$.content[1].technology_stack", hasItem("Django")))
-                .andExpect(jsonPath("$.content[1].recruiter.recruiter_id").value(savedRecruiter.getId()))
+                .andExpect(jsonPath("$.content[1].recruiter.recruiter_user_id").value(savedRecruiter.getId()))
                 .andExpect(jsonPath("$.content[1].recruiter.company_name").value("Google"))
-                .andExpect(jsonPath("$.content[1].recruiter.person_id").value(savedRecruiter.getPerson().getId()))
                 .andExpect(jsonPath("$.content[1].recruiter.first_name").value("Anna"))
                 .andExpect(jsonPath("$.content[1].recruiter.last_name").value("Petrov"));
     }
@@ -853,11 +849,11 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -922,9 +918,8 @@ class VacancyControllerTest {
                 .andExpect(jsonPath("$.content[0].technology_stack", hasSize(2)))
                 .andExpect(jsonPath("$.content[0].technology_stack", hasItem("Java")))
                 .andExpect(jsonPath("$.content[0].technology_stack", hasItem("Spring")))
-                .andExpect(jsonPath("$.content[0].recruiter.recruiter_id").value(savedRecruiter.getId()))
+                .andExpect(jsonPath("$.content[0].recruiter.recruiter_user_id").value(savedRecruiter.getId()))
                 .andExpect(jsonPath("$.content[0].recruiter.company_name").value("Google"))
-                .andExpect(jsonPath("$.content[0].recruiter.person_id").value(savedRecruiter.getPerson().getId()))
                 .andExpect(jsonPath("$.content[0].recruiter.first_name").value("Anna"))
                 .andExpect(jsonPath("$.content[0].recruiter.last_name").value("Petrov"))
                 .andExpect(jsonPath("$.content[1].vacancy_id").value(savedVacancy3.getId()))
@@ -935,9 +930,8 @@ class VacancyControllerTest {
                 .andExpect(jsonPath("$.content[1].technology_stack", hasItem("Java")))
                 .andExpect(jsonPath("$.content[1].technology_stack", hasItem("Spring")))
                 .andExpect(jsonPath("$.content[1].technology_stack", hasItem("Hibernate")))
-                .andExpect(jsonPath("$.content[1].recruiter.recruiter_id").value(savedRecruiter.getId()))
+                .andExpect(jsonPath("$.content[1].recruiter.recruiter_user_id").value(savedRecruiter.getId()))
                 .andExpect(jsonPath("$.content[1].recruiter.company_name").value("Google"))
-                .andExpect(jsonPath("$.content[1].recruiter.person_id").value(savedRecruiter.getPerson().getId()))
                 .andExpect(jsonPath("$.content[1].recruiter.first_name").value("Anna"))
                 .andExpect(jsonPath("$.content[1].recruiter.last_name").value("Petrov"));
     }
@@ -947,11 +941,11 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -1020,9 +1014,8 @@ class VacancyControllerTest {
                 .andExpect(jsonPath("$.content[0].technology_stack", hasSize(2)))
                 .andExpect(jsonPath("$.content[0].technology_stack", hasItem("Java")))
                 .andExpect(jsonPath("$.content[0].technology_stack", hasItem("Spring")))
-                .andExpect(jsonPath("$.content[0].recruiter.recruiter_id").value(savedRecruiter.getId()))
+                .andExpect(jsonPath("$.content[0].recruiter.recruiter_user_id").value(savedRecruiter.getId()))
                 .andExpect(jsonPath("$.content[0].recruiter.company_name").value("Google"))
-                .andExpect(jsonPath("$.content[0].recruiter.person_id").value(savedRecruiter.getPerson().getId()))
                 .andExpect(jsonPath("$.content[0].recruiter.first_name").value("Anna"))
                 .andExpect(jsonPath("$.content[0].recruiter.last_name").value("Petrov"));
     }
@@ -1032,11 +1025,11 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -1104,9 +1097,8 @@ class VacancyControllerTest {
                 .andExpect(jsonPath("$.content[0].technology_stack", hasSize(2)))
                 .andExpect(jsonPath("$.content[0].technology_stack", hasItem("SQL")))
                 .andExpect(jsonPath("$.content[0].technology_stack", hasItem("PostgreSQL")))
-                .andExpect(jsonPath("$.content[0].recruiter.recruiter_id").value(savedRecruiter.getId()))
+                .andExpect(jsonPath("$.content[0].recruiter.recruiter_user_id").value(savedRecruiter.getId()))
                 .andExpect(jsonPath("$.content[0].recruiter.company_name").value("Google"))
-                .andExpect(jsonPath("$.content[0].recruiter.person_id").value(savedRecruiter.getPerson().getId()))
                 .andExpect(jsonPath("$.content[0].recruiter.first_name").value("Anna"))
                 .andExpect(jsonPath("$.content[0].recruiter.last_name").value("Petrov"));
     }
@@ -1116,21 +1108,21 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter1 = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
         Recruiter savedRecruiter2 = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("john")
+                        .password("password")
                         .companyName("Microsoft")
-                        .person(Person.builder()
-                                .firstName("John")
-                                .lastName("Smith")
-                                .build())
+                        .firstName("John")
+                        .lastName("Smith")
                         .build()
         );
 
@@ -1201,8 +1193,7 @@ class VacancyControllerTest {
                 .andExpect(jsonPath("$.content[0].technology_stack", hasItem("Hibernate")))
                 .andExpect(jsonPath("$.content[0].technology_stack", hasItem("PostgreSQL")))
                 .andExpect(jsonPath("$.content[0].recruiter.company_name").value("Microsoft"))
-                .andExpect(jsonPath("$.content[0].recruiter.recruiter_id").value(savedRecruiter2.getId()))
-                .andExpect(jsonPath("$.content[0].recruiter.person_id").value(savedRecruiter2.getPerson().getId()))
+                .andExpect(jsonPath("$.content[0].recruiter.recruiter_user_id").value(savedRecruiter2.getId()))
                 .andExpect(jsonPath("$.content[0].recruiter.first_name").value("John"))
                 .andExpect(jsonPath("$.content[0].recruiter.last_name").value("Smith"));
     }
@@ -1212,21 +1203,21 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter1 = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
         Recruiter savedRecruiter2 = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("john")
+                        .password("password")
                         .companyName("Microsoft")
-                        .person(Person.builder()
-                                .firstName("John")
-                                .lastName("Smith")
-                                .build())
+                        .firstName("John")
+                        .lastName("Smith")
                         .build()
         );
 
@@ -1296,8 +1287,7 @@ class VacancyControllerTest {
                 .andExpect(jsonPath("$.content[0].technology_stack", hasItem("PostgreSQL")))
                 .andExpect(jsonPath("$.content[0].technology_stack", hasItem("MySQL")))
                 .andExpect(jsonPath("$.content[0].recruiter.company_name").value("Microsoft"))
-                .andExpect(jsonPath("$.content[0].recruiter.recruiter_id").value(savedRecruiter2.getId()))
-                .andExpect(jsonPath("$.content[0].recruiter.person_id").value(savedRecruiter2.getPerson().getId()))
+                .andExpect(jsonPath("$.content[0].recruiter.recruiter_user_id").value(savedRecruiter2.getId()))
                 .andExpect(jsonPath("$.content[0].recruiter.first_name").value("John"))
                 .andExpect(jsonPath("$.content[0].recruiter.last_name").value("Smith"));
     }
@@ -1307,21 +1297,21 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter1 = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
         Recruiter savedRecruiter2 = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("john")
+                        .password("password")
                         .companyName("Microsoft")
-                        .person(Person.builder()
-                                .firstName("John")
-                                .lastName("Smith")
-                                .build())
+                        .firstName("John")
+                        .lastName("Smith")
                         .build()
         );
 
@@ -1407,8 +1397,8 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(1).getCell(4).getStringCellValue()).isEqualTo(savedRecruiter2.getCompanyName());
         assertThat(vacancySheet.getRow(1).getCell(5).getStringCellValue()).isEqualTo(savedVacancy4.getCreatedAt().toString());
         assertThat(vacancySheet.getRow(1).getCell(6).getNumericCellValue()).isEqualTo(savedRecruiter2.getId().doubleValue());
-        assertThat(vacancySheet.getRow(1).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter2.getPerson().getFirstName());
-        assertThat(vacancySheet.getRow(1).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter2.getPerson().getLastName());
+        assertThat(vacancySheet.getRow(1).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter2.getFirstName());
+        assertThat(vacancySheet.getRow(1).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter2.getLastName());
     }
 
     @Test
@@ -1416,21 +1406,21 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter1 = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
         Recruiter savedRecruiter2 = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("john")
+                        .password("password")
                         .companyName("Microsoft")
-                        .person(Person.builder()
-                                .firstName("John")
-                                .lastName("Smith")
-                                .build())
+                        .firstName("John")
+                        .lastName("Smith")
                         .build()
         );
 
@@ -1517,8 +1507,8 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(1).getCell(4).getStringCellValue()).isEqualTo(savedRecruiter2.getCompanyName());
         assertThat(vacancySheet.getRow(1).getCell(5).getStringCellValue()).isEqualTo(savedVacancy3.getCreatedAt().toString());
         assertThat(vacancySheet.getRow(1).getCell(6).getNumericCellValue()).isEqualTo(savedRecruiter2.getId().doubleValue());
-        assertThat(vacancySheet.getRow(1).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter2.getPerson().getFirstName());
-        assertThat(vacancySheet.getRow(1).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter2.getPerson().getLastName());
+        assertThat(vacancySheet.getRow(1).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter2.getFirstName());
+        assertThat(vacancySheet.getRow(1).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter2.getLastName());
 
         assertThat(vacancySheet.getRow(2).getCell(0).getNumericCellValue()).isEqualTo(savedVacancy4.getId().doubleValue());
         assertThat(vacancySheet.getRow(2).getCell(1).getStringCellValue()).isEqualTo(savedVacancy4.getPosition());
@@ -1527,8 +1517,8 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(2).getCell(4).getStringCellValue()).isEqualTo(savedRecruiter2.getCompanyName());
         assertThat(vacancySheet.getRow(2).getCell(5).getStringCellValue()).isEqualTo(savedVacancy4.getCreatedAt().toString());
         assertThat(vacancySheet.getRow(2).getCell(6).getNumericCellValue()).isEqualTo(savedRecruiter2.getId().doubleValue());
-        assertThat(vacancySheet.getRow(2).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter2.getPerson().getFirstName());
-        assertThat(vacancySheet.getRow(2).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter2.getPerson().getLastName());
+        assertThat(vacancySheet.getRow(2).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter2.getFirstName());
+        assertThat(vacancySheet.getRow(2).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter2.getLastName());
     }
 
     @Test
@@ -1536,11 +1526,11 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
@@ -1616,21 +1606,21 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter1 = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
         Recruiter savedRecruiter2 = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("john")
+                        .password("password")
                         .companyName("Microsoft")
-                        .person(Person.builder()
-                                .firstName("John")
-                                .lastName("Smith")
-                                .build())
+                        .firstName("John")
+                        .lastName("Smith")
                         .build()
         );
 
@@ -1727,8 +1717,8 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(1).getCell(4).getStringCellValue()).isEqualTo(savedRecruiter2.getCompanyName());
         assertThat(vacancySheet.getRow(1).getCell(5).getStringCellValue()).isEqualTo(savedVacancy3.getCreatedAt().toString());
         assertThat(vacancySheet.getRow(1).getCell(6).getNumericCellValue()).isEqualTo(savedRecruiter2.getId().doubleValue());
-        assertThat(vacancySheet.getRow(1).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter2.getPerson().getFirstName());
-        assertThat(vacancySheet.getRow(1).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter2.getPerson().getLastName());
+        assertThat(vacancySheet.getRow(1).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter2.getFirstName());
+        assertThat(vacancySheet.getRow(1).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter2.getLastName());
     }
 
     @Test
@@ -1736,21 +1726,21 @@ class VacancyControllerTest {
         // Given
         Recruiter savedRecruiter1 = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("anna")
+                        .password("password")
                         .companyName("Google")
-                        .person(Person.builder()
-                                .firstName("Anna")
-                                .lastName("Petrov")
-                                .build())
+                        .firstName("Anna")
+                        .lastName("Petrov")
                         .build()
         );
 
         Recruiter savedRecruiter2 = recruiterRepository.saveAndFlush(
                 Recruiter.builder()
+                        .username("john")
+                        .password("password")
                         .companyName("Microsoft")
-                        .person(Person.builder()
-                                .firstName("John")
-                                .lastName("Smith")
-                                .build())
+                        .firstName("John")
+                        .lastName("Smith")
                         .build()
         );
 
@@ -1829,8 +1819,8 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(1).getCell(4).getStringCellValue()).isEqualTo(savedRecruiter1.getCompanyName());
         assertThat(vacancySheet.getRow(1).getCell(5).getStringCellValue()).isEqualTo(savedVacancy1.getCreatedAt().toString());
         assertThat(vacancySheet.getRow(1).getCell(6).getNumericCellValue()).isEqualTo(savedRecruiter1.getId().doubleValue());
-        assertThat(vacancySheet.getRow(1).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter1.getPerson().getFirstName());
-        assertThat(vacancySheet.getRow(1).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter1.getPerson().getLastName());
+        assertThat(vacancySheet.getRow(1).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter1.getFirstName());
+        assertThat(vacancySheet.getRow(1).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter1.getLastName());
 
         assertThat(vacancySheet.getRow(2).getCell(0).getNumericCellValue()).isEqualTo(savedVacancy2.getId().doubleValue());
         assertThat(vacancySheet.getRow(2).getCell(1).getStringCellValue()).isEqualTo(savedVacancy2.getPosition());
@@ -1839,8 +1829,8 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(2).getCell(4).getStringCellValue()).isEqualTo(savedRecruiter1.getCompanyName());
         assertThat(vacancySheet.getRow(2).getCell(5).getStringCellValue()).isEqualTo(savedVacancy2.getCreatedAt().toString());
         assertThat(vacancySheet.getRow(2).getCell(6).getNumericCellValue()).isEqualTo(savedRecruiter1.getId().doubleValue());
-        assertThat(vacancySheet.getRow(2).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter1.getPerson().getFirstName());
-        assertThat(vacancySheet.getRow(2).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter1.getPerson().getLastName());
+        assertThat(vacancySheet.getRow(2).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter1.getFirstName());
+        assertThat(vacancySheet.getRow(2).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter1.getLastName());
 
         assertThat(vacancySheet.getRow(3).getCell(0).getNumericCellValue()).isEqualTo(savedVacancy3.getId().doubleValue());
         assertThat(vacancySheet.getRow(3).getCell(1).getStringCellValue()).isEqualTo(savedVacancy3.getPosition());
@@ -1849,8 +1839,8 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(3).getCell(4).getStringCellValue()).isEqualTo(savedRecruiter2.getCompanyName());
         assertThat(vacancySheet.getRow(3).getCell(5).getStringCellValue()).isEqualTo(savedVacancy3.getCreatedAt().toString());
         assertThat(vacancySheet.getRow(3).getCell(6).getNumericCellValue()).isEqualTo(savedRecruiter2.getId().doubleValue());
-        assertThat(vacancySheet.getRow(3).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter2.getPerson().getFirstName());
-        assertThat(vacancySheet.getRow(3).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter2.getPerson().getLastName());
+        assertThat(vacancySheet.getRow(3).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter2.getFirstName());
+        assertThat(vacancySheet.getRow(3).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter2.getLastName());
 
         assertThat(vacancySheet.getRow(4).getCell(0).getNumericCellValue()).isEqualTo(savedVacancy4.getId().doubleValue());
         assertThat(vacancySheet.getRow(4).getCell(1).getStringCellValue()).isEqualTo(savedVacancy4.getPosition());
@@ -1859,7 +1849,7 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(4).getCell(4).getStringCellValue()).isEqualTo(savedRecruiter2.getCompanyName());
         assertThat(vacancySheet.getRow(4).getCell(5).getStringCellValue()).isEqualTo(savedVacancy4.getCreatedAt().toString());
         assertThat(vacancySheet.getRow(4).getCell(6).getNumericCellValue()).isEqualTo(savedRecruiter2.getId().doubleValue());
-        assertThat(vacancySheet.getRow(4).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter2.getPerson().getFirstName());
-        assertThat(vacancySheet.getRow(4).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter2.getPerson().getLastName());
+        assertThat(vacancySheet.getRow(4).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter2.getFirstName());
+        assertThat(vacancySheet.getRow(4).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter2.getLastName());
     }
 }

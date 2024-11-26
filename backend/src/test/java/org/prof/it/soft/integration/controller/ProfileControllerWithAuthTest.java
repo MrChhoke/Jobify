@@ -39,7 +39,9 @@ public class ProfileControllerWithAuthTest {
         String request = """
                 {
                     "username": "test",
-                    "password": "test"
+                    "password": "test",
+                    "first_name": "John",
+                    "last_name": "Doe"
                 }
                 """;
 
@@ -75,7 +77,9 @@ public class ProfileControllerWithAuthTest {
         String request = """
                 {
                     "username": "test",
-                    "password": "test"
+                    "password": "test",
+                    "first_name": "John",
+                    "last_name": "Doe"
                 }
                 """;
 

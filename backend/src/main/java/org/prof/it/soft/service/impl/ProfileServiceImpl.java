@@ -27,17 +27,12 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void updateProfile(ProfileRequestDto profileRequestDto, User currentUser) {
-        Person mappedPerson = modelMapper.map(profileRequestDto.getPerson(), Person.class);
+        Person mappedPersonFromDto = modelMapper.map(profileRequestDto.getPerson(), Person.class);
+        Person person = personRepository.getReferenceById(currentUser.getId());
 
-        if (Objects.nonNull(currentUser.getPerson())) {
-            mappedPerson.setId(currentUser.getPerson().getId());
-            mappedPerson.setCreatedAt(currentUser.getPerson().getCreatedAt());
-        } else {
-            mappedPerson = personRepository.saveAndFlush(mappedPerson);
-        }
-
-        currentUser.setPermissions(new HashSet<>(currentUser.getPermissions()));
-        currentUser.setPerson(mappedPerson);
+        person.setPermissions(new HashSet<>(currentUser.getPermissions()));
+        person.setFirstName(mappedPersonFromDto.getFirstName());
+        person.setLastName(mappedPersonFromDto.getLastName());
         userRepository.saveAndFlush(currentUser);
     }
 
@@ -49,13 +44,18 @@ public class ProfileServiceImpl implements ProfileService {
             throw new NotFoundException(String.format("User with username %s not found", username));
         }
 
-        User user = maybeUser.get();
+        Person person = personRepository.getReferenceById(maybeUser.get().getId());
 
         return ProfileResponseDto.builder()
-                .username(user.getUsername())
-                .role(getRoleByPermissions(user.getPermissions()))
-                .createdAt(user.getPerson().getCreatedAt())
-                .personResponseDto(modelMapper.map(user.getPerson(), PersonResponseDto.class))
+                .userId(person.getId())
+                .username(person.getUsername())
+                .role(getRoleByPermissions(person.getPermissions()))
+                .createdAt(person.getCreatedAt())
+                .personResponseDto(
+                        PersonResponseDto.builder()
+                                .firstName(person.getFirstName())
+                                .lastName(person.getLastName())
+                                .build())
                 .build();
     }
 

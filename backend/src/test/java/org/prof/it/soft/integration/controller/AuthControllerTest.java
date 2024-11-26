@@ -147,7 +147,9 @@ class AuthControllerTest {
         String request = """
                 {
                     "username": "test",
-                    "password": "test"
+                    "password": "test",
+                    "first_name": "test",
+                    "last_name": "test"
                 }
                 """;
 
@@ -220,7 +222,9 @@ class AuthControllerTest {
         String request = """
                 {
                     "username": "test",
-                    "password": "test"
+                    "password": "test",
+                    "first_name": "test",
+                    "last_name": "test"
                 }
                 """;
 

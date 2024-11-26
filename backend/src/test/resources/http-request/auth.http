@@ -3,8 +3,10 @@ POST http://localhost:8080/api/v1/auth/register
 Content-Type: application/json
 
 {
-  "username": "user",
-  "password": "password"
+  "username": "recruiter",
+  "password": "recruiter",
+  "first_name": "Recruiter",
+  "last_name": "Bondar"
 }
 
 ### Login
@@ -15,3 +17,23 @@ Content-Type: application/json
   "username": "user",
   "password": "password"
 }
+
+###
+PUT http://localhost:8080/api/v1/profile/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbIkFQUExZX1ZBQ0FOQ1kiLCJWSUVXX1ZBQ0FOQ1kiLCJVUERBVEVfT1dOX1BST0ZJTEUiLCJHRVRfT1dOX1BST0ZJTEUiXSwiaWQiOjIsImVtYWlsIjoidXNlcjEyIiwic3ViIjoidXNlcjEyIiwiaWF0IjoxNzMyNDgzODk3LCJleHAiOjE3MzI0ODk4OTd9.PmMghfQeBcdEgUdtf1MJxrda10n4QMu0QM-WMi2mKd8
+
+{
+  "first_name": "Vladyslav",
+  "last_name": "Koval"
+}
+
+###
+PUT http://localhost:8080/api/v1/developers/update-to-recruiter
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbIlVQREFURV9PV05fUFJPRklMRSIsIlZJRVdfVkFDQU5DWSIsIkdFVF9PV05fUFJPRklMRSIsIkFQUExZX1ZBQ0FOQ1kiXSwiaWQiOjEsImVtYWlsIjoicmVjcnVpdGVyIiwic3ViIjoicmVjcnVpdGVyIiwiaWF0IjoxNzMyNDg1NDQzLCJleHAiOjE3MzI0OTE0NDN9.Wvo83U89vb4WKfqr2QtI-rVKv4d0ceiBT9EDoPYX0Os
+
+###
+GET http://localhost:8080/api/v1/profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbIlVQREFURV9PV05fUFJPRklMRSIsIlZJRVdfVkFDQU5DWSIsIkdFVF9PV05fUFJPRklMRSIsIkFQUExZX1ZBQ0FOQ1kiXSwiaWQiOjEsImVtYWlsIjoicmVjcnVpdGVyIiwic3ViIjoicmVjcnVpdGVyIiwiaWF0IjoxNzMyNDg1NDQzLCJleHAiOjE3MzI0OTE0NDN9.Wvo83U89vb4WKfqr2QtI-rVKv4d0ceiBT9EDoPYX0Os
