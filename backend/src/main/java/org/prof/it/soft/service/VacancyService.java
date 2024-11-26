@@ -3,6 +3,7 @@ package org.prof.it.soft.service;
 import org.prof.it.soft.dto.filter.VacancyFilterDto;
 import org.prof.it.soft.dto.request.VacancyRequestDto;
 import org.prof.it.soft.dto.response.VacancyResponseDto;
+import org.prof.it.soft.entity.security.User;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 
@@ -50,6 +51,8 @@ public interface VacancyService {
      */
     VacancyResponseDto getResponseVacancyDtoById(Long vacancyId);
 
+    VacancyResponseDto getResponseVacancyDtoById(Long vacancyId, User user);
+
     /**
      * Generates a report in Excel format based on the specified filter.
      *
@@ -59,5 +62,7 @@ public interface VacancyService {
     Resource generateReportExcel(VacancyFilterDto vacancyFilterDto);
 
     Page<VacancyResponseDto> getFilteredVacancies(VacancyFilterDto vacancyFilterDto);
+
+    Page<VacancyResponseDto> getFilteredVacancies(VacancyFilterDto vacancyFilterDto, User user);
 
 }
