@@ -57,6 +57,11 @@ public enum Permission implements GrantedAuthority {
     VIEW_RECRUITER_OWN_APPLICATIONS,
 
     /**
+     * The permission to view recruiter own vacancies.
+     */
+    VIEW_RECRUITER_OWN_VACANCIES,
+
+    /**
      * The permission to generate a vacancy report.
      */
     GENERATE_VACANCY_REPORT,
@@ -97,7 +102,8 @@ public enum Permission implements GrantedAuthority {
             DELETE_VACANCY,
             GET_OWN_PROFILE,
             UPDATE_OWN_PROFILE,
-            VIEW_RECRUITER_OWN_APPLICATIONS
+            VIEW_RECRUITER_OWN_APPLICATIONS,
+            VIEW_RECRUITER_OWN_VACANCIES
     );
 
     public static final Set<Permission> ADMIN_PERMISSIONS = Set.of(

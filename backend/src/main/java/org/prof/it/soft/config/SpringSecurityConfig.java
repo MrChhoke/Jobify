@@ -57,6 +57,7 @@ public class SpringSecurityConfig {
                         //.requestMatchers(HttpMethod.GET, "/api/v1/recruiter/{id}").hasAnyAuthority(Permission.VIEW_RECRUITER.toString())
                         .requestMatchers(HttpMethod.POST, "/api/v1/recruiter/register").hasAnyAuthority(Permission.CREATE_RECRUITER.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/recruiter/applications").hasAnyAuthority(Permission.VIEW_RECRUITER_OWN_APPLICATIONS.toString())
+                        .requestMatchers(HttpMethod.GET, "/api/v1/recruiter/vacancies").hasAnyAuthority(Permission.VIEW_RECRUITER_OWN_VACANCIES.toString())
                         //.requestMatchers(HttpMethod.PUT, "/api/v1/recruiter/{id}").hasAnyAuthority(Permission.EDIT_RECRUITER.toString())
                         //.requestMatchers(HttpMethod.DELETE, "/api/v1/recruiter/{id}").hasAnyAuthority(Permission.DELETE_RECRUITER.toString())
                         .requestMatchers(HttpMethod.POST, "/api/v1/vacancy/{id}/apply").hasAnyAuthority(Permission.APPLY_VACANCY.toString())
