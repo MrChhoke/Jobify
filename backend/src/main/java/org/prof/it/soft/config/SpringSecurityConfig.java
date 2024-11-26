@@ -11,12 +11,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.core.GrantedAuthorityDefaults;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -57,14 +54,14 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/vacancy").hasAnyAuthority(Permission.CREATE_VACANCY.toString())
                         .requestMatchers(HttpMethod.PUT, "/api/v1/vacancy/{id}").hasAnyAuthority(Permission.EDIT_VACANCY.toString())
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/vacancy/{id}").hasAnyAuthority(Permission.DELETE_VACANCY.toString())
-                        .requestMatchers(HttpMethod.GET, "/api/v1/recruiter/{id}").hasAnyAuthority(Permission.VIEW_RECRUITER.toString())
+                        //.requestMatchers(HttpMethod.GET, "/api/v1/recruiter/{id}").hasAnyAuthority(Permission.VIEW_RECRUITER.toString())
                         .requestMatchers(HttpMethod.POST, "/api/v1/recruiter/register").hasAnyAuthority(Permission.CREATE_RECRUITER.toString())
+                        .requestMatchers(HttpMethod.GET, "/api/v1/recruiter/applications").hasAnyAuthority(Permission.VIEW_RECRUITER_OWN_APPLICATIONS.toString())
                         //.requestMatchers(HttpMethod.PUT, "/api/v1/recruiter/{id}").hasAnyAuthority(Permission.EDIT_RECRUITER.toString())
                         //.requestMatchers(HttpMethod.DELETE, "/api/v1/recruiter/{id}").hasAnyAuthority(Permission.DELETE_RECRUITER.toString())
                         .requestMatchers(HttpMethod.POST, "/api/v1/vacancy/{id}/apply").hasAnyAuthority(Permission.APPLY_VACANCY.toString())
                         .requestMatchers(HttpMethod.PUT, "/api/v1/profile/update").hasAnyAuthority(Permission.UPDATE_OWN_PROFILE.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/profile").hasAnyAuthority(Permission.GET_OWN_PROFILE.toString())
-                        .requestMatchers(HttpMethod.GET, "/api/v1/recruiter/{id}/applications").hasAnyAuthority(Permission.VIEW_RECRUITER_APPLICATIONS.toString())
                         .requestMatchers(HttpMethod.POST, "/api/v1/vacancy/_report").hasAnyAuthority(Permission.GENERATE_VACANCY_REPORT.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/vacancy/{id}/applications").hasAnyAuthority(Permission.VIEW_VACANCY_APPLICATIONS.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/vacancy/person/{id}/applications").hasAnyAuthority(Permission.VIEW_PERSON_APPLICATIONS.toString())
