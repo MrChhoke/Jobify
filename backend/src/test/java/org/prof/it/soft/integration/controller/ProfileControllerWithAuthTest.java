@@ -55,7 +55,7 @@ public class ProfileControllerWithAuthTest {
         String updateRequest = """
                 {
                     "first_name": "John",
-                    "last_name": "Doe"
+                    "last_name": "Vstup"
                 }
                 """;
 
@@ -67,7 +67,7 @@ public class ProfileControllerWithAuthTest {
                 .andExpect(jsonPath("$.username").value("test"))
                 .andExpect(jsonPath("$.role").value("USER"))
                 .andExpect(jsonPath("$.first_name").value("John"))
-                .andExpect(jsonPath("$.last_name").value("Doe"));
+                .andExpect(jsonPath("$.last_name").value("Vstup"));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class ProfileControllerWithAuthTest {
         String updateRequest = """
                 {
                     "first_name": "John",
-                    "last_name": "Doe"
+                    "last_name": "Papa"
                 }
                 """;
 
@@ -104,7 +104,7 @@ public class ProfileControllerWithAuthTest {
                 .andExpect(jsonPath("$.username").value("test"))
                 .andExpect(jsonPath("$.role").value("USER"))
                 .andExpect(jsonPath("$.first_name").value("John"))
-                .andExpect(jsonPath("$.last_name").value("Doe"));
+                .andExpect(jsonPath("$.last_name").value("Papa"));
 
         // When
         updateRequest = """
@@ -123,5 +123,44 @@ public class ProfileControllerWithAuthTest {
                 .andExpect(jsonPath("$.role").value("USER"))
                 .andExpect(jsonPath("$.first_name").value("Petro"))
                 .andExpect(jsonPath("$.last_name").value("Mostavs"));
+    }
+
+    @Test
+    @Order(3)
+    public void testUpdate_forSystemAdministrator() throws Exception {
+        // Given
+        String request = """
+                {
+                    "username": "admin",
+                    "password": "admin",
+                    "first_name": "System",
+                    "last_name": "Administrator"
+                }
+                """;
+
+        String token = JsonPath.read(mockMvc.perform(post("/api/v1/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(request))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString(), "$.token");
+
+        // When
+        String updateRequest = """
+                {
+                    "first_name": "John",
+                    "last_name": "Doe"
+                }
+                """;
+
+        mockMvc.perform(put("/api/v1/profile/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token)
+                        .content(updateRequest))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.username").value("admin"))
+                .andExpect(jsonPath("$.role").value("USER"))
+                .andExpect(jsonPath("$.first_name").value("John"))
+                .andExpect(jsonPath("$.last_name").value("Doe"));
+
     }
 }
