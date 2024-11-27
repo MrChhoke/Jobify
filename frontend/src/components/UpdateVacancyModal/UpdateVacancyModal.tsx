@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Button, Modal, TextField} from '@mui/material';
 import {Vacancy} from '../../models/Vacancy';
+import {getProfile} from '../../services/ProfileService'; // Import the function to fetch recruiter_id
 
 interface UpdateVacancyModalProps {
     open: boolean;
@@ -10,26 +11,43 @@ interface UpdateVacancyModalProps {
 }
 
 const UpdateVacancyModal: React.FC<UpdateVacancyModalProps> = ({open, onClose, vacancy, onUpdate}) => {
-    const [formData, setFormData] = useState<Vacancy | null>(null);
+    const [formData, setFormData] = useState<Partial<Vacancy>>({});
+    const [recruiterId, setRecruiterId] = useState<string | null>(null);
 
     useEffect(() => {
         if (vacancy) {
-            setFormData(vacancy);
+            setFormData({
+                position: vacancy.position,
+                salary: vacancy.salary,
+                technology_stack: vacancy.technology_stack,
+            });
         }
     }, [vacancy]);
 
+    useEffect(() => {
+        const fetchRecruiterId = async () => {
+            try {
+                const profile = await getProfile();
+                setRecruiterId(profile.user_id.toString());
+            } catch (error) {
+                console.error('Error fetching recruiter ID:', error);
+            }
+        };
+
+        fetchRecruiterId();
+    }, []);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (formData) {
-            setFormData({
-                ...formData,
-                [e.target.name]: e.target.value,
-            });
-        }
+        const {name, value} = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value,
+        }));
     };
 
     const handleSubmit = () => {
-        if (formData) {
-            onUpdate(formData);
+        if (formData && recruiterId) {
+            onUpdate({...formData, recruiter_id: Number(recruiterId)} as Vacancy);
             onClose();
         }
     };
@@ -41,7 +59,7 @@ const UpdateVacancyModal: React.FC<UpdateVacancyModalProps> = ({open, onClose, v
                 <TextField
                     label="Position"
                     name="position"
-                    value={formData?.position || ''}
+                    value={formData.position || ''}
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
@@ -49,7 +67,7 @@ const UpdateVacancyModal: React.FC<UpdateVacancyModalProps> = ({open, onClose, v
                 <TextField
                     label="Salary"
                     name="salary"
-                    value={formData?.salary || ''}
+                    value={formData.salary || ''}
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
@@ -57,7 +75,7 @@ const UpdateVacancyModal: React.FC<UpdateVacancyModalProps> = ({open, onClose, v
                 <TextField
                     label="Technology Stack"
                     name="technology_stack"
-                    value={formData?.technology_stack.join(', ') || ''}
+                    value={formData.technology_stack?.join(', ') || ''}
                     onChange={handleChange}
                     fullWidth
                     margin="normal"

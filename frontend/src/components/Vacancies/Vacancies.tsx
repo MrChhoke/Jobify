@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Typography} from '@mui/material';
-import {getAllVacancies} from '../../services/VacancyService';
+import {applyVacancyById, exportVacanciesToExcel, getAllVacancies} from '../../services/VacancyService';
 import {Vacancy} from '../../models/Vacancy';
 import './Vacancies.css';
 import staticImage from "../../assets/jobIcon.png";
@@ -10,7 +10,7 @@ interface VacanciesProps {
     user: { isAuthenticated: boolean; role: string };
 }
 
-const Vacancies: React.FC<VacanciesProps> = () => {
+const Vacancies: React.FC<VacanciesProps> = ({user}) => {
     const [vacancies, setVacancies] = useState<Vacancy[]>([]);
     const [selectedVacancyId, setSelectedVacancyId] = useState<number | null>(null);
 
@@ -31,9 +31,22 @@ const Vacancies: React.FC<VacanciesProps> = () => {
         fetchVacancies();
     }, []);
 
-    const handleExportToExcel = () => {
-        // Implement the export to Excel functionality here
-        console.log('Export to Excel');
+    const handleExportToExcel = async () => {
+        try {
+            await exportVacanciesToExcel();
+            console.log('Export to Excel successful');
+        } catch (error) {
+            console.error('Error exporting to Excel:', error);
+        }
+    };
+
+    const handleApplyVacancy = async (id: number) => {
+        try {
+            await applyVacancyById(id);
+            console.log(`Applied to vacancy ID: ${id}`);
+        } catch (error) {
+            console.error(`Error applying to vacancy ID: ${id}`, error);
+        }
     };
 
     return (
@@ -67,6 +80,9 @@ const Vacancies: React.FC<VacanciesProps> = () => {
                                         Salary: ${vacancy.salary}
                                     </div>
                                     <p>Technologies: {vacancy.technology_stack ? vacancy.technology_stack.join(', ') : 'N/A'}</p>
+                                    <button onClick={() => handleApplyVacancy(vacancy.vacancy_id ?? 0)}>
+                                        Відгукнутися
+                                    </button>
                                 </div>
                             </div>
                         ))
@@ -76,9 +92,11 @@ const Vacancies: React.FC<VacanciesProps> = () => {
                 </div>
             </div>
             <div className="export-column">
-                <div className="export-excel" onClick={handleExportToExcel}>
-                    Експортувати в Excel <i className="fas fa-file-excel"></i>
-                </div>
+                {user.role === 'ADMIN' && (
+                    <div className="export-excel" onClick={handleExportToExcel}>
+                        Експортувати в Excel <i className="fas fa-file-excel"></i>
+                    </div>
+                )}
             </div>
         </Box>
     );
