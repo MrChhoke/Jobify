@@ -122,7 +122,7 @@ public class VacancyServiceImpl implements VacancyService {
                 .map(vacancy -> modelMapper.map(vacancy, VacancyResponseDto.class))
                 .orElseThrow(() -> new NotFoundException(String.format("Vacancy with id %d not found", vacancyId)));
 
-        if(Objects.nonNull(user)) {
+        if (Objects.nonNull(user)) {
             boolean vacancyIsAppliedByCandidate =
                     vacancyRepository.isVacancyIsAppliedByCandidate(vacancyId, user.getId());
             vacancyResponseDto.setIsAppliedByCurrentUser(vacancyIsAppliedByCandidate);
@@ -143,7 +143,7 @@ public class VacancyServiceImpl implements VacancyService {
      *                         page number is required,
      *                         page size is required,
      *                         the other fields are optional
-     * @param user the user who requested the vacancies
+     * @param user             the user who requested the vacancies
      * @return a page of all vacancies
      * @see org.prof.it.soft.dto.filter.VacancyFilterDto
      * @see org.springframework.data.domain.Page
@@ -156,7 +156,7 @@ public class VacancyServiceImpl implements VacancyService {
                                 Sort.by(Sort.Direction.ASC, "id")))
                 .map(vacancy -> modelMapper.map(vacancy, VacancyResponseDto.class));
 
-        if(Objects.nonNull(user)) {
+        if (Objects.nonNull(user)) {
             Set<Long> ids = vacancyRepository.findAllVacancyIdAppliedByCandidate(user.getId());
 
             vacancies.forEach(vacancy ->
@@ -207,35 +207,29 @@ public class VacancyServiceImpl implements VacancyService {
 
             // create header row
             Row headerRow = vacanciesSheet.createRow(rowNum++);
-            headerRow.createCell(cellNum++).setCellValue("Vacancy ID");
-            headerRow.createCell(cellNum++).setCellValue("Position");
-            headerRow.createCell(cellNum++).setCellValue("Salary");
-            headerRow.createCell(cellNum++).setCellValue("Technology Stack");
-            headerRow.createCell(cellNum++).setCellValue("Company Name");
-            headerRow.createCell(cellNum++).setCellValue("Created At");
-            headerRow.createCell(cellNum++).setCellValue("Recruiter_id");
-            headerRow.createCell(cellNum++).setCellValue("Recruiter First Name");
-            headerRow.createCell(cellNum++).setCellValue("Recruiter Last Name");
+            String[] headers = {"Vacancy ID", "Position", "Salary", "Technology Stack", "Company Name",
+                    "Created At", "Recruiter_id", "Recruiter First Name", "Recruiter Last Name", "Recruiter company"};
+            for (int i = 0; i < headers.length; i++) {
+                headerRow.createCell(i).setCellValue(headers[i]);
+            }
 
             // create data rows for all filtered vacancies
             for (Vacancy vacancy : filterVacancies) {
-                cellNum = 0;
                 Row row = vacanciesSheet.createRow(rowNum++);
-                row.createCell(cellNum++).setCellValue(vacancy.getId());
-                row.createCell(cellNum++).setCellValue(vacancy.getPosition());
-                // check if salary is not null
-                // if salary is null - skip cell
+                row.createCell(0).setCellValue(vacancy.getId());
+                row.createCell(1).setCellValue(vacancy.getPosition());
                 if (vacancy.getSalary() != null) {
-                    row.createCell(cellNum++).setCellValue(vacancy.getSalary());
-                } else {
-                    cellNum++;
+                    row.createCell(2).setCellValue(vacancy.getSalary());
                 }
-                row.createCell(cellNum++).setCellValue(String.join(", ", vacancy.getTechnologyStack()));
-                row.createCell(cellNum++).setCellValue(vacancy.getRecruiter().getCompanyName());
-                row.createCell(cellNum++).setCellValue(vacancy.getCreatedAt().toString());
-                row.createCell(cellNum++).setCellValue(vacancy.getRecruiter().getId());
-                row.createCell(cellNum++).setCellValue(vacancy.getRecruiter().getFirstName());
-                row.createCell(cellNum).setCellValue(vacancy.getRecruiter().getLastName());
+                row.createCell(3).setCellValue(String.join(", ", vacancy.getTechnologyStack()));
+                row.createCell(4).setCellValue(vacancy.getRecruiter().getCompanyName());
+                row.createCell(5).setCellValue(vacancy.getCreatedAt().toString());
+                row.createCell(6).setCellValue(vacancy.getRecruiter().getId());
+                row.createCell(7).setCellValue(vacancy.getRecruiter().getFirstName());
+                row.createCell(8).setCellValue(vacancy.getRecruiter().getLastName());
+                if (vacancy.getRecruiter().getCompanyName() != null) {
+                    row.createCell(9).setCellValue(vacancy.getRecruiter().getCompanyName());
+                }
             }
             workbook.write(outputStream);
             return new ByteArrayResource(outputStream.toByteArray());
