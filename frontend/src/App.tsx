@@ -47,20 +47,20 @@ function App() {
                     <Routes>
                         <Route path="/profile" element={<Profile/>}/>
                         <Route path="/my-vacancies" element={<MyVacancies handleOpenModal={handleOpenModal} user={user}/>}/>
-                        <Route path="/vacancies" element={
-                            <>
-                                <Box display="flex" alignItems="center">
-                                    <Search/>
-                                </Box>
-                                <Vacancies/>
-                            </>
-                        }/>
                         <Route path="/" element={
                             <>
                                 <Box display="flex" alignItems="center">
                                     <Search/>
                                 </Box>
-                                <Vacancies/>
+                                <Vacancies handleOpenModal={handleOpenModal} user={user}/>
+                            </>
+                        }/>
+                        <Route path="/vacancies" element={
+                            <>
+                                <Box display="flex" alignItems="center">
+                                    <Search/>
+                                </Box>
+                                <Vacancies handleOpenModal={handleOpenModal} user={user}/>
                             </>
                         }/>
                         {/* Add other routes here */}

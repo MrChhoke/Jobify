@@ -12,7 +12,6 @@ interface CreateVacancyModalProps {
 
 const CreateVacancyModal: React.FC<CreateVacancyModalProps> = ({open, onClose}) => {
     const [position, setPosition] = useState('');
-    const [company, setCompany] = useState('');
     const [salary, setSalary] = useState('');
     const [technology, setTechnology] = useState('');
     const [technologyStack, setTechnologyStack] = useState<string[]>([]);
@@ -22,16 +21,13 @@ const CreateVacancyModal: React.FC<CreateVacancyModalProps> = ({open, onClose}) 
         const fetchProfile = async () => {
             try {
                 const profile = await getProfile();
-                console.log('Profile data:', profile); // Debug log
                 setRecruiterId(profile.user_id);
-                console.log('Recruiter ID:', profile.user_id); // Debug log
             } catch (error) {
                 console.error('Error fetching profile:', error);
             }
         };
 
         fetchProfile().catch(error => console.error('Error in fetchProfile:', error));
-        console.log('useEffect triggered'); // Debug log
     }, []);
 
     const handleAddTechnology = () => {
@@ -54,7 +50,6 @@ const CreateVacancyModal: React.FC<CreateVacancyModalProps> = ({open, onClose}) 
         try {
             const newVacancy = {
                 position,
-                company,
                 salary,
                 technology_stack: technologyStack,
                 recruiter_id: recruiterId,
@@ -62,6 +57,7 @@ const CreateVacancyModal: React.FC<CreateVacancyModalProps> = ({open, onClose}) 
             console.log('New Vacancy:', newVacancy); // Debug log
             await createVacancy(newVacancy);
             onClose();
+            window.location.reload();
         } catch (error) {
             console.error('Error creating vacancy:', error);
         }
@@ -77,13 +73,6 @@ const CreateVacancyModal: React.FC<CreateVacancyModalProps> = ({open, onClose}) 
                         label="Назва позиції"
                         value={position}
                         onChange={(e) => setPosition(e.target.value)}
-                        fullWidth
-                        margin="normal"
-                    />
-                    <TextField
-                        label="Назва компанії"
-                        value={company}
-                        onChange={(e) => setCompany(e.target.value)}
                         fullWidth
                         margin="normal"
                     />

@@ -37,3 +37,29 @@ export const deleteVacancy = async (id: number): Promise<void> => {
         },
     });
 };
+
+export const getAllRecruiterVacancies = async (): Promise<{
+    content: Vacancy[];
+    totalPages: number;
+    totalElements: number
+}> => {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`${API_URL}/recruiter/vacancies`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+    });
+    return response.data;
+};
+
+export const getAllVacancies = async (page: number, size: number): Promise<{
+    content: Vacancy[];
+    totalPages: number;
+    totalElements: number
+}> => {
+    const response = await axios.post(`${API_URL}/vacancy/_list`, {
+        page,
+        size
+    });
+    return response.data;
+};

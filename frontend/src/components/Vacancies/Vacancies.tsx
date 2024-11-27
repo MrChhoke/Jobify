@@ -1,83 +1,86 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {Box, Typography} from '@mui/material';
+import {getAllVacancies} from '../../services/VacancyService';
+import {Vacancy} from '../../models/Vacancy';
 import './Vacancies.css';
-import staticImage from '../../assets/jobIcon.png';
+import staticImage from "../../assets/jobIcon.png";
 
-const Vacancies: React.FC = () => {
-    const vacancies = [
-        {
-            id: 1,
-            title: 'Automation QA with JS',
-            company: 'This is an extraordinary opportunity to join a small collaborative team, and work with outstanding peers in a relaxed atmosphere....',
-            salary: '$2300'
-        },
-        {
-            id: 2,
-            title: 'Data Scientist',
-            company: 'This is an extraordinary opportunity to join a small collaborative team, and work with outstanding peers in a relaxed atmosphere....',
-            salary: '$1400'
-        },
-        {
-            id: 3,
-            title: 'Product Manager',
-            company: 'This is an extraordinary opportunity to join a small collaborative team, and work with outstanding peers in a relaxed atmosphere....',
-            salary: '$1800'
-        },
-        {
-            id: 4,
-            title: 'Frontend Developer',
-            company: 'Join our dynamic team to create stunning user interfaces and improve user experience....',
-            salary: '$2700'
-        },
-        {
-            id: 5,
-            title: 'Backend Developer',
-            company: 'We are looking for a skilled backend developer to work on our server-side applications....',
-            salary: '$3500'
-        },
-        {
-            id: 6,
-            title: 'DevOps Engineer',
-            company: 'Help us streamline our development processes and ensure smooth deployment of our applications....',
-            salary: '$3600'
-        },
-        {
-            id: 7,
-            title: 'UI/UX Designer',
-            company: 'Design intuitive and engaging user interfaces for our web and mobile applications....',
-            salary: '$2200'
-        },
-    ];
+interface VacanciesProps {
+    handleOpenModal: () => void;
+    user: { isAuthenticated: boolean; role: string };
+}
+
+const Vacancies: React.FC<VacanciesProps> = () => {
+    const [vacancies, setVacancies] = useState<Vacancy[]>([]);
+    const [selectedVacancyId, setSelectedVacancyId] = useState<number | null>(null);
+
+    useEffect(() => {
+        const fetchVacancies = async () => {
+            try {
+                const response = await getAllVacancies(0, 15);
+                if (response && Array.isArray(response.content)) {
+                    setVacancies(response.content);
+                } else {
+                    console.error('API response does not contain a valid content array:', response);
+                }
+            } catch (error) {
+                console.error('Error fetching vacancies:', error);
+            }
+        };
+
+        fetchVacancies();
+    }, []);
+
+    const handleExportToExcel = () => {
+        // Implement the export to Excel functionality here
+        console.log('Export to Excel');
+    };
 
     return (
-        <div className="vacancies-container">
+        <Box sx={{marginLeft: '20px'}} className="vacancies-container">
             <div className="filter-column">
                 <h2 className="filter-title">Фільтри</h2>
+                {/* Add filter options here */}
             </div>
             <div className="vacancies-column">
                 <h2 className="vacancies-title">
-                    Гарячі вакансії <i className="fas fa-fire"></i>
+                    Вакансії <i className="fas fa-fire"></i>
                 </h2>
                 <div className="vacancies-list">
-                    {vacancies.map(vacancy => (
-                        <div key={vacancy.id} className="vacancy-tile">
-                            <img src={staticImage} alt="Vacancy" className="vacancy-image"/>
-                            <div className="vacancy-details">
-                                <h3>{vacancy.title}</h3>
-                                <p>{vacancy.company}</p>
+                    {vacancies.length > 0 ? (
+                        vacancies.map(vacancy => (
+                            <div
+                                key={vacancy.vacancy_id ?? Math.random()}
+                                className={`vacancy-tile ${selectedVacancyId === vacancy.vacancy_id ? 'selected' : ''}`}
+                                onClick={() => {
+                                    console.log('Vacancy:', vacancy);
+                                    if (vacancy.vacancy_id !== undefined) {
+                                        console.log(`Selected vacancy ID: ${vacancy.vacancy_id}`);
+                                        setSelectedVacancyId(vacancy.vacancy_id);
+                                    }
+                                }}
+                            >
+                                <img src={staticImage} alt="Vacancy" className="vacancy-image"/>
+                                <div className="vacancy-details">
+                                    <h3>{vacancy.position}</h3>
+                                    <div className="vacancy-salary">
+                                        Salary: ${vacancy.salary}
+                                    </div>
+                                    <p>Technologies: {vacancy.technology_stack ? vacancy.technology_stack.join(', ') : 'N/A'}</p>
+                                </div>
                             </div>
-                            <div className="vacancy-salary">
-                                {vacancy.salary}
-                            </div>
-                        </div>
-                    ))}
+                        ))
+                    ) : (
+                        <Typography>No vacancies available</Typography>
+                    )}
                 </div>
             </div>
             <div className="export-column">
-                <div className="export-excel">
+                <div className="export-excel" onClick={handleExportToExcel}>
                     Експортувати в Excel <i className="fas fa-file-excel"></i>
                 </div>
             </div>
-        </div>
+        </Box>
     );
 };
 

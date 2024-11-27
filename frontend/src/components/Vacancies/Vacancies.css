@@ -14,7 +14,7 @@
 .vacancies-column {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 55%;
 }
 
 .export-column {
@@ -26,6 +26,7 @@
 .filter-title {
     font-size: 2rem;
     color: var(--primary-green-color);
+    font-family: var(--primary-font), sans-serif;
 }
 
 .vacancies-title {
@@ -33,6 +34,7 @@
     align-items: center;
     color: var(--primary-green-color);
     font-size: 2rem;
+    font-family: var(--primary-font), sans-serif;
 }
 
 .vacancies-title i {
@@ -58,16 +60,18 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: left;
     justify-content: space-between;
+    font-family: var(--primary-font), sans-serif;
 }
 
 .vacancy-salary {
-    background-color: var(--secondary-green-color);
+    background-color: var(--header-text-green-color);
     color: var(--black-color);
-    padding: 10px 20px;
-    border-radius: 29px;
+    padding: 5px 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 15px;
     font-size: 1rem;
-    font-weight: bold;
-    text-align: center;
+    font-family: var(--primary-font), sans-serif;
 }
 
 .vacancy-image {
@@ -85,18 +89,21 @@
     margin-left: 0;
     flex-grow: 1;
     margin-top: -40px;
+    font-family: var(--primary-font), sans-serif;
 }
 
 .vacancy-tile h3 {
     margin: 0;
     font-size: 1.4rem;
     color: var(--black-color);
+    font-family: var(--primary-font), sans-serif;
 }
 
 .vacancy-tile p {
     margin: 0;
     font-size: 1.3rem;
     color: var(--black-color);
+    font-family: var(--primary-font), sans-serif;
 }
 
 .export-excel {
@@ -105,8 +112,11 @@
     color: var(--primary-green-color);
     font-size: 1.4rem;
     cursor: pointer;
-    margin-top: 90px;
+    margin-top: 70px;
     margin-left: 20px;
+    background: none;
+    border: none;
+    font-family: var(--primary-font), sans-serif;
 }
 
 .export-excel i {

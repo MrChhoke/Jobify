@@ -1,6 +1,5 @@
 export interface Vacancy {
-    id?: number;
-    company: string;
+    vacancy_id?: number;
     salary: string;
     position: string;
     recruiter_id: number;

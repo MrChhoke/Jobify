@@ -27,6 +27,10 @@ code {
 
     --button-green-color: #729f8a;
     --button-hover-green-color: #387b6d;
+
+    --button-red-color: #f44336;
+    --button-hover-red-color: #d32f2f;
+    --button-disabled-color: #bdbdbd;
 }
 
 :root {
