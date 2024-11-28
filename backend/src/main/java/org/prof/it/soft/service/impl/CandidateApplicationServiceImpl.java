@@ -62,7 +62,7 @@ public class CandidateApplicationServiceImpl implements CandidateApplicationServ
 
     @Override
     public Page<CandidateApplicationResponseDto> getCandidateApplicationsByPersonId(Long personId, Long page) {
-        return candidateApplicationRepository.findByVacancyId(personId, PageRequest.of(page.intValue(), 10))
+        return candidateApplicationRepository.findByPersonId(personId, PageRequest.of(page.intValue(), 10))
                 .map(candidateApplication -> modelMapper.map(candidateApplication, CandidateApplicationResponseDto.class));
     }
 

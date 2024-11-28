@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class CandidateApplicationResponseDto {
 
     @JsonProperty("vacancy")
-    @JsonIncludeProperties({"vacancy_id", "position", "salary"})
+    @JsonIncludeProperties({"vacancy_id", "position", "salary", "technology_stack"})
     VacancyResponseDto vacancy;
 
     @JsonProperty("candidate")

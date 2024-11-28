@@ -158,4 +158,19 @@ public class VacancyController {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
     }
+
+    /**
+     * Get the applications for a person.
+     *
+     * @param user The user who is applying for the vacancy.
+     * @param pageNum  The page number.
+     * @return The applications for the person.
+     */
+    @GetMapping("/applied")
+    public ResponseEntity<Page<CandidateApplicationResponseDto>> getAppliedVacancies(@AuthenticationPrincipal User user,
+                                                                                     @RequestParam(defaultValue = "1") Long pageNum) {
+        Page<CandidateApplicationResponseDto> candidateApplicationResponseDto =
+                candidateApplicationService.getCandidateApplicationsByPersonId(user.getId(), pageNum - 1);
+        return ResponseEntity.ok(candidateApplicationResponseDto);
+    }
 }

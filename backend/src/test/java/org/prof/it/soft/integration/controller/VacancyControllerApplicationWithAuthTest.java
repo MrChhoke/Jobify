@@ -667,4 +667,352 @@ public class VacancyControllerApplicationWithAuthTest {
                 .andExpect(jsonPath("$.content[3].position").value(savedVacancy4.getPosition()))
                 .andExpect(jsonPath("$.content[3].is_applied_by_current_user").doesNotExist());
     }
+
+    @Test
+    public void getAppliedVacancies_shouldReturnOk_whenTwoUsersAppliedDifferentVacancies() throws Exception {
+        // Given
+        Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
+                Recruiter.builder()
+                        .username("anna")
+                        .password("password")
+                        .companyName("Google")
+                        .firstName("Anna")
+                        .lastName("Petrov")
+                        .build()
+        );
+
+        Vacancy savedVacancy1 = vacancyRepository.saveAndFlush(
+                Vacancy.builder()
+                        .position("Java Developer")
+                        .salary(1000.0f)
+                        .technologyStack(List.of("Java", "Spring"))
+                        .recruiter(savedRecruiter)
+                        .build()
+        );
+
+        Vacancy savedVacancy2 = vacancyRepository.saveAndFlush(
+                Vacancy.builder()
+                        .position("Python Developer")
+                        .salary(2000.0f)
+                        .technologyStack(List.of("Python", "Django"))
+                        .recruiter(savedRecruiter)
+                        .build()
+        );
+
+        Vacancy savedVacancy3 = vacancyRepository.saveAndFlush(
+                Vacancy.builder()
+                        .position("Senior Java Developer")
+                        .salary(3000.0f)
+                        .technologyStack(List.of("Java", "Spring", "Hibernate"))
+                        .recruiter(savedRecruiter)
+                        .build()
+        );
+
+        Vacancy savedVacancy4 = vacancyRepository.saveAndFlush(
+                Vacancy.builder()
+                        .position("Sql Developer")
+                        .salary(4000.0f)
+                        .technologyStack(List.of("SQL", "PostgreSQL"))
+                        .recruiter(savedRecruiter)
+                        .build()
+        );
+
+        User user1 = Person.builder()
+                .username("test1")
+                .password("test1")
+                .accountNonExpired(true)
+                .accountNonLocked(true)
+                .credentialsNonExpired(true)
+                .enabled(true)
+                .permissions(Set.of(Permission.VIEW_OWN_APPLICATIONS))
+                .firstName("John")
+                .lastName("Doe")
+                .build();
+
+        User user2 = Person.builder()
+                .username("test2")
+                .password("test2")
+                .accountNonExpired(true)
+                .accountNonLocked(true)
+                .credentialsNonExpired(true)
+                .enabled(true)
+                .permissions(Set.of(Permission.VIEW_OWN_APPLICATIONS))
+                .firstName("Sasha")
+                .lastName("Petrov")
+                .build();
+
+        User savedUser1 = userService.save(user1);
+        User savedUser2 = userService.save(user2);
+
+        candidateApplicationService.createCandidateApplication(savedVacancy1.getId(), savedUser1);
+        candidateApplicationService.createCandidateApplication(savedVacancy2.getId(), savedUser1);
+        candidateApplicationService.createCandidateApplication(savedVacancy3.getId(), savedUser2);
+        candidateApplicationService.createCandidateApplication(savedVacancy4.getId(), savedUser2);
+
+        String jwtToken1 = jwtService.generateToken(savedUser1);
+        String jwtToken2 = jwtService.generateToken(savedUser2);
+
+        // When and then
+        mockMvc.perform(get("/api/v1/vacancy/applied")
+                        .header("Authorization", "Bearer %s".formatted(jwtToken1)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content", hasSize(2)))
+                .andExpect(jsonPath("$.content[0].vacancy.vacancy_id").value(savedVacancy1.getId()))
+                .andExpect(jsonPath("$.content[0].vacancy.position").value("Java Developer"))
+                .andExpect(jsonPath("$.content[0].vacancy.salary").value(1000.0))
+                .andExpect(jsonPath("$.content[0].vacancy.technology_stack").isArray())
+                .andExpect(jsonPath("$.content[0].vacancy.technology_stack", hasSize(2)))
+                .andExpect(jsonPath("$.content[0].candidate.first_name").value("John"))
+                .andExpect(jsonPath("$.content[0].candidate.last_name").value("Doe"))
+                .andExpect(jsonPath("$.content[1].vacancy.vacancy_id").value(savedVacancy2.getId()))
+                .andExpect(jsonPath("$.content[1].vacancy.position").value("Python Developer"))
+                .andExpect(jsonPath("$.content[1].vacancy.salary").value(2000.0))
+                .andExpect(jsonPath("$.content[1].vacancy.technology_stack").isArray())
+                .andExpect(jsonPath("$.content[1].vacancy.technology_stack", hasSize(2)))
+                .andExpect(jsonPath("$.content[1].candidate.first_name").value("John"))
+                .andExpect(jsonPath("$.content[1].candidate.last_name").value("Doe"));
+
+        mockMvc.perform(get("/api/v1/vacancy/applied")
+                        .header("Authorization", "Bearer %s".formatted(jwtToken2)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content", hasSize(2)))
+                .andExpect(jsonPath("$.content[0].vacancy.vacancy_id").value(savedVacancy3.getId()))
+                .andExpect(jsonPath("$.content[0].vacancy.position").value("Senior Java Developer"))
+                .andExpect(jsonPath("$.content[0].vacancy.salary").value(3000.0))
+                .andExpect(jsonPath("$.content[0].vacancy.technology_stack").isArray())
+                .andExpect(jsonPath("$.content[0].vacancy.technology_stack", hasSize(3)))
+                .andExpect(jsonPath("$.content[0].candidate.first_name").value("Sasha"))
+                .andExpect(jsonPath("$.content[0].candidate.last_name").value("Petrov"))
+                .andExpect(jsonPath("$.content[1].vacancy.vacancy_id").value(savedVacancy4.getId()))
+                .andExpect(jsonPath("$.content[1].vacancy.position").value("Sql Developer"))
+                .andExpect(jsonPath("$.content[1].vacancy.salary").value(4000.0))
+                .andExpect(jsonPath("$.content[1].vacancy.technology_stack").isArray())
+                .andExpect(jsonPath("$.content[1].vacancy.technology_stack", hasSize(2)))
+                .andExpect(jsonPath("$.content[1].candidate.first_name").value("Sasha"))
+                .andExpect(jsonPath("$.content[1].candidate.last_name").value("Petrov"));
+    }
+
+    @Test
+    public void getAppliedVacancies_shouldReturnOk_whenOnlyOneUserAppliedDifferentVacancies() throws Exception {
+        // Given
+        Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
+                Recruiter.builder()
+                        .username("anna")
+                        .password("password")
+                        .companyName("Google")
+                        .firstName("Anna")
+                        .lastName("Petrov")
+                        .build()
+        );
+
+        Vacancy savedVacancy1 = vacancyRepository.saveAndFlush(
+                Vacancy.builder()
+                        .position("Java Developer")
+                        .salary(1000.0f)
+                        .technologyStack(List.of("Java", "Spring"))
+                        .recruiter(savedRecruiter)
+                        .build()
+        );
+
+        Vacancy savedVacancy2 = vacancyRepository.saveAndFlush(
+                Vacancy.builder()
+                        .position("Python Developer")
+                        .salary(2000.0f)
+                        .technologyStack(List.of("Python", "Django"))
+                        .recruiter(savedRecruiter)
+                        .build()
+        );
+
+        Vacancy savedVacancy3 = vacancyRepository.saveAndFlush(
+                Vacancy.builder()
+                        .position("Senior Java Developer")
+                        .salary(3000.0f)
+                        .technologyStack(List.of("Java", "Spring", "Hibernate"))
+                        .recruiter(savedRecruiter)
+                        .build()
+        );
+
+        Vacancy savedVacancy4 = vacancyRepository.saveAndFlush(
+                Vacancy.builder()
+                        .position("Sql Developer")
+                        .salary(4000.0f)
+                        .technologyStack(List.of("SQL", "PostgreSQL"))
+                        .recruiter(savedRecruiter)
+                        .build()
+        );
+
+        User user1 = Person.builder()
+                .username("test1")
+                .password("test1")
+                .accountNonExpired(true)
+                .accountNonLocked(true)
+                .credentialsNonExpired(true)
+                .enabled(true)
+                .permissions(Set.of(Permission.VIEW_OWN_APPLICATIONS))
+                .firstName("John")
+                .lastName("Doe")
+                .build();
+
+        User user2 = Person.builder()
+                .username("test2")
+                .password("test2")
+                .accountNonExpired(true)
+                .accountNonLocked(true)
+                .credentialsNonExpired(true)
+                .enabled(true)
+                .permissions(Set.of(Permission.VIEW_OWN_APPLICATIONS))
+                .firstName("Sasha")
+                .lastName("Petrov")
+                .build();
+
+        User savedUser1 = userService.save(user1);
+        User savedUser2 = userService.save(user2);
+
+        candidateApplicationService.createCandidateApplication(savedVacancy1.getId(), savedUser1);
+        candidateApplicationService.createCandidateApplication(savedVacancy2.getId(), savedUser1);
+        candidateApplicationService.createCandidateApplication(savedVacancy4.getId(), savedUser1);
+
+        String jwtToken1 = jwtService.generateToken(savedUser1);
+        String jwtToken2 = jwtService.generateToken(savedUser2);
+
+        // When and then
+        mockMvc.perform(get("/api/v1/vacancy/applied")
+                        .header("Authorization", "Bearer %s".formatted(jwtToken1)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content", hasSize(3)))
+                .andExpect(jsonPath("$.content[0].vacancy.vacancy_id").value(savedVacancy1.getId()))
+                .andExpect(jsonPath("$.content[0].vacancy.position").value("Java Developer"))
+                .andExpect(jsonPath("$.content[0].vacancy.salary").value(1000.0))
+                .andExpect(jsonPath("$.content[0].vacancy.technology_stack").isArray())
+                .andExpect(jsonPath("$.content[0].vacancy.technology_stack", hasSize(2)))
+                .andExpect(jsonPath("$.content[0].candidate.first_name").value("John"))
+                .andExpect(jsonPath("$.content[0].candidate.last_name").value("Doe"))
+                .andExpect(jsonPath("$.content[1].vacancy.vacancy_id").value(savedVacancy2.getId()))
+                .andExpect(jsonPath("$.content[1].vacancy.position").value("Python Developer"))
+                .andExpect(jsonPath("$.content[1].vacancy.salary").value(2000.0))
+                .andExpect(jsonPath("$.content[1].vacancy.technology_stack").isArray())
+                .andExpect(jsonPath("$.content[1].vacancy.technology_stack", hasSize(2)))
+                .andExpect(jsonPath("$.content[1].candidate.first_name").value("John"))
+                .andExpect(jsonPath("$.content[1].candidate.last_name").value("Doe"))
+                .andExpect(jsonPath("$.content[2].vacancy.vacancy_id").value(savedVacancy4.getId()))
+                .andExpect(jsonPath("$.content[2].vacancy.position").value("Sql Developer"))
+                .andExpect(jsonPath("$.content[2].vacancy.salary").value(4000.0))
+                .andExpect(jsonPath("$.content[2].vacancy.technology_stack").isArray())
+                .andExpect(jsonPath("$.content[2].vacancy.technology_stack", hasSize(2)))
+                .andExpect(jsonPath("$.content[2].candidate.first_name").value("John"))
+                .andExpect(jsonPath("$.content[2].candidate.last_name").value("Doe"));
+
+        mockMvc.perform(get("/api/v1/vacancy/applied")
+                        .header("Authorization", "Bearer %s".formatted(jwtToken2)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").isEmpty());
+    }
+
+    @Test
+    public void getAppliedVacancies_shouldReturnForbidden_whenOnlyOneUserHasPermissionToViewOwnApplications() throws Exception {
+        // Given
+        Recruiter savedRecruiter = recruiterRepository.saveAndFlush(
+                Recruiter.builder()
+                        .username("anna")
+                        .password("password")
+                        .companyName("Google")
+                        .firstName("Anna")
+                        .lastName("Petrov")
+                        .build()
+        );
+
+        Vacancy savedVacancy1 = vacancyRepository.saveAndFlush(
+                Vacancy.builder()
+                        .position("Java Developer")
+                        .salary(1000.0f)
+                        .technologyStack(List.of("Java", "Spring"))
+                        .recruiter(savedRecruiter)
+                        .build()
+        );
+
+        Vacancy savedVacancy2 = vacancyRepository.saveAndFlush(
+                Vacancy.builder()
+                        .position("Python Developer")
+                        .salary(2000.0f)
+                        .technologyStack(List.of("Python", "Django"))
+                        .recruiter(savedRecruiter)
+                        .build()
+        );
+
+        Vacancy savedVacancy3 = vacancyRepository.saveAndFlush(
+                Vacancy.builder()
+                        .position("Senior Java Developer")
+                        .salary(3000.0f)
+                        .technologyStack(List.of("Java", "Spring", "Hibernate"))
+                        .recruiter(savedRecruiter)
+                        .build()
+        );
+
+        Vacancy savedVacancy4 = vacancyRepository.saveAndFlush(
+                Vacancy.builder()
+                        .position("Sql Developer")
+                        .salary(4000.0f)
+                        .technologyStack(List.of("SQL", "PostgreSQL"))
+                        .recruiter(savedRecruiter)
+                        .build()
+        );
+
+        User user1 = Person.builder()
+                .username("test1")
+                .password("test1")
+                .accountNonExpired(true)
+                .accountNonLocked(true)
+                .credentialsNonExpired(true)
+                .enabled(true)
+                .permissions(Set.of(Permission.APPLY_VACANCY, Permission.VIEW_OWN_APPLICATIONS))
+                .firstName("John")
+                .lastName("Doe")
+                .build();
+
+        User user2 = Person.builder()
+                .username("test2")
+                .password("test2")
+                .accountNonExpired(true)
+                .accountNonLocked(true)
+                .credentialsNonExpired(true)
+                .enabled(true)
+                .permissions(Set.of(Permission.APPLY_VACANCY))
+                .firstName("Sasha")
+                .lastName("Petrov")
+                .build();
+
+        User savedUser1 = userService.save(user1);
+        User savedUser2 = userService.save(user2);
+
+        candidateApplicationService.createCandidateApplication(savedVacancy1.getId(), savedUser1);
+        candidateApplicationService.createCandidateApplication(savedVacancy2.getId(), savedUser1);
+        candidateApplicationService.createCandidateApplication(savedVacancy3.getId(), savedUser2);
+        candidateApplicationService.createCandidateApplication(savedVacancy4.getId(), savedUser2);
+
+        String jwtToken1 = jwtService.generateToken(savedUser1);
+        String jwtToken2 = jwtService.generateToken(savedUser2);
+
+        // When and then
+        mockMvc.perform(get("/api/v1/vacancy/applied")
+                        .header("Authorization", "Bearer %s".formatted(jwtToken1)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content", hasSize(2)))
+                .andExpect(jsonPath("$.content[0].vacancy.vacancy_id").value(savedVacancy1.getId()))
+                .andExpect(jsonPath("$.content[0].vacancy.position").value("Java Developer"))
+                .andExpect(jsonPath("$.content[0].vacancy.salary").value(1000.0))
+                .andExpect(jsonPath("$.content[0].vacancy.technology_stack").isArray())
+                .andExpect(jsonPath("$.content[0].vacancy.technology_stack", hasSize(2)))
+                .andExpect(jsonPath("$.content[0].candidate.first_name").value("John"))
+                .andExpect(jsonPath("$.content[0].candidate.last_name").value("Doe"))
+                .andExpect(jsonPath("$.content[1].vacancy.vacancy_id").value(savedVacancy2.getId()))
+                .andExpect(jsonPath("$.content[1].vacancy.position").value("Python Developer"))
+                .andExpect(jsonPath("$.content[1].vacancy.salary").value(2000.0))
+                .andExpect(jsonPath("$.content[1].vacancy.technology_stack").isArray())
+                .andExpect(jsonPath("$.content[1].vacancy.technology_stack", hasSize(2)))
+                .andExpect(jsonPath("$.content[1].candidate.first_name").value("John"));
+
+        mockMvc.perform(get("/api/v1/vacancy/applied")
+                        .header("Authorization", "Bearer %s".formatted(jwtToken2)))
+                .andExpect(status().isForbidden());
+    }
 }

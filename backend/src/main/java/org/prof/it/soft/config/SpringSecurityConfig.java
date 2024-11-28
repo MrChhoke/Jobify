@@ -49,6 +49,7 @@ public class SpringSecurityConfig {
                         .requestMatchers("/api/v1/developers/**").authenticated()
                         /** Allow access to production */
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/vacancy/applied").hasAnyAuthority(Permission.VIEW_OWN_APPLICATIONS.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/vacancy/{id}").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/vacancy/_list").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/vacancy").hasAnyAuthority(Permission.CREATE_VACANCY.toString())
