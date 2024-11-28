@@ -1,0 +1,71 @@
+/* MyApplications.css */
+
+.my-applications-container {
+    padding: 30px;
+    margin-left: 100px;
+    font-family: var(--primary-font), sans-serif;
+}
+
+.title {
+    margin-bottom: 20px;
+    color: var(--primary-green-color) !important;
+    font-family: var(--primary-font), sans-serif;
+}
+
+.applications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.application-tile {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-radius: 29px;
+    background-color: var(--white-color);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-family: var(--primary-font), sans-serif;
+    width: 900px; /* Fixed width */
+    height: 190px;
+}
+
+.application-tile i {
+    font-size: 7rem; /* Make the icon bigger */
+    margin-right: 30px !important; /* Add space between the icon and text */
+}
+
+.application-tile div {
+    display: flex;
+    flex-direction: column; /* Align text row by row */
+    align-items: flex-start; /* Align text to the left */
+}
+
+.application-tile .application-details {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.application-tile .application-details .MuiTypography-root {
+    margin-bottom: 10px; /* Add space between text elements */
+}
+
+.application-tile:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.application-tile h6 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: var(--primary-color);
+    font-family: var(--primary-font), sans-serif;
+}
+
+.application-tile p {
+    margin: 5px 0;
+    color: var(--text-color);
+    font-family: var(--primary-font), sans-serif;
+}

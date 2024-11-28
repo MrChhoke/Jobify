@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Button, Modal, TextField} from '@mui/material';
+import {Box, Modal, TextField} from '@mui/material';
 import {Vacancy} from '../../models/Vacancy';
 import {getProfile} from '../../services/ProfileService'; // Import the function to fetch recruiter_id
+import './UpdateVacancyModal.css'; // Import the common CSS file
 
 interface UpdateVacancyModalProps {
     open: boolean;
@@ -54,10 +55,11 @@ const UpdateVacancyModal: React.FC<UpdateVacancyModalProps> = ({open, onClose, v
 
     return (
         <Modal open={open} onClose={onClose}>
-            <Box sx={{padding: 4, backgroundColor: 'white', margin: 'auto', marginTop: '10%', width: '50%'}}>
-                <h2>Update Vacancy</h2>
+            <Box className="vacancy-modal">
+                <button className="close-button" onClick={onClose}>&times;</button>
+                <h2>Оновити вакансію</h2>
                 <TextField
-                    label="Position"
+                    label="Позиція"
                     name="position"
                     value={formData.position || ''}
                     onChange={handleChange}
@@ -65,7 +67,7 @@ const UpdateVacancyModal: React.FC<UpdateVacancyModalProps> = ({open, onClose, v
                     margin="normal"
                 />
                 <TextField
-                    label="Salary"
+                    label="Зарплата"
                     name="salary"
                     value={formData.salary || ''}
                     onChange={handleChange}
@@ -73,16 +75,16 @@ const UpdateVacancyModal: React.FC<UpdateVacancyModalProps> = ({open, onClose, v
                     margin="normal"
                 />
                 <TextField
-                    label="Technology Stack"
+                    label="Технологічний стек"
                     name="technology_stack"
                     value={formData.technology_stack?.join(', ') || ''}
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
                 />
-                <Button variant="contained" color="primary" onClick={handleSubmit}>
-                    Update
-                </Button>
+                <button color="primary" onClick={handleSubmit} className="update-vacancy-button-modal">
+                    Оновити
+                </button>
             </Box>
         </Modal>
     );

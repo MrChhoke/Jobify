@@ -10,6 +10,7 @@ import CreateVacancyModal from './components/CreateVacancyModal/CreateVacancyMod
 import MyVacancies from './components/MyVacancies/MyVacancies';
 import {getProfile} from './services/ProfileService';
 import {isLoggedIn} from './services/AuthService';
+import MyApplications from "./components/MyApplications/MyApplications";
 
 const theme = createTheme();
 
@@ -47,6 +48,7 @@ function App() {
                     <Routes>
                         <Route path="/profile" element={<Profile/>}/>
                         <Route path="/my-vacancies" element={<MyVacancies handleOpenModal={handleOpenModal} user={user}/>}/>
+                        <Route path="/my-applications" element={<MyApplications/>}/>
                         <Route path="/" element={
                             <>
                                 <Box display="flex" alignItems="center">

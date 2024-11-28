@@ -49,6 +49,11 @@ const Header: React.FC = () => {
         handleMenuClose();
     };
 
+    const handleMyApplicationsClick = () => {
+        navigate('/my-applications');
+        handleMenuClose();
+    };
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         dispatch(clearUser());
@@ -101,6 +106,9 @@ const Header: React.FC = () => {
                             <MenuItem onClick={handleProfileClick}>Профіль</MenuItem>
                             {user.role === 'RECRUITER' && (
                                 <MenuItem onClick={handleMyVacanciesClick}>Мої вакансії</MenuItem>
+                            )}
+                            {user.role === 'RECRUITER' && (
+                                <MenuItem onClick={handleMyApplicationsClick}>Мої заявки</MenuItem>
                             )}
                             <MenuItem onClick={handleLogout}>Вийти</MenuItem>
                         </Menu>

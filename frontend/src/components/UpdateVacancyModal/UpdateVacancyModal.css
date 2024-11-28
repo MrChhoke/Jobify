@@ -1,4 +1,4 @@
-.create-vacancy-modal-box {
+.vacancy-modal {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -11,7 +11,22 @@
     padding: 40px 40px 40px 40px;
 }
 
-.create-vacancy-button {
+.vacancy-modal h2 {
+    margin-bottom: 2rem;
+}
+
+.vacancy-modal .MuiTextField-root {
+    margin-bottom: 1.5rem;
+}
+
+.vacancy-modal .MuiButton-root {
+    display: block;
+    margin: 2rem auto 0;
+}
+
+
+/* UpdateVacancyModal.css */
+.update-vacancy-button-modal {
     width: 100%;
     height: 50px;
     background-color: var(--button-green-color);
@@ -23,14 +38,14 @@
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease !important;
-    margin-top: 20px;
+    margin: 20px auto 0 !important;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center !important;
 }
 
-.create-vacancy-button:hover {
+.update-vacancy-button-modal:hover {
     background-color: var(--button-hover-green-color) !important;
 }
 
