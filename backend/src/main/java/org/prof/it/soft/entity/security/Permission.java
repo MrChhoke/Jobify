@@ -32,6 +32,11 @@ public enum Permission implements GrantedAuthority {
     APPLY_VACANCY,
 
     /**
+     * The permission to view own applications.
+     */
+    VIEW_OWN_APPLICATIONS,
+
+    /**
      * The permission to create a recruiter.
      */
     CREATE_RECRUITER,
@@ -92,6 +97,7 @@ public enum Permission implements GrantedAuthority {
             VIEW_VACANCY,
             APPLY_VACANCY,
             GET_OWN_PROFILE,
+            VIEW_OWN_APPLICATIONS,
             UPDATE_OWN_PROFILE
     );
 
