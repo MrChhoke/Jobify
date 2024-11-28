@@ -1,0 +1,81 @@
+.my-vacancies-box {
+    margin-left: 100px !important;
+    margin-top: 20px;
+}
+
+button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+button i {
+    margin-left: 15px !important;
+    padding-right: 10px !important;
+}
+
+.vacancy-button {
+    font-family: var(--primary-font), sans-serif;
+    font-size: 1.3rem;
+    color: var(--white-color);
+    border-radius: 35px;
+    border: none;
+    height: 50px;
+    width: 250px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    position: absolute;
+    right: 20px;
+}
+
+.add-vacancy-button {
+    top: 290px;
+    background-color: var(--button-green-color);
+}
+
+.add-vacancy-button:hover {
+    background-color: var(--button-hover-green-color) !important;
+}
+
+.update-vacancy-button {
+    top: 360px;
+    background-color: var(--button-green-color);
+}
+
+.update-vacancy-button:hover {
+    background-color: var(--button-hover-green-color) !important;
+}
+
+.delete-vacancy-button {
+    top: 430px;
+    background-color: var(--button-red-color);
+}
+
+.delete-vacancy-button:hover {
+    background-color: var(--button-hover-red-color) !important;
+}
+
+.delete-vacancy-button:disabled {
+    background-color: var(--button-disabled-color);
+    cursor: not-allowed;
+}
+
+.vacancy-tile.selected {
+    border: 2px solid #007bff !important;
+    background-color: #e7f3ff !important;
+}
+
+.selected {
+    border: 2px solid blue; /* Example style for selected tile */
+}
+
+.vacancy-salary {
+    background-color: var(--header-text-green-color);
+    color: var(--black-color);
+    padding: 5px 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 15px;
+    font-size: 1rem;
+    font-family: var(--primary-font), sans-serif;
+}

@@ -1,0 +1,110 @@
+/* Header */
+.App .custom-toolbar {
+    min-height: 25vh;
+    background-color: var(--primary-green-color);
+}
+
+/* Top caption */
+.App .header-top {
+    position: absolute;
+    width: 100%;
+    background-color: var(--primary-green-color);
+    padding: 5px 0;
+    z-index: 1;
+}
+
+.App .small-text {
+    font-size: 1rem;
+    color: var(--header-text-green-color);
+    font-family: var(--primary-font), sans-serif;
+}
+
+/* Logo */
+.App .logo {
+    height: 136px;
+    margin-right: 16px;
+}
+
+/* Header links */
+.App .title {
+    color: var(--header-text-green-color);
+    font-family: var(--primary-font), sans-serif;
+    margin-right: 16px;
+    margin-left: 16px;
+}
+
+.App .header-link {
+    color: var(--header-text-green-color);
+    text-decoration: none;
+    margin-left: 16px;
+    font-size: 2.2rem;
+}
+
+.App .header-link:hover {
+    text-decoration: underline;
+}
+
+/* Toggle Styles */
+.App .toggle-container {
+    display: flex;
+    font-family: var(--primary-font), sans-serif;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 80px;
+    border: 3px solid var(--header-text-green-color);
+    border-radius: 29px;
+    overflow: hidden;
+}
+
+.App .toggle-button {
+    color: var(--header-text-green-color);
+    background-color: transparent;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 8px 16px;
+    transition: background-color 0.5s;
+}
+
+.App .toggle-button:hover {
+    background-color: var(--secondary-green-color);
+    color: var(--primary-dark-green-color);
+}
+
+/* User Info */
+.App .user-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: auto;
+}
+
+.App .user-avatar {
+    font-size: 50px;
+    color: var(--white-color);
+}
+
+.App .user-name {
+    color: var(--header-text-green-color);
+    font-family: var(--primary-font), sans-serif;
+    font-size: 1.8rem;
+}
+
+/* User Dropdown */
+.App .dropdown-icon {
+    font-size: 30px;
+    color: var(--white-color);
+    cursor: pointer;
+    padding-right: 40px;
+}
+
+/* User Dropdown Menu */
+.MuiMenu-paper {
+    font-family: var(--primary-font), sans-serif !important;
+    font-size: 1.9rem !important;
+    color: var(--primary-dark-green-color) !important;
+    background-color: var(--page-background-color) !important;
+    margin-top: 10px !important;
+    border-radius: 23px !important;
+}

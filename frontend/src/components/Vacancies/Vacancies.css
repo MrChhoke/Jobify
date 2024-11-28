@@ -1,0 +1,177 @@
+.vacancies-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.filter-column {
+    width: 358px;
+    margin-right: 40px;
+}
+
+.filter-subtitle {
+    font-size: 1.5rem;
+    color: var(--primary-green-color);
+    font-family: var(--primary-font), sans-serif;
+    margin-bottom: 10px;
+}
+
+.salary-filter-container {
+    display: flex;
+    width: 95%;
+    margin-top: 10px;
+    gap: 15px; /* Add this line to create space between the inputs */
+}
+
+.salary-filter {
+    width: 58% !important;
+}
+
+.filter-title {
+    margin-bottom: 10px !important;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.vacancies-column {
+    display: flex;
+    flex-direction: column;
+    width: 55%;
+}
+
+.export-column {
+    display: flex;
+    align-items: flex-start;
+    width: 25%;
+}
+
+.filter-title {
+    font-size: 2rem;
+    color: var(--primary-green-color);
+    font-family: var(--primary-font), sans-serif;
+}
+
+.vacancies-title {
+    display: flex;
+    align-items: center;
+    color: var(--primary-green-color);
+    font-size: 2rem;
+    font-family: var(--primary-font), sans-serif;
+}
+
+.vacancies-title i {
+    margin-left: 8px;
+    color: var(--error-color);
+}
+
+.vacancies-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.vacancy-tile {
+    display: flex;
+    align-items: center;
+    background-color: var(--white-color);
+    border: 2px solid var(--white-color);
+    border-radius: 30px;
+    padding: 20px;
+    width: 100%;
+    height: 190px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    justify-content: space-between;
+    font-family: var(--primary-font), sans-serif;
+}
+
+.vacancy-salary {
+    background-color: var(--header-text-green-color);
+    color: var(--black-color);
+    padding: 5px 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 15px;
+    font-size: 1rem;
+    font-family: var(--primary-font), sans-serif;
+}
+
+.vacancy-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 1%;
+    margin-right: 30px;
+    flex-shrink: 0;
+}
+
+.vacancy-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 0;
+    flex-grow: 1;
+    margin-top: -40px;
+    font-family: var(--primary-font), sans-serif;
+}
+
+.vacancy-tile h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--black-color);
+    font-family: var(--primary-font), sans-serif;
+}
+
+.vacancy-tile p {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--black-color);
+    font-family: var(--primary-font), sans-serif;
+}
+
+.export-excel {
+    display: flex;
+    align-items: center;
+    color: var(--primary-green-color);
+    font-size: 1.4rem;
+    cursor: pointer;
+    margin-top: 70px;
+    margin-left: 20px;
+    background: none;
+    border: none;
+    font-family: var(--primary-font), sans-serif;
+}
+
+.export-excel i {
+    margin-left: 8px;
+    color: var(--primary-green-color);
+}
+
+/* Vacancies.css */
+
+.vacancy-tile {
+    position: relative;
+    /* other styles */
+}
+
+.vacancy-tile button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: var(--button-green-color);
+    border-radius: 29px;
+    color: var(--white-color);
+    border: 2px;
+    font-family: var(--primary-font), sans-serif;
+    font-size: 14px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.vacancy-tile button:hover {
+    background-color: var(--button-hover-green-color);
+}

@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
+
+body {
+    margin: 0;
+    font-family: var(--primary-font), sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--page-background-color) !important;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+:root {
+    --primary-green-color: #387b6d;
+    --primary-dark-green-color: #374b39;
+    --header-text-green-color: #d8efd3;
+    --secondary-green-color: #95d2b3;
+    --page-background-color: #f1f1ee;
+
+    --error-color: #f44336;
+
+    --black-color: #000000;
+    --white-color: #fdfdfd;
+
+    --button-green-color: #729f8a;
+    --button-hover-green-color: #387b6d;
+
+    --button-red-color: #f44336;
+    --button-hover-red-color: #d32f2f;
+    --button-disabled-color: #bdbdbd;
+}
+
+:root {
+    --primary-font: 'Didact Gothic', sans-serif;
+    --secondary-font: 'Arial', sans-serif;
+    --heading-font: 'Georgia', serif;
+    --monospace-font: 'Courier New', monospace;
+}
