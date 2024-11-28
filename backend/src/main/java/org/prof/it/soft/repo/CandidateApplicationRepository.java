@@ -21,4 +21,6 @@ public interface CandidateApplicationRepository extends JpaRepository<CandidateA
     @Query("select case when count(ca) > 0 then true else false end from" +
             " CandidateApplication ca where ca.person.id = :personId and ca.vacancy.id = :vacancyId")
     boolean existsByPersonIdAndVacancyId(Long personId, Long vacancyId);
+
+    void deleteAllByVacancyId(Long vacancyId);
 }

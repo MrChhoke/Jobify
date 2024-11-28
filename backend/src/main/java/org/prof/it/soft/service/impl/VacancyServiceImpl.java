@@ -14,6 +14,7 @@ import org.prof.it.soft.entity.Recruiter;
 import org.prof.it.soft.entity.Vacancy;
 import org.prof.it.soft.entity.security.User;
 import org.prof.it.soft.exception.NotFoundException;
+import org.prof.it.soft.repo.CandidateApplicationRepository;
 import org.prof.it.soft.repo.RecruiterRepository;
 import org.prof.it.soft.repo.VacancyRepository;
 import org.prof.it.soft.service.VacancyService;
@@ -41,7 +42,7 @@ public class VacancyServiceImpl implements VacancyService {
      * The repository for the Vacancy entity.
      */
     protected final VacancyRepository vacancyRepository;
-
+    protected final CandidateApplicationRepository candidateApplicationRepository;
     protected final RecruiterRepository recruiterRepository;
 
     /**
@@ -102,7 +103,7 @@ public class VacancyServiceImpl implements VacancyService {
     public void deleteVacancy(Long id) {
         // check if vacancy exists (throws NotFoundException if not found)
         Vacancy vacancy = getVacancyById(id);
-
+        candidateApplicationRepository.deleteAllByVacancyId(id);
         vacancy.getRecruiter().removeVacancy(vacancy);
 
         vacancyRepository.deleteById(id);
