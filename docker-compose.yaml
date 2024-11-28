@@ -1,7 +1,7 @@
 services:
   client-backend:
     container_name: spring-application
-    image: client:0.1.1
+    image: backend:0.1.1
     build:
       context: backend
       dockerfile: ./Dockerfile
@@ -14,6 +14,16 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://service-db:5432/profitsoft
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
+    networks:
+      - jobify-network
+  frontend:
+    container_name: react-application
+    image: frontend:0.1.1
+    build:
+      context: frontend
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000"
     networks:
       - jobify-network
   service-db:
