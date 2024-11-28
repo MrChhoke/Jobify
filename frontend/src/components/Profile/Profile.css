@@ -30,6 +30,22 @@
     width: 100%;
 }
 
+.recruiter-form-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Add gap between inputs and button */
+    font-family: var(--primary-font), sans-serif !important; /* Apply font family */
+    align-items: center; /* Center the creation button */
+}
+
 .profile-field {
     display: flex;
     justify-content: space-between;
