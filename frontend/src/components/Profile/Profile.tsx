@@ -1,15 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Button, TextField, Typography} from '@mui/material';
+import {Box, Button, Modal, Snackbar, TextField, Typography} from '@mui/material';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faUser} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
 import {setUser} from '../../redux/slices/userSlice';
 import {getProfile, updateProfile} from '../../services/ProfileService';
+import {createRecruiter} from '../../services/VacancyService';
 import './Profile.css';
 
 const Profile: React.FC = () => {
     const [editMode, setEditMode] = useState(false);
+    const [showRecruiterForm, setShowRecruiterForm] = useState(false);
+    const [recruiterData, setRecruiterData] = useState({
+        first_name: '',
+        last_name: '',
+        company: '',
+        username: '',
+        password: ''
+    });
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
     const user = useSelector((state: RootState) => state.user.user);
     const dispatch = useDispatch();
 
@@ -36,6 +46,26 @@ const Profile: React.FC = () => {
                 console.error('Error updating profile:', error);
             });
         }
+    };
+
+    const handleRecruiterFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setRecruiterData({
+            ...recruiterData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleCreateRecruiter = () => {
+        createRecruiter(recruiterData).then(() => {
+            setSnackbarOpen(true);
+            setShowRecruiterForm(false);
+        }).catch((error) => {
+            console.error('Error creating recruiter:', error);
+        });
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
     };
 
     const getRoleDisplayName = (role: string) => {
@@ -124,6 +154,69 @@ const Profile: React.FC = () => {
                     Редагувати
                 </Button>
             )}
+            {user.role === 'ADMIN' && (
+                <Button variant="contained" color="secondary" onClick={() => setShowRecruiterForm(true)}
+                        className="profile-button">
+                    Додати рекрутера
+                </Button>
+            )}
+            <Modal
+                open={showRecruiterForm}
+                onClose={() => setShowRecruiterForm(false)}
+                aria-labelledby="recruiter-form-title"
+                aria-describedby="recruiter-form-description"
+            >
+                <Box className="recruiter-form-modal">
+                    <Typography id="recruiter-form-title" variant="h6" component="h2">
+                        Створити рекрутера
+                    </Typography>
+                    <TextField
+                        label="Ім'я"
+                        name="first_name"
+                        value={recruiterData.first_name}
+                        onChange={handleRecruiterFormChange}
+                        fullWidth
+                    />
+                    <TextField
+                        label="Прізвище"
+                        name="last_name"
+                        value={recruiterData.last_name}
+                        onChange={handleRecruiterFormChange}
+                        fullWidth
+                    />
+                    <TextField
+                        label="Компанія"
+                        name="company"
+                        value={recruiterData.company}
+                        onChange={handleRecruiterFormChange}
+                        fullWidth
+                    />
+                    <TextField
+                        label="Логін"
+                        name="username"
+                        value={recruiterData.username}
+                        onChange={handleRecruiterFormChange}
+                        fullWidth
+                    />
+                    <TextField
+                        label="Пароль"
+                        name="password"
+                        type="password"
+                        value={recruiterData.password}
+                        onChange={handleRecruiterFormChange}
+                        fullWidth
+                    />
+                    <Button variant="contained" color="primary" onClick={handleCreateRecruiter} className="profile-button">
+                        Створити рекрутера
+                    </Button>
+                </Box>
+            </Modal>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+                message="Recruiter created successfully"
+            />
         </Box>
     );
 };

@@ -114,3 +114,19 @@ export const getAllUserApplications = async (): Promise<any> => {
     });
     return response.data.content;
 };
+
+export const createRecruiter = async (recruiterData: {
+    first_name: string;
+    last_name: string;
+    company: string;
+    username: string;
+    password: string;
+}): Promise<void> => {
+    const token = localStorage.getItem('token');
+    await axios.post(`${API_URL}/recruiter/register`, recruiterData, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
+};
