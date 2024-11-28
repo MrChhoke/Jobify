@@ -1389,6 +1389,7 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(0).getCell(6).getStringCellValue()).isEqualTo("Recruiter_id");
         assertThat(vacancySheet.getRow(0).getCell(7).getStringCellValue()).isEqualTo("Recruiter First Name");
         assertThat(vacancySheet.getRow(0).getCell(8).getStringCellValue()).isEqualTo("Recruiter Last Name");
+        assertThat(vacancySheet.getRow(0).getCell(9).getStringCellValue()).isEqualTo("Recruiter company");
 
         assertThat(vacancySheet.getRow(1).getCell(0).getNumericCellValue()).isEqualTo(savedVacancy4.getId().doubleValue());
         assertThat(vacancySheet.getRow(1).getCell(1).getStringCellValue()).isEqualTo(savedVacancy4.getPosition());
@@ -1399,6 +1400,7 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(1).getCell(6).getNumericCellValue()).isEqualTo(savedRecruiter2.getId().doubleValue());
         assertThat(vacancySheet.getRow(1).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter2.getFirstName());
         assertThat(vacancySheet.getRow(1).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter2.getLastName());
+        assertThat(vacancySheet.getRow(1).getCell(9).getStringCellValue()).isEqualTo(savedRecruiter2.getCompanyName());
     }
 
     @Test
@@ -1498,6 +1500,7 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(0).getCell(6).getStringCellValue()).isEqualTo("Recruiter_id");
         assertThat(vacancySheet.getRow(0).getCell(7).getStringCellValue()).isEqualTo("Recruiter First Name");
         assertThat(vacancySheet.getRow(0).getCell(8).getStringCellValue()).isEqualTo("Recruiter Last Name");
+        assertThat(vacancySheet.getRow(0).getCell(9).getStringCellValue()).isEqualTo("Recruiter company");
 
 
         assertThat(vacancySheet.getRow(1).getCell(0).getNumericCellValue()).isEqualTo(savedVacancy3.getId().doubleValue());
@@ -1509,6 +1512,7 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(1).getCell(6).getNumericCellValue()).isEqualTo(savedRecruiter2.getId().doubleValue());
         assertThat(vacancySheet.getRow(1).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter2.getFirstName());
         assertThat(vacancySheet.getRow(1).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter2.getLastName());
+        assertThat(vacancySheet.getRow(1).getCell(9).getStringCellValue()).isEqualTo(savedRecruiter2.getCompanyName());
 
         assertThat(vacancySheet.getRow(2).getCell(0).getNumericCellValue()).isEqualTo(savedVacancy4.getId().doubleValue());
         assertThat(vacancySheet.getRow(2).getCell(1).getStringCellValue()).isEqualTo(savedVacancy4.getPosition());
@@ -1519,6 +1523,7 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(2).getCell(6).getNumericCellValue()).isEqualTo(savedRecruiter2.getId().doubleValue());
         assertThat(vacancySheet.getRow(2).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter2.getFirstName());
         assertThat(vacancySheet.getRow(2).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter2.getLastName());
+        assertThat(vacancySheet.getRow(2).getCell(9).getStringCellValue()).isEqualTo(savedRecruiter2.getCompanyName());
     }
 
     @Test
@@ -1599,6 +1604,7 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(0).getCell(6).getStringCellValue()).isEqualTo("Recruiter_id");
         assertThat(vacancySheet.getRow(0).getCell(7).getStringCellValue()).isEqualTo("Recruiter First Name");
         assertThat(vacancySheet.getRow(0).getCell(8).getStringCellValue()).isEqualTo("Recruiter Last Name");
+        assertThat(vacancySheet.getRow(0).getCell(9).getStringCellValue()).isEqualTo("Recruiter company");
     }
 
     @Test
@@ -1811,6 +1817,7 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(0).getCell(6).getStringCellValue()).isEqualTo("Recruiter_id");
         assertThat(vacancySheet.getRow(0).getCell(7).getStringCellValue()).isEqualTo("Recruiter First Name");
         assertThat(vacancySheet.getRow(0).getCell(8).getStringCellValue()).isEqualTo("Recruiter Last Name");
+        assertThat(vacancySheet.getRow(0).getCell(9).getStringCellValue()).isEqualTo("Recruiter company");
 
         assertThat(vacancySheet.getRow(1).getCell(0).getNumericCellValue()).isEqualTo(savedVacancy1.getId().doubleValue());
         assertThat(vacancySheet.getRow(1).getCell(1).getStringCellValue()).isEqualTo(savedVacancy1.getPosition());
@@ -1821,6 +1828,7 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(1).getCell(6).getNumericCellValue()).isEqualTo(savedRecruiter1.getId().doubleValue());
         assertThat(vacancySheet.getRow(1).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter1.getFirstName());
         assertThat(vacancySheet.getRow(1).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter1.getLastName());
+        assertThat(vacancySheet.getRow(1).getCell(9).getStringCellValue()).isEqualTo(savedRecruiter1.getCompanyName());
 
         assertThat(vacancySheet.getRow(2).getCell(0).getNumericCellValue()).isEqualTo(savedVacancy2.getId().doubleValue());
         assertThat(vacancySheet.getRow(2).getCell(1).getStringCellValue()).isEqualTo(savedVacancy2.getPosition());
@@ -1831,6 +1839,7 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(2).getCell(6).getNumericCellValue()).isEqualTo(savedRecruiter1.getId().doubleValue());
         assertThat(vacancySheet.getRow(2).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter1.getFirstName());
         assertThat(vacancySheet.getRow(2).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter1.getLastName());
+        assertThat(vacancySheet.getRow(2).getCell(9).getStringCellValue()).isEqualTo(savedRecruiter1.getCompanyName());
 
         assertThat(vacancySheet.getRow(3).getCell(0).getNumericCellValue()).isEqualTo(savedVacancy3.getId().doubleValue());
         assertThat(vacancySheet.getRow(3).getCell(1).getStringCellValue()).isEqualTo(savedVacancy3.getPosition());
@@ -1841,6 +1850,7 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(3).getCell(6).getNumericCellValue()).isEqualTo(savedRecruiter2.getId().doubleValue());
         assertThat(vacancySheet.getRow(3).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter2.getFirstName());
         assertThat(vacancySheet.getRow(3).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter2.getLastName());
+        assertThat(vacancySheet.getRow(3).getCell(9).getStringCellValue()).isEqualTo(savedRecruiter2.getCompanyName());
 
         assertThat(vacancySheet.getRow(4).getCell(0).getNumericCellValue()).isEqualTo(savedVacancy4.getId().doubleValue());
         assertThat(vacancySheet.getRow(4).getCell(1).getStringCellValue()).isEqualTo(savedVacancy4.getPosition());
@@ -1851,5 +1861,6 @@ class VacancyControllerTest {
         assertThat(vacancySheet.getRow(4).getCell(6).getNumericCellValue()).isEqualTo(savedRecruiter2.getId().doubleValue());
         assertThat(vacancySheet.getRow(4).getCell(7).getStringCellValue()).isEqualTo(savedRecruiter2.getFirstName());
         assertThat(vacancySheet.getRow(4).getCell(8).getStringCellValue()).isEqualTo(savedRecruiter2.getLastName());
+        assertThat(vacancySheet.getRow(4).getCell(9).getStringCellValue()).isEqualTo(savedRecruiter2.getCompanyName());
     }
 }
