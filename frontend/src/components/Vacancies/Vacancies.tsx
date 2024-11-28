@@ -8,9 +8,10 @@ import staticImage from "../../assets/jobIcon.png";
 interface VacanciesProps {
     handleOpenModal: () => void;
     user: { isAuthenticated: boolean; role: string };
+    searchTerm: string; // Add searchTerm prop
 }
 
-const Vacancies: React.FC<VacanciesProps> = ({user}) => {
+const Vacancies: React.FC<VacanciesProps> = ({user, searchTerm}) => {
     const [vacancies, setVacancies] = useState<Vacancy[]>([]);
     const [selectedVacancyId, setSelectedVacancyId] = useState<number | null>(null);
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -49,7 +50,8 @@ const Vacancies: React.FC<VacanciesProps> = ({user}) => {
     const filteredVacancies = vacancies.filter(vacancy =>
         selectedTags.every(tag => vacancy.technology_stack?.includes(tag)) &&
         (minSalary === null || parseInt(vacancy.salary) >= minSalary) &&
-        (maxSalary === null || parseInt(vacancy.salary) <= maxSalary)
+        (maxSalary === null || parseInt(vacancy.salary) <= maxSalary) &&
+        vacancy.position.toLowerCase().includes(searchTerm.toLowerCase()) // Filter by searchTerm
     );
 
     const handleExportToExcel = async () => {
@@ -74,6 +76,7 @@ const Vacancies: React.FC<VacanciesProps> = ({user}) => {
         <Box sx={{marginLeft: '20px'}} className="vacancies-container">
             <div className="filter-column">
                 <h2 className="filter-title">Фільтри</h2>
+                <h3 className="filter-subtitle">Теги</h3>
                 <div className="tags-container">
                     {allTags.map(tag => (
                         <Chip
@@ -86,22 +89,24 @@ const Vacancies: React.FC<VacanciesProps> = ({user}) => {
                         />
                     ))}
                 </div>
+                <h3 className="filter-subtitle">Зарплата</h3>
                 <div className="salary-filter-container">
                     <TextField
-                        className="salary-filter"
                         label="Мін зарплата"
+                        className="salary-filter"
                         type="number"
                         value={minSalary ?? ''}
                         onChange={(e) => setMinSalary(e.target.value ? parseInt(e.target.value) : null)}
+                        fullWidth
                         margin="normal"
                     />
-                    <span>-</span>
                     <TextField
-                        className="salary-filter"
                         label="Макс зарплата"
+                        className="salary-filter"
                         type="number"
                         value={maxSalary ?? ''}
                         onChange={(e) => setMaxSalary(e.target.value ? parseInt(e.target.value) : null)}
+                        fullWidth
                         margin="normal"
                     />
                 </div>

@@ -85,7 +85,9 @@ const Header: React.FC = () => {
                 </Typography>
             </div>
             <Toolbar className="custom-toolbar">
-                <img src={jobifyLogo} alt="Jobify Logo" className="logo"/>
+                <Link to="/vacancies">
+                    <img src={jobifyLogo} alt="Jobify Logo" className="logo"/>
+                </Link>
                 <Typography variant="h6" className="title">
                     <Link to="/vacancies" className="header-link">Вакансії</Link>
                 </Typography>

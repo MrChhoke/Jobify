@@ -2,9 +2,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 56%;
+    width: 57%;
     height: 60px;
-    /* Add left margin */
     margin: 30px auto 10px 420px;
 }
 

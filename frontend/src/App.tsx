@@ -17,6 +17,7 @@ const theme = createTheme();
 function App() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [user, setUser] = useState({isAuthenticated: false, role: ''});
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         if (isLoggedIn()) {
@@ -52,17 +53,17 @@ function App() {
                         <Route path="/" element={
                             <>
                                 <Box display="flex" alignItems="center">
-                                    <Search/>
+                                    <Search onSearch={setSearchTerm}/>
                                 </Box>
-                                <Vacancies handleOpenModal={handleOpenModal} user={user}/>
+                                <Vacancies handleOpenModal={handleOpenModal} user={user} searchTerm={searchTerm}/>
                             </>
                         }/>
                         <Route path="/vacancies" element={
                             <>
                                 <Box display="flex" alignItems="center">
-                                    <Search/>
+                                    <Search onSearch={setSearchTerm}/>
                                 </Box>
-                                <Vacancies handleOpenModal={handleOpenModal} user={user}/>
+                                <Vacancies handleOpenModal={handleOpenModal} user={user} searchTerm={searchTerm}/>
                             </>
                         }/>
                         {/* Add other routes here */}
