@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Typography} from '@mui/material';
-import {getAllApplications} from '../../services/VacancyService';
+import {getAllRecruiterApplications, getAllUserApplications} from '../../services/VacancyService';
+import {getProfile} from '../../services/ProfileService';
 import './MyApplications.css';
 
 interface Vacancy {
@@ -21,18 +22,28 @@ interface Application {
 
 const MyApplications: React.FC = () => {
     const [applications, setApplications] = useState<Application[]>([]);
+    const [role, setRole] = useState<string | null>(null);
 
     useEffect(() => {
-        const fetchApplications = async () => {
+        const fetchProfileAndApplications = async () => {
             try {
-                const response = await getAllApplications();
+                const profile = await getProfile();
+                const userRole = profile.role;
+                setRole(userRole);
+
+                let response;
+                if (userRole === 'RECRUITER') {
+                    response = await getAllRecruiterApplications();
+                } else if (userRole === 'USER') {
+                    response = await getAllUserApplications();
+                }
                 setApplications(response);
             } catch (error) {
-                console.error('Error fetching applications:', error);
+                console.error('Error fetching profile or applications:', error);
             }
         };
 
-        fetchApplications();
+        fetchProfileAndApplications();
     }, []);
 
     return (

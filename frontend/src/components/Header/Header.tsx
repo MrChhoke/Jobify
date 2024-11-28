@@ -109,7 +109,7 @@ const Header: React.FC = () => {
                             {user.role === 'RECRUITER' && (
                                 <MenuItem onClick={handleMyVacanciesClick}>Мої вакансії</MenuItem>
                             )}
-                            {user.role === 'RECRUITER' && (
+                            {(user.role === 'RECRUITER' || user.role === 'USER') && (
                                 <MenuItem onClick={handleMyApplicationsClick}>Мої заявки</MenuItem>
                             )}
                             <MenuItem onClick={handleLogout}>Вийти</MenuItem>

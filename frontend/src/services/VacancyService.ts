@@ -93,9 +93,20 @@ export const applyVacancyById = async (id: number): Promise<void> => {
     });
 };
 
-export const getAllApplications = async (): Promise<any> => {
+export const getAllRecruiterApplications = async (): Promise<any> => {
     const token = localStorage.getItem('token');
     const response = await axios.get(`${API_URL}/recruiter/applications`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
+    return response.data.content;
+};
+
+export const getAllUserApplications = async (): Promise<any> => {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`${API_URL}/vacancy/applied`, {
         headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
