@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Typography} from '@mui/material';
+import {Box, Chip, TextField, Typography} from '@mui/material';
 import {applyVacancyById, exportVacanciesToExcel, getAllVacancies} from '../../services/VacancyService';
 import {Vacancy} from '../../models/Vacancy';
 import './Vacancies.css';
@@ -13,6 +13,10 @@ interface VacanciesProps {
 const Vacancies: React.FC<VacanciesProps> = ({user}) => {
     const [vacancies, setVacancies] = useState<Vacancy[]>([]);
     const [selectedVacancyId, setSelectedVacancyId] = useState<number | null>(null);
+    const [selectedTags, setSelectedTags] = useState<string[]>([]);
+    const [allTags, setAllTags] = useState<string[]>([]);
+    const [minSalary, setMinSalary] = useState<number | null>(null);
+    const [maxSalary, setMaxSalary] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchVacancies = async () => {
@@ -20,6 +24,11 @@ const Vacancies: React.FC<VacanciesProps> = ({user}) => {
                 const response = await getAllVacancies(0, 15);
                 if (response && Array.isArray(response.content)) {
                     setVacancies(response.content);
+                    const tags = new Set<string>();
+                    response.content.forEach(vacancy => {
+                        vacancy.technology_stack?.forEach(tag => tags.add(tag));
+                    });
+                    setAllTags(Array.from(tags));
                 } else {
                     console.error('API response does not contain a valid content array:', response);
                 }
@@ -30,6 +39,18 @@ const Vacancies: React.FC<VacanciesProps> = ({user}) => {
 
         fetchVacancies();
     }, []);
+
+    const handleTagClick = (tag: string) => {
+        setSelectedTags(prevTags =>
+            prevTags.includes(tag) ? prevTags.filter(t => t !== tag) : [...prevTags, tag]
+        );
+    };
+
+    const filteredVacancies = vacancies.filter(vacancy =>
+        selectedTags.every(tag => vacancy.technology_stack?.includes(tag)) &&
+        (minSalary === null || parseInt(vacancy.salary) >= minSalary) &&
+        (maxSalary === null || parseInt(vacancy.salary) <= maxSalary)
+    );
 
     const handleExportToExcel = async () => {
         try {
@@ -53,15 +74,45 @@ const Vacancies: React.FC<VacanciesProps> = ({user}) => {
         <Box sx={{marginLeft: '20px'}} className="vacancies-container">
             <div className="filter-column">
                 <h2 className="filter-title">Фільтри</h2>
-                {/* Add filter options here */}
+                <div className="tags-container">
+                    {allTags.map(tag => (
+                        <Chip
+                            key={tag}
+                            label={tag}
+                            clickable
+                            color={selectedTags.includes(tag) ? 'primary' : 'default'}
+                            onClick={() => handleTagClick(tag)}
+                            sx={{margin: '5px'}}
+                        />
+                    ))}
+                </div>
+                <div className="salary-filter-container">
+                    <TextField
+                        className="salary-filter"
+                        label="Мін зарплата"
+                        type="number"
+                        value={minSalary ?? ''}
+                        onChange={(e) => setMinSalary(e.target.value ? parseInt(e.target.value) : null)}
+                        margin="normal"
+                    />
+                    <span>-</span>
+                    <TextField
+                        className="salary-filter"
+                        label="Макс зарплата"
+                        type="number"
+                        value={maxSalary ?? ''}
+                        onChange={(e) => setMaxSalary(e.target.value ? parseInt(e.target.value) : null)}
+                        margin="normal"
+                    />
+                </div>
             </div>
             <div className="vacancies-column">
                 <h2 className="vacancies-title">
                     Вакансії <i className="fas fa-fire"></i>
                 </h2>
                 <div className="vacancies-list">
-                    {vacancies.length > 0 ? (
-                        vacancies.map(vacancy => (
+                    {filteredVacancies.length > 0 ? (
+                        filteredVacancies.map(vacancy => (
                             <div
                                 key={vacancy.vacancy_id ?? Math.random()}
                                 className={`vacancy-tile ${selectedVacancyId === vacancy.vacancy_id ? 'selected' : ''}`}

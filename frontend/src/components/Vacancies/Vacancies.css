@@ -6,9 +6,29 @@
 }
 
 .filter-column {
+    width: 358px;
+    margin-right: 40px;
+}
+
+.salary-filter-container {
     display: flex;
-    flex-direction: column;
-    width: 20%;
+    align-items: center;
+    justify-content: space-between;
+    width: 93%;
+    margin-top: 30px;
+}
+
+.salary-filter {
+    width: 45% !important;
+}
+
+.filter-title {
+    margin-bottom: 10px !important;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .vacancies-column {
