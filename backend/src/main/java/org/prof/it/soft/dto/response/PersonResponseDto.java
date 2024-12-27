@@ -3,6 +3,7 @@ package org.prof.it.soft.dto.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,15 +25,11 @@ import java.time.LocalDateTime;
 @Builder
 public final class PersonResponseDto {
 
-    /**
-     * The person's first name.
-     */
+    @Schema(description = "The first name of the person", example = "John")
     @JsonProperty(value = "first_name")
     private String firstName;
 
-    /**
-     * The person's last name.
-     */
+    @Schema(description = "The last name of the person", example = "Doe")
     @JsonProperty(value = "last_name")
     private String lastName;
 

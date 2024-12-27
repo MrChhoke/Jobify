@@ -47,6 +47,10 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(request -> request
                         /** Allow access only in dev mode */
                         .requestMatchers("/api/v1/developers/**").authenticated()
+                        /** Allow access swagger */
+                        .requestMatchers( "/swagger-ui-custom.html").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers( "/v3/api-docs/**").permitAll()
                         /** Allow access to production */
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/vacancy/applied").hasAnyAuthority(Permission.VIEW_OWN_APPLICATIONS.toString())
@@ -55,12 +59,9 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/vacancy").hasAnyAuthority(Permission.CREATE_VACANCY.toString())
                         .requestMatchers(HttpMethod.PUT, "/api/v1/vacancy/{id:[0-9]+}").hasAnyAuthority(Permission.EDIT_VACANCY.toString())
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/vacancy/{id:[0-9]+}").hasAnyAuthority(Permission.DELETE_VACANCY.toString())
-                        //.requestMatchers(HttpMethod.GET, "/api/v1/recruiter/{id}").hasAnyAuthority(Permission.VIEW_RECRUITER.toString())
                         .requestMatchers(HttpMethod.POST, "/api/v1/recruiter/register").hasAnyAuthority(Permission.CREATE_RECRUITER.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/recruiter/applications").hasAnyAuthority(Permission.VIEW_RECRUITER_OWN_APPLICATIONS.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/recruiter/vacancies").hasAnyAuthority(Permission.VIEW_RECRUITER_OWN_VACANCIES.toString())
-                        //.requestMatchers(HttpMethod.PUT, "/api/v1/recruiter/{id}").hasAnyAuthority(Permission.EDIT_RECRUITER.toString())
-                        //.requestMatchers(HttpMethod.DELETE, "/api/v1/recruiter/{id}").hasAnyAuthority(Permission.DELETE_RECRUITER.toString())
                         .requestMatchers(HttpMethod.POST, "/api/v1/vacancy/{id:[0-9]+}/apply").hasAnyAuthority(Permission.APPLY_VACANCY.toString())
                         .requestMatchers(HttpMethod.PUT, "/api/v1/profile/update").hasAnyAuthority(Permission.UPDATE_OWN_PROFILE.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/profile").hasAnyAuthority(Permission.GET_OWN_PROFILE.toString())

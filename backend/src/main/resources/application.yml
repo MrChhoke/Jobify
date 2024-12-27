@@ -42,3 +42,10 @@ token:
     key: SOPOWERFULKEYFORTESTINGAPPLICATIONJOBIFY1234567890JOBIFY
   expiration:
     time: 6000000 # 100 minutes
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui-custom.html
+    use-root-path: true

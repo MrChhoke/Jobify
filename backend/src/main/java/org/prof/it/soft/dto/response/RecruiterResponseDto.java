@@ -1,6 +1,7 @@
 package org.prof.it.soft.dto.response;
 
 import com.fasterxml.jackson.annotation.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,36 +23,23 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public final class RecruiterResponseDto {
 
-    /**
-     * The recruiter's id.
-     */
+    @Schema(description = "The recruiter's id", example = "1")
     @JsonProperty("recruiter_user_id")
     private Long id;
 
-    /**
-     * The recruiter's company name.
-     */
+    @Schema(description = "The company name of the recruiter", example = "PROFITSOFT")
     @JsonProperty("company_name")
     private String companyName;
 
-    /**
-     * The person associated with the recruiter.
-     * It will be serialized as a part of this object. The created_at and updated_at fields will be ignored.
-     *
-     * @see PersonResponseDto
-     */
+    @Schema(description = "The person associated with the recruiter")
     @JsonUnwrapped
     private PersonResponseDto person;
 
-    /**
-     * The date and time when the recruiter was created.
-     */
+    @Schema(description = "The created date of the recruiter", example = "2021-07-01T12:00:00")
     @JsonProperty("created_at")
     private LocalDateTime createdAt;
 
-    /**
-     * The date and time when the recruiter was updated.
-     */
+    @Schema(description = "The updated date of the recruiter", example = "2021-07-01T12:00:00")
     @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
 
