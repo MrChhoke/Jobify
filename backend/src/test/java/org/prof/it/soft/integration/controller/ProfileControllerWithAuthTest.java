@@ -48,7 +48,7 @@ public class ProfileControllerWithAuthTest {
         String token = JsonPath.read(mockMvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString(), "$.token");
 
         // When
@@ -86,7 +86,7 @@ public class ProfileControllerWithAuthTest {
         String token = JsonPath.read(mockMvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString(), "$.token");
 
         String updateRequest = """
@@ -141,7 +141,7 @@ public class ProfileControllerWithAuthTest {
         String token = JsonPath.read(mockMvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString(), "$.token");
 
         // When

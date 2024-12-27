@@ -1,6 +1,7 @@
 package org.prof.it.soft.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,17 +15,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public final class PersonRequestDto {
 
-    /**
-     * The first name of the person.
-     */
+    @Schema(name = "first_name", description = "First name of the person",
+            example = "John", requiredProperties = {"last_name"})
     @JsonProperty(value = "first_name")
     @NotNull(groups = {Save.class, Update.class}, message = "First name is required")
     @NotBlank(groups = {Save.class, Update.class}, message = "First name is required")
     private String firstName;
 
-    /**
-     * The last name of the person.
-     */
+    @Schema(name = "last_name", description = "Last name of the person",
+            example = "Doe", requiredProperties = {"first_name"})
     @JsonProperty(value = "last_name")
     @NotNull(groups = {Save.class, Update.class}, message = "Last name is required")
     @NotBlank(groups = {Save.class, Update.class}, message = "Last name is required")

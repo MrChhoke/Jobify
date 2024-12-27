@@ -75,7 +75,7 @@ class VacancyControllerTest {
         mockMvc.perform(post("/api/v1/vacancy")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andDo(print())
                 .andExpect(jsonPath("$.vacancy_id").isNumber())
                 .andExpect(jsonPath("$.position").value("Java Developer"))
@@ -168,7 +168,7 @@ class VacancyControllerTest {
         mockMvc.perform(post("/api/v1/vacancy")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andDo(print())
                 .andExpect(jsonPath("$.vacancy_id").isNumber())
                 .andExpect(jsonPath("$.position").value("Java Developer"))
@@ -203,7 +203,7 @@ class VacancyControllerTest {
         mockMvc.perform(post("/api/v1/vacancy")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.vacancy_id").isNumber())
                 .andExpect(jsonPath("$.position").value("Java Developer"))
                 .andExpect(jsonPath("$.salary").value(1000.0))
@@ -233,7 +233,7 @@ class VacancyControllerTest {
         mockMvc.perform(post("/api/v1/vacancy")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.vacancy_id").isNumber())
                 .andExpect(jsonPath("$.position").value("Java Developer"))
                 .andExpect(jsonPath("$.salary").value(1000.0))
@@ -696,7 +696,7 @@ class VacancyControllerTest {
 
         // When and then
         mockMvc.perform(delete("/api/v1/vacancy/{id}", savedVacancy.getId()))
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andExpect(jsonPath("$").value("Vacancy deleted successfully"));
 
         assertThat(vacancyRepository.findById(savedVacancy.getId())).isEmpty();
@@ -705,7 +705,7 @@ class VacancyControllerTest {
         assertThat(recruiterRepository.findById(recruiterId).get().getVacancies()).hasSize(1);
 
         mockMvc.perform(delete("/api/v1/vacancy/{id}", savedVacancy2.getId()))
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andExpect(jsonPath("$").value("Vacancy deleted successfully"));
 
         assertThat(vacancyRepository.findById(savedVacancy2.getId())).isEmpty();

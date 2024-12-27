@@ -2,6 +2,7 @@ package org.prof.it.soft.dto.security.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
@@ -19,27 +20,21 @@ import org.springframework.util.StringUtils;
 @AllArgsConstructor
 public final class RegistrationRecruiterRequestDto {
 
-    /**
-     * The username of the recruiter, which will be used for authentication.
-     */
+    @Schema(name = "username", description = "Username of the recruiter",
+            example = "recruiter", requiredProperties = {"password", "first_name", "last_name"})
     @NotBlank(groups = {Save.class}, message = "Username is required")
     private String username;
 
-    /**
-     * The password of the recruiter, which will be used for authentication.
-     */
+    @Schema(name = "password", description = "Password of the recruiter",
+            example = "recruiter", requiredProperties = {"username", "first_name", "last_name"})
     @NotBlank(groups = {Save.class}, message = "Password is required")
     private String password;
 
-    /**
-     * The name of the company the recruiter works for.
-     */
+    @Schema(name = "company_name", description = "Company name of the recruiter",
+            example = "ProfITsoft", nullable = true)
     @JsonProperty(value = "company_name")
     private String companyName;
 
-    /**
-     * The person object associated with the recruiter.
-     */
     @JsonUnwrapped
     @NotNull(groups = {Save.class})
     @Valid
@@ -49,6 +44,7 @@ public final class RegistrationRecruiterRequestDto {
      * This method checks if the recruiter DTO is empty.
      * It returns true if both the first name and last name of the person object are not present.
      */
+    @Schema(hidden = true)
     @AssertTrue(groups = {Update.class})
     public boolean isEmptyRequestRecruiterDto() {
         return !StringUtils.hasText(person.getFirstName()) &&

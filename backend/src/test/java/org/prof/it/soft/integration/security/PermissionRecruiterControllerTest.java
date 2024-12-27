@@ -154,7 +154,7 @@ class PermissionRecruiterControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request)
                         .header("Authorization", "Bearer %s".formatted(jwtToken)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test

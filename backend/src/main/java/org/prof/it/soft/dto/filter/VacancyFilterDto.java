@@ -1,6 +1,7 @@
 package org.prof.it.soft.dto.filter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -18,63 +19,46 @@ public class VacancyFilterDto {
     /**
      * The id of the recruiter.
      */
+    @Schema(description = "The id of the recruiter", example = "1")
     @JsonProperty("recruiter_id")
     private final Long recruiterId;
 
-    /**
-     * The position of the vacancy.
-     */
+    @Schema(description = "The position of the vacancy", example = "Java Developer")
     @JsonProperty("position")
     private final String position;
 
-    /**
-     * The minimum salary of the vacancy.
-     */
+    @Schema(description = "The minimum salary of the vacancy", example = "1000")
     @JsonProperty("min_salary")
     private final Float minSalary;
 
-    /**
-     * The maximum salary of the vacancy.
-     */
+    @Schema(description = "The maximum salary of the vacancy", example = "2000")
     @JsonProperty("max_salary")
     private final Float maxSalary;
 
-    /**
-     * The name of the company.
-     */
+    @Schema(description = "The company name", example = "PROFITSOFT")
     @JsonProperty("company_name")
     private final String companyName;
 
-    /**
-     * The technology stack of the vacancy.
-     */
+    @Schema(description = "The technology stack", example = "[Java, Spring]")
     @JsonProperty("technology_stack")
     private final List<String> technologyStack;
 
-    /**
-     * The minimum creation date of the vacancy.
-     */
+    @Schema(description = "The minimum creation date of the vacancy", example = "2021-01-01T00:00:00")
     @JsonProperty("created_at_min")
     private final LocalDateTime createdAtMin;
 
-    /**
-     * The maximum creation date of the vacancy.
-     */
+    @Schema(description = "The maximum creation date of the vacancy", example = "2021-12-31T23:59:59")
     @JsonProperty("created_at_max")
     private final LocalDateTime createdAtMax;
 
-    /**
-     * The page number for pagination.
-     * It is required for JsonResponse.
-     */
+    @Schema(description = "The page number for pagination, " +
+            "it is required for JsonResponse", example = "1")
     @JsonProperty("page")
     @NotNull(message = "Page number is required", groups = JsonResponse.class)
     private Integer page;
 
-    /**
-     * The page size for pagination.
-     * It is required for JsonResponse.
-     */
+    @Schema(description = "The page size for pagination, " +
+            "it is required for JsonResponse", example = "10")
     @JsonProperty("size")
     @NotNull(message = "Page size is required", groups = JsonResponse.class)
     private Integer size;
