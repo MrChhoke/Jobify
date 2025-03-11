@@ -8,6 +8,7 @@ services:
     ports:
       - "8080:8080"
     depends_on:
+      - storage-service
       - service-db
     environment:
       SERVER_PORT: 8080
@@ -36,6 +37,38 @@ services:
       POSTGRES_DB: profitsoft
     ports:
       - "5432:5432"
+    networks:
+      - jobify-network
+  storage-service:
+    container_name: storage-service
+    depends_on:
+      - minio
+    image: storage-service:1.0.0
+    build:
+      context: storage-service
+      dockerfile: ./Dockerfile
+    ports:
+      - "3002:3002"
+    networks:
+      - jobify-network
+    environment:
+      SERVER_PORT: 3002
+      MINIO_ENDPOINT: minio
+      MINIO_PORT: 9000
+      MINIO_USE_SSL: false
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+  minio:
+    container_name: minio_s3
+    image: minio/minio
+    ports:
+      - "9000:9000"
+    environment:
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+    command:
+      - server
+      - /data
     networks:
       - jobify-network
 networks:
