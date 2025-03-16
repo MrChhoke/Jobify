@@ -60,7 +60,7 @@ export class FileStorageService {
 			throw new HttpException("File not found", HttpStatus.NOT_FOUND);
 		}
 
-		const urlToFile: string = await this.minioClient
+		const presignedUrlToFile: string = await this.minioClient
 			.getClient()
 			.presignedUrl(
 				"GET",
@@ -69,9 +69,12 @@ export class FileStorageService {
 				this.expiredTimeInSeconds,
 			);
 
+		const pathToFile: string = presignedUrlToFile
+			.replace(/^(?:https?:\/\/)?[^\/]+\//, "")
+
 		return {
 			fileName: fileName,
-			url: urlToFile,
+			pathToFile: "s3/" + pathToFile,
 			expiredDate: expiredDate,
 		};
 	}
