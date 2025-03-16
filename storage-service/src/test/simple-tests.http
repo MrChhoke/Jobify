@@ -1,0 +1,18 @@
+### UPLOAD FILE
+POST http://localhost:8081/company-logos/upload
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file.jpg"
+
+< C:\Users\vladb\OneDrive\Рабочий стол\Jobify\storage-service\src\test\test-files\apple-logo.jpg
+--boundary
+
+### GET URL
+GET http://localhost:8081/company-logos/file-1742134245270.jpg
+
+### DELETE FILE
+DELETE http://localhost:8081/company-logos/file-1742134245270.jpg
+
+### GET FILE
+GET http://localhost:8081/s3/company-logos/file-1742134245270.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=minioadmin%2F20250316%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250316T141050Z&X-Amz-Expires=259200&X-Amz-SignedHeaders=host&X-Amz-Signature=54145f1c216644b1c6a773c68728e2cec5317829b9e02258da3be8923c6dac0c

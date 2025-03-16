@@ -53,11 +53,11 @@ services:
       - jobify-network
     environment:
       SERVER_PORT: 3002
-      MINIO_ENDPOINT: minio
-      MINIO_PORT: 9000
-      MINIO_USE_SSL: false
-      MINIO_ACCESS_KEY: minioadmin
-      MINIO_SECRET_KEY: minioadmin
+      S3_ENDPOINT: minio
+      S3_PORT: 9000
+      S3_USE_SSL: false
+      S3_ACCESS_KEY: minioadmin
+      S3_SECRET_KEY: minioadmin
   minio:
     container_name: minio_s3
     image: minio/minio
@@ -69,6 +69,23 @@ services:
     command:
       - server
       - /data
+    networks:
+      - jobify-network
+  nginx:
+    container_name: nginx
+    depends_on:
+      - minio
+      - storage-service
+    ports:
+      - "8081:80"
+    build:
+      context: nginx
+      dockerfile: ./Dockerfile
+    environment:
+      STORAGE_SERVICE_HOST: storage-service
+      STORAGE_SERVICE_PORT: 3002
+      S3_HOST: minio
+      S3_PORT: 9000
     networks:
       - jobify-network
 networks:

@@ -7,7 +7,7 @@ import * as path from "node:path";
 import request from "supertest";
 
 describe("VacancyLogoFileStorageController E2E", () => {
-	const urlRegex = /https?:\/\/[^\s/$.?#].[^\s]*/gi;
+	const urlRegex = /s3\/vacancy-logos\/[^\/\s]+\.(?:png|jpg|jpeg|gif|webp)(?:\?.*)?/gi;
 	const dateRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/;
 
 	let app: INestApplication;
@@ -69,7 +69,7 @@ describe("VacancyLogoFileStorageController E2E", () => {
 			.get(`/vacancy-logos/${uploadResponse.body.fileName}`)
 			.expect(200);
 		expect(response.body).toEqual({
-			url: expect.stringMatching(urlRegex),
+			pathToFile: expect.stringMatching(urlRegex),
 			fileName: uploadResponse.body.fileName,
 			expiredDate: expect.stringMatching(dateRegex),
 		});

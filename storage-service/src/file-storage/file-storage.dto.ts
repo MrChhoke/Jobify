@@ -8,6 +8,6 @@ export class DeleteFileStorageResponseDto {
 
 export class GetFileStorageDto {
 	public readonly fileName: string;
-	public readonly url: string;
+	public readonly pathToFile: string;
 	public readonly expiredDate: Date;
 }

@@ -7,7 +7,7 @@ import { CompanyLogoFileStorageModule } from "./company-logo-file-storage.module
 import * as fs from "node:fs";
 
 describe("CompanyLogoFileStorageController E2E Tests", () => {
-	const urlRegex = /https?:\/\/[^\s/$.?#].[^\s]*/gi;
+	const urlRegex = /s3\/company-logos\/[^\/\s]+\.(?:png|jpg|jpeg|gif|webp)(?:\?.*)?/gi;
 	const dateRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/;
 
 	let app: INestApplication;
@@ -73,8 +73,8 @@ describe("CompanyLogoFileStorageController E2E Tests", () => {
 
 		expect(response.body.fileName).toBeDefined();
 		expect(response.body.fileName).toMatch(/apple-logo-\d+\.jpg/);
-		expect(response.body.url).toBeDefined();
-		expect(response.body.url).toMatch(urlRegex);
+		expect(response.body.pathToFile).toBeDefined();
+		expect(response.body.pathToFile).toMatch(urlRegex);
 		expect(response.body.expiredDate).toBeDefined();
 		expect(response.body.expiredDate).toMatch(dateRegex);
 	});
