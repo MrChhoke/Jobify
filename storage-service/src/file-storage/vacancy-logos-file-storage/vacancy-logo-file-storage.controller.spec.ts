@@ -33,11 +33,11 @@ describe("VacancyLogoFileStorageController E2E", () => {
 			.start();
 
 		// Set environment variables
-		process.env.MINIO_ENDPOINT = minioContainer.getHost();
-		process.env.MINIO_PORT = minioContainer.getMappedPort(9000).toString();
-		process.env.MINIO_ACCESS_KEY = "minioadmin";
-		process.env.MINIO_SECRET_KEY = "minioadmin";
-		process.env.MINIO_VACANCY_LOGOS_BUCKET = "vacancy-logos";
+		process.env.S3_ENDPOINT = minioContainer.getHost();
+		process.env.S3_PORT = minioContainer.getMappedPort(9000).toString();
+		process.env.S3_ACCESS_KEY = "minioadmin";
+		process.env.S3_SECRET_KEY = "minioadmin";
+		process.env.S3_VACANCY_LOGOS_BUCKET = "vacancy-logos";
 
 		const moduleFixture: TestingModule = await Test.createTestingModule({
 			imports: [VacancyLogoFileStorageModule],
