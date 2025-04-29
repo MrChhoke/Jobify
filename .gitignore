@@ -4,3 +4,10 @@
 
 /**/dist
 /**/node_modules
+
+/**/test-results
+/**/playwright-report
+/**/admin-auth.json
+/**/recruiter-auth.json
+/**/user-auth.json
+/**/package-lock.json

@@ -86,21 +86,21 @@ const Profile: React.FC = () => {
     }
 
     return (
-        <Box className="profile-container">
-            <Typography variant="h4" className="profile-title">
+        <Box className="profile-container" data-testid="profile-container">
+            <Typography variant="h4" className="profile-title" data-testid="profile-title">
                 Мій профіль
             </Typography>
-            <Box className="profile-content">
-                <Box className="profile-data">
-                    <Box className="profile-field">
+            <Box className="profile-content" data-testid="profile-content">
+                <Box className="profile-data" data-testid="profile-data">
+                    <Box className="profile-field" data-testid="username-field">
                         <Typography variant="h6" className="profile-field-name">
                             Логін:
                         </Typography>
-                        <Typography variant="h6" className="profile-field-value">
+                        <Typography variant="h6" className="profile-field-value" data-testid="username-value">
                             {user.username}
                         </Typography>
                     </Box>
-                    <Box className="profile-field">
+                    <Box className="profile-field" data-testid="firstname-field">
                         <Typography variant="h6" className="profile-field-name">
                             Ім'я:
                         </Typography>
@@ -110,14 +110,15 @@ const Profile: React.FC = () => {
                                 value={user.first_name}
                                 onChange={(e) => dispatch(setUser({...user, first_name: e.target.value}))}
                                 className="profile-field-value"
+                                data-testid="firstname-input"
                             />
                         ) : (
-                            <Typography variant="h6" className="profile-field-value">
+                            <Typography variant="h6" className="profile-field-value" data-testid="firstname-value">
                                 {user.first_name}
                             </Typography>
                         )}
                     </Box>
-                    <Box className="profile-field">
+                    <Box className="profile-field" data-testid="lastname-field">
                         <Typography variant="h6" className="profile-field-name">
                             Прізвище:
                         </Typography>
@@ -127,36 +128,42 @@ const Profile: React.FC = () => {
                                 value={user.last_name}
                                 onChange={(e) => dispatch(setUser({...user, last_name: e.target.value}))}
                                 className="profile-field-value"
+                                data-testid="lastname-input"
                             />
                         ) : (
-                            <Typography variant="h6" className="profile-field-value">
+                            <Typography variant="h6" className="profile-field-value" data-testid="lastname-value">
                                 {user.last_name}
                             </Typography>
                         )}
                     </Box>
-                    <Box className="profile-field">
+                    <Box className="profile-field" data-testid="role-field">
                         <Typography variant="h6" className="profile-field-name">
                             Роль:
                         </Typography>
-                        <Typography variant="h6" className="profile-field-value">
+                        <Typography variant="h6" className="profile-field-value" data-testid="role-value">
                             {getRoleDisplayName(user.role)}
                         </Typography>
                     </Box>
                 </Box>
-                <FontAwesomeIcon icon={faUser} className="profile-avatar"/>
+                <FontAwesomeIcon icon={faUser} className="profile-avatar" data-testid="profile-avatar"/>
             </Box>
             {editMode ? (
-                <Button variant="contained" color="primary" onClick={handleSaveClick} className="profile-button">
+                <Button variant="contained" color="primary" onClick={handleSaveClick} className="profile-button" data-testid="save-button">
                     Зберегти
                 </Button>
             ) : (
-                <Button variant="contained" color="primary" onClick={handleEditClick} className="profile-button">
+                <Button variant="contained" color="primary" onClick={handleEditClick} className="profile-button" data-testid="edit-button">
                     Редагувати
                 </Button>
             )}
             {user.role === 'ADMIN' && (
-                <Button variant="contained" color="secondary" onClick={() => setShowRecruiterForm(true)}
-                        className="profile-button">
+                <Button 
+                    variant="contained" 
+                    color="secondary" 
+                    onClick={() => setShowRecruiterForm(true)}
+                    className="profile-button"
+                    data-testid="add-recruiter-button"
+                >
                     Додати рекрутера
                 </Button>
             )}
@@ -166,8 +173,8 @@ const Profile: React.FC = () => {
                 aria-labelledby="recruiter-form-title"
                 aria-describedby="recruiter-form-description"
             >
-                <Box className="recruiter-form-modal">
-                    <Typography id="recruiter-form-title" variant="h6" component="h2">
+                <Box className="recruiter-form-modal" data-testid="recruiter-form-modal">
+                    <Typography id="recruiter-form-title" variant="h6" component="h2" data-testid="recruiter-form-title">
                         Створити рекрутера
                     </Typography>
                     <TextField
@@ -176,6 +183,7 @@ const Profile: React.FC = () => {
                         value={recruiterData.first_name}
                         onChange={handleRecruiterFormChange}
                         fullWidth
+                        data-testid="recruiter-firstname-input"
                     />
                     <TextField
                         label="Прізвище"
@@ -183,6 +191,7 @@ const Profile: React.FC = () => {
                         value={recruiterData.last_name}
                         onChange={handleRecruiterFormChange}
                         fullWidth
+                        data-testid="recruiter-lastname-input"
                     />
                     <TextField
                         label="Компанія"
@@ -190,6 +199,7 @@ const Profile: React.FC = () => {
                         value={recruiterData.company}
                         onChange={handleRecruiterFormChange}
                         fullWidth
+                        data-testid="recruiter-company-input"
                     />
                     <TextField
                         label="Логін"
@@ -197,6 +207,7 @@ const Profile: React.FC = () => {
                         value={recruiterData.username}
                         onChange={handleRecruiterFormChange}
                         fullWidth
+                        data-testid="recruiter-username-input"
                     />
                     <TextField
                         label="Пароль"
@@ -205,8 +216,15 @@ const Profile: React.FC = () => {
                         value={recruiterData.password}
                         onChange={handleRecruiterFormChange}
                         fullWidth
+                        data-testid="recruiter-password-input"
                     />
-                    <Button variant="contained" color="primary" onClick={handleCreateRecruiter} className="profile-button">
+                    <Button 
+                        variant="contained" 
+                        color="primary" 
+                        onClick={handleCreateRecruiter} 
+                        className="profile-button"
+                        data-testid="create-recruiter-button"
+                    >
                         Створити рекрутера
                     </Button>
                 </Box>
@@ -216,6 +234,7 @@ const Profile: React.FC = () => {
                 autoHideDuration={6000}
                 onClose={handleSnackbarClose}
                 message="Recruiter created successfully"
+                data-testid="success-snackbar"
             />
         </Box>
     );
