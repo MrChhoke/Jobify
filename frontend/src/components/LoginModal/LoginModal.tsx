@@ -41,19 +41,21 @@ const LoginModal: React.FC<LoginModalProps> = ({open, onClose}) => {
                         placeholder="Логін"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
+                        data-testid="username-input"
                     />
                     <input
                         type="password"
                         placeholder="Пароль"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        data-testid="password-input"
                     />
-                    {error && <p style={{color: 'red'}}>{error}</p>}
+                    {error && <p style={{color: 'red'}} data-testid="error-message">{error}</p>}
                 </div>
                 <div className="login-modal-actions">
-                    <button className="login-button" onClick={handleLogin}>Увійти</button>
+                    <button className="login-button" onClick={handleLogin} data-testid="login-button">Увійти</button>
                 </div>
-                <a href="#" onClick={onClose} className="forgot-password">Забули пароль?</a>
+                <a href="#" onClick={onClose} className="forgot-password" data-testid="forgot-password-link">Забули пароль?</a>
             </div>
         </div>
     );

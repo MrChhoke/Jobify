@@ -112,15 +112,16 @@ const Vacancies: React.FC<VacanciesProps> = ({user, searchTerm}) => {
                 </div>
             </div>
             <div className="vacancies-column">
-                <h2 className="vacancies-title">
+                <h2 className="vacancies-title" data-testid="vacancies-heading">
                     Вакансії <i className="fas fa-fire"></i>
                 </h2>
-                <div className="vacancies-list">
+                <div className="vacancies-list" data-testid="vacancies-list">
                     {filteredVacancies.length > 0 ? (
                         filteredVacancies.map(vacancy => (
                             <div
                                 key={vacancy.vacancy_id ?? Math.random()}
                                 className={`vacancy-tile ${selectedVacancyId === vacancy.vacancy_id ? 'selected' : ''}`}
+                                data-testid="vacancy-card"
                                 onClick={() => {
                                     console.log('Vacancy:', vacancy);
                                     if (vacancy.vacancy_id !== undefined) {
@@ -130,20 +131,23 @@ const Vacancies: React.FC<VacanciesProps> = ({user, searchTerm}) => {
                                 }}
                             >
                                 <img src={staticImage} alt="Vacancy" className="vacancy-image"/>
-                                <div className="vacancy-details">
-                                    <h3>{vacancy.position}</h3>
-                                    <div className="vacancy-salary">
+                                <div className="vacancy-details" data-testid="vacancy-details">
+                                    <h3 data-testid="vacancy-position">{vacancy.position}</h3>
+                                    <div className="vacancy-salary" data-testid="vacancy-salary">
                                         Salary: ${vacancy.salary}
                                     </div>
-                                    <p>Technologies: {vacancy.technology_stack ? vacancy.technology_stack.join(', ') : 'N/A'}</p>
-                                    <button onClick={() => handleApplyVacancy(vacancy.vacancy_id ?? 0)}>
+                                    <p data-testid="vacancy-technologies">Technologies: {vacancy.technology_stack ? vacancy.technology_stack.join(', ') : 'N/A'}</p>
+                                    <button 
+                                        onClick={() => handleApplyVacancy(vacancy.vacancy_id ?? 0)}
+                                        data-testid="apply-button"
+                                    >
                                         Відгукнутися
                                     </button>
                                 </div>
                             </div>
                         ))
                     ) : (
-                        <Typography>No vacancies available</Typography>
+                        <Typography data-testid="no-vacancies-message">No vacancies available</Typography>
                     )}
                 </div>
             </div>
